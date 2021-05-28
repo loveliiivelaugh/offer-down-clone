@@ -1,3 +1,40 @@
+## OfferDown Clone
+
+## Description
+
+## Flow Chart
+
+Coming soon...
+
+## Initial Setup
+
+In the terminal.
+
+* `npx create-react-app <name-of-project>`
+
+* `cd <name-of-project>`
+
+* `git init && git add . && git commit -m "Initial commit."`
+
+* `git [add project or whatever].git`
+
+* `git push origin main`
+
+* Settings > Branches > Branch protection rule > Add rule > Require pull request reviews before merging
+
+#### Next Steps...
+
+* Deploy to Heroku using continuous deployment linking to the GitHub repository
+
+* Add collaborators of project to have access in Heroku
+
+* Add basic setup to enable Firebase Authentication
+
+
+
+
+## Additional setup info
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
