@@ -33,7 +33,21 @@ In the terminal.
 *Refer to [Firebase Walkthrough 1](/walkthrough-pt1.md) and [Firebase Walkthrough 2](/walkthrough-pt2.md) for a written guide*
 
 
+## Technologies
 
+* ![Material-UI]()
+
+* ![Firebase]()
+
+* ![MongoDB]()
+
+* ![Stripe]()
+
+* ![Mockaroo]()
+
+## Collaborators
+
+Karina Melanie Tom Michael
 
 ## Additional setup info
 
