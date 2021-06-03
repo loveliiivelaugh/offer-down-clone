@@ -4,7 +4,22 @@
 
 ## Flow Chart
 
-Coming soon...
+[flow Chart](https://drive.google.com/file/d/1683BrVxaI6uHemdDVSbw6J9EM_R28fI-/view?usp=sharing)
+
+
+## Installing
+
+In terminal...
+
+* `git clone https://github.com/loveliiivelaugh/offer-down-clone.git`
+
+* `cd` into the project.
+
+* `npm install`
+
+* `npm run dev`
+
+* Open your browser at **https://localhost:3000**.
 
 ## Initial Setup
 
@@ -35,15 +50,15 @@ In the terminal.
 
 ## Technologies
 
-* ![Material-UI]()
+* ![Material-UI](https://material-ui.com/)
 
-* ![Firebase]()
+* ![Firebase](https://firebase.google.com/)
 
-* ![MongoDB]()
+* ![MySQL](https://www.mysql.com)
 
-* ![Stripe]()
+* ![Stripe](https://stripe.com/)
 
-* ![Mockaroo]()
+* ![Mockaroo](https://mockaroo.com/)
 
 ## Collaborators
 
