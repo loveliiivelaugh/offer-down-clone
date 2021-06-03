@@ -1,10 +1,22 @@
 import React from 'react';
+import { useRouter } from '../hooks/useRouter.js';
+//components
+import ProductCard from '../components/ProductCard';
+//MaterialUI
+import Container from '@material-ui/core/Container';
+
 
 const SingleProductPage = () => {
+  const router = useRouter();
+  const product = router.location.state.product;
+
+  console.log(product);
+
   return (
-    <div>
+    <Container>
       <h1>I am a single product page!</h1>
-    </div>
+      <ProductCard product={product} />
+    </Container>
   )
 }
 

@@ -50,23 +50,19 @@ const ProductCard = ({ product }) => {
     setExpanded(!expanded);
   };
 
-  console.log(product);
-
-  const handleClick = (e, productId) => {
+  const handleClick = (e, product) => {
     e.preventDefault();
 
-    console.log(productId);
-
     router.push({
-      pathname: "/products/" + productId,
+      pathname: "/products/" + product.id,
       state: {
-        id: productId
+        product: product
       }
     });
   };
 
   return (
-    <Card className={classes.root} onClick={e => handleClick(e, product.id)}>
+    <Card className={classes.root} onClick={e => handleClick(e, product)}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>

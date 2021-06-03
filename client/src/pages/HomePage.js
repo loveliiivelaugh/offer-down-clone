@@ -1,8 +1,6 @@
 import React from 'react';
 //api
 import Api from '../api';
-//hooks
-// import { useRouter } from '../hooks/useRouter.js';
 //components
 import ProductCard from '../components/ProductCard';
 //MaterialUI
@@ -38,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
-  // const router = useRouter();
   const [products, setProducts] = React.useState([]);
 
   React.useEffect(() => {
@@ -50,8 +47,6 @@ const HomePage = (props) => {
     
     fetchData();
   }, []);
-
-  console.log(products);
 
 
   return (
