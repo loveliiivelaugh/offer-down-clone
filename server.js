@@ -6,7 +6,7 @@ const cors = require('cors');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');//default test key
 
 
 app.use(express.json());
@@ -37,6 +37,10 @@ app.get('/api/products', (req, res) => {
 });
 
 //Stripe route to accept payments
+//https://www.youtube.com/watch?v=JkSgXgqRH6k&t=582s
+// YouTube video I used to guide me through basic setup
+// Stripe official docs. vvv
+//https://stripe.com/docs/payments/accept-a-payment?platform=web&lang=css&client=react&ui=elements
 app.post('/pay', async (req, res) => {
   // Set your secret key. Remember to switch to your live secret key in production.
   // See your keys here: https://dashboard.stripe.com/apikeys

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = (props) => {
+const ProductCard = ({ product }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -47,7 +47,6 @@ const ProductCard = (props) => {
     setExpanded(!expanded);
   };
 
-  const product = props.products && props.products[0];
   console.log(product);
 
   return (
@@ -88,7 +87,8 @@ const ProductCard = (props) => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <IconButton
+      </CardActions>
+        {/* <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
           })}
@@ -125,7 +125,7 @@ const ProductCard = (props) => {
             Set aside off of the heat to let rest for 10 minutes, and then serve.
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   );
 }
