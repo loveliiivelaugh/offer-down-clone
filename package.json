@@ -23,6 +23,7 @@
   "homepage": "https://github.com/loveliiivelaugh/offer-down-clone#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "stripe": "^8.150.0"
   },
   "devDependencies": {
