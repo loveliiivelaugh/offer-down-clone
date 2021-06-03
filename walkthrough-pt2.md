@@ -184,3 +184,5 @@ const Dashboard = (props) => {
 ----
 
 Stay tuned for pt 3. for Database integration.
+
+karinabranch
