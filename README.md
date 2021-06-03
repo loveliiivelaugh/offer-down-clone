@@ -62,7 +62,10 @@ In the terminal.
 
 ## Collaborators
 
-Karina Melanie Tom Michael
+Karina Ayala 
+Melanie Uhrich 
+Tom Siemon 
+Michael Woodward
 
 ## Additional setup info
 
