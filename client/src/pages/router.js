@@ -10,7 +10,7 @@ import CheckoutPage from './CheckoutPage';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const Pages = () => {
+const router = () => {
   return (
     <Router>
 
@@ -40,4 +40,4 @@ const Pages = () => {
   )
 }
 
-export default Pages
+export default router

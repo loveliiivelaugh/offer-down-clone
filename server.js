@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
 const cors = require('cors');
+const axios = require('axios');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
@@ -22,6 +23,18 @@ if ( process.env.NODE_ENV === "production") {
 }
 
 // mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/");
+
+app.get('/api/products', (req, res) => {
+  axios.get("https://fakestoreapi.com/products")
+    .then(data => {
+      console.log(data.data);
+      res.json(data.data);
+    })
+    .catch(error => {
+      console.error(error);
+      res.json({ error: error });
+    });
+});
 
 //Stripe route to accept payments
 app.post('/pay', async (req, res) => {

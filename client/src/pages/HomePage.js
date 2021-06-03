@@ -1,10 +1,32 @@
-import React from 'react'
+import React from 'react';
+//api
+import Api from '../api';
+//components
+import ProductCard from '../components/ProductCard';
+//MaterialUI
+import Container from '@material-ui/core/Container';
 
-const HomePage = () => {
+
+const HomePage = (props) => {
+  const [products, setProducts] = React.useState([]);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const data = await Api.getDummyProducts();
+      setProducts(data);
+    };
+    
+    fetchData();
+  }, []);
+
+
+  console.log(products);
+
   return (
-    <div>
-      I am Home Page!
-    </div>
+    <Container>
+      <h1>I am Home Page!</h1>
+      <hr />
+      <ProductCard products={products} />
+    </Container>
   )
 }
 

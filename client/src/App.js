@@ -1,4 +1,4 @@
-import Pages from './pages';
+import Pages from './pages/router';
 import './App.css';
 
 import { ProvideAuth } from "./hooks/useAuth.js";
