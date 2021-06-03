@@ -1,7 +1,7 @@
 //ExpressJS Hello World boilerplate server
 const express = require('express');
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 const cors = require('cors');
 const bodyParser = require("body-parser");
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
