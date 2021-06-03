@@ -1,6 +1,8 @@
 import React from 'react';
 //api
 import Api from '../api';
+//hooks
+// import { useRouter } from '../hooks/useRouter.js';
 //components
 import ProductCard from '../components/ProductCard';
 //MaterialUI
@@ -36,18 +38,21 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
+  // const router = useRouter();
   const [products, setProducts] = React.useState([]);
+
   React.useEffect(() => {
     const fetchData = async () => {
       const data = await Api.getDummyProducts();
+      console.log(data);
       setProducts(data);
     };
     
     fetchData();
   }, []);
 
-
   console.log(products);
+
 
   return (
     <Container>
@@ -55,8 +60,11 @@ const HomePage = (props) => {
       <hr />
       <div className={classes.container}>
         {products &&
-          products.map(product =>
-            <ProductCard product={product} />
+          products.map((product, i) =>
+            <ProductCard 
+              key={i} 
+              product={product}
+            />
         )}
       </div>
     </Container>
