@@ -26,10 +26,14 @@ const CheckoutForm = ({ toggleConfetti }) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  console.log(stripe)
+
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
     event.preventDefault();
+
+    console.log("I am being submitted?")
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
@@ -60,6 +64,7 @@ const CheckoutForm = ({ toggleConfetti }) => {
         console.log(" Money in the bank! ");
 
         toggleConfetti(true);
+        setTimeout(() => toggleConfetti(false), 15000);
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
         // execution. Set up a webhook or plugin to listen for the
@@ -79,7 +84,7 @@ const CheckoutForm = ({ toggleConfetti }) => {
           <div>
             <CardSection />
           </div>
-          <Button variant="contained" color="primary" disabled={!stripe}>Confirm order</Button>
+          <Button type="submit" variant="contained" color="primary" disabled={!stripe}>Confirm order</Button>
         </form>
       </CardContent>
     </Card>
