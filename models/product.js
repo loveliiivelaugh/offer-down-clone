@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../??');
+const sequelize = require('../config/connection.js');
 
 class Product extends Model {}
 
@@ -34,6 +34,13 @@ Product.init(
             type: DataTypes.INTEGER,
             references: {
                 model: 'category',
+                key: 'id'
+            }
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'user',
                 key: 'id'
             }
         }
