@@ -1,7 +1,5 @@
 import React from 'react';
 import CheckoutForm from '../components/CheckoutForm';
-import Three from  '../components/Three';
-import ThreeModel from  '../components/ThreeModel';
 import Confetti from 'confetti-react';
 
 const LandingPage = () => {
@@ -11,7 +9,6 @@ const LandingPage = () => {
       {confettiSwitch && <Confetti /> }
       <h1 style={{fontSize:"160px"}}>Landing</h1>
       <CheckoutForm toggleConfetti={toggleConfetti} />
-      <Three />
     </div>
   )
 }
