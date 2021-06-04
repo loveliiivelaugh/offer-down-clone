@@ -12,6 +12,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import { useRouter } from '../hooks/useRouter.js';
 import CardSection from '../components/CardSection.js';
 import Plaid from '../components/Plaid';
+import ImageLoader from '../components/ImageLoader.js';
 
 
 const AccountsPage = (props) => {
@@ -119,7 +120,8 @@ const AccountsPage = (props) => {
             <TextField type="text" name="balance" label="Balance" variant="outlined" />
             <TextField type="text" name="balance" label="$0.00" variant="outlined" />
           </FormControl>
-          {/* <Plaid /> */}
+          <Plaid />
+          <ImageLoader />
           <CardSection />
         </Card>
 
