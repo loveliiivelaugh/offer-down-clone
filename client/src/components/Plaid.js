@@ -11,13 +11,13 @@ const Link = () => {
   const [linkToken, setLinkToken] = useState(null);
 
   const generateToken = async () => {
-    // const response = await axios.post('/api/plaid/create_link_token');
-    // const data = await response.json();
-    // setLinkToken(data.link_token);
+    const response = await axios.post('/api/plaid/create_link_token');
+    const data = await response.json();
+    setLinkToken(data.link_token);
   };
 
   useEffect(() => {
-    // generateToken();
+    generateToken();
   }, []);
 
   const handleOnSuccess = (public_token, metadata) => {
@@ -38,18 +38,19 @@ const Link = () => {
       .then(res => setTransactions({ transactions: res }));
   };
 
-  const config = {
-    token: linkToken ? linkToken : null,
-    onSuccess: handleOnSuccess,
-    onExit: handleOnExit,
-    onClick: handleClick
-    // ...
-  };
+  // const config = {
+  //   token: linkToken ? linkToken : null,
+  //   onSuccess: handleOnSuccess,
+  //   onExit: handleOnExit,
+  //   onClick: handleClick
+  //   // ...
+  // };
 
-  const { open, ready, error } = usePlaidLink(config);
+  // const { open, ready, error } = usePlaidLink(config);
 
   return (
-    <Button onClick={() => open()} disabled={!ready}>
+    <Button>
+    {/* <Button onClick={() => open()} disabled={!ready}> */}
       Connect a bank account
     </Button>
   );

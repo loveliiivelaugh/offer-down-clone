@@ -119,7 +119,7 @@ const AccountsPage = (props) => {
             <TextField type="text" name="balance" label="Balance" variant="outlined" />
             <TextField type="text" name="balance" label="$0.00" variant="outlined" />
           </FormControl>
-          {/* <Plaid /> */}
+          <Plaid />
           <CardSection />
         </Card>
 
