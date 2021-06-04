@@ -1,71 +1,94 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection.js');
+const mongoose = require('mongoose');
 
-class User extends Model{}
+const Schema = mongoose.Schema;
 
-User.init( 
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        user_name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                isEmail: true
-            }
-        },
-        street_address: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        city: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        state: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        zip: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        inbox: {
-            type: DataTypes.ARRAY, //?????
-            allowNull: false
-        },
-        saved_items: {
-            type: DataTypes.ARRAY,
-            allowNull: true
-        },
-        purchases: {
-            type: DataTypes.ARRAY,
-            allowNull: true
-        },
-        sales: {
-            type: DataTypes.ARRAY,
-            allowNull: true
-        }
+const UserSchema = new Schema({
+    name: {
+        type: String,
+        required: 'Username is required'
     },
-    {
-        sequelize,
-        timestamps:false,
-        freezeTableName: true,
-        underscored: true,
-        modelName: 'product',
-    }
-);
+    email: {
+        type: String,
+        required: 'An email is required',
+        match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
+    },
+    street_address: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    state: {
+        type: String // Or from a list of options?
+    },
+    zip_code: {
+        type: Number,
+        required: 'Zip code is required',
+        validate: [({ length }) => length != 5, 'Please enter a valid zip code']
+    },
+    password: {
+        type: String,
+        required: 'Password is required'
+    },
+    notifications: [
+        {
+            type: {
+                type: String,
+            },
+            content: {
+                type: String
+            },
+            amount: {
+                type: Number
+            },
+            recipient_id: {
+                type: String
+            },
+            sender_id: {
+                type: String
+            },
+            dateCreated: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
+    saved_items: [
+        {
+            name: {
+                type: String
+            },
+            price: {
+                type: Number
+            }
+        }
+    ],
+    purchased_items: [
+        {
+            name: {
+                type: String
+            },
+            price: {
+                type: Number
+            }
+        }
+    ],
+    sold_items: [
+        {
+            name: {
+                type: String
+            },
+            price: {
+                type: Number
+            },
+            buyer_id: {
+                type: String
+            }
+        }
+    ]
+
+});
+
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
