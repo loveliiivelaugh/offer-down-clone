@@ -11,8 +11,8 @@ const ProductSchema = new Schema ({
         type: String,
     },
     price: {
-        type: Number, // Decimal?
-        required: 'Price is required', // validate?
+        type: Number, 
+        required: 'Price is required'
     },
     images: {
         type: String,
@@ -29,7 +29,7 @@ const ProductSchema = new Schema ({
                required: 'A bid is required'
            } ,
            bidder_id: {
-               type: String
+               type: Schema.ObjectId
            }
         }
     ]

@@ -60,6 +60,9 @@ const UserSchema = new Schema({
             },
             price: {
                 type: Number
+            },
+            product_id: {
+                type: Schema.ObjectId
             }
         }
     ],
@@ -70,6 +73,9 @@ const UserSchema = new Schema({
             },
             price: {
                 type: Number
+            },
+            product_id: {
+                type: Schema.ObjectId
             }
         }
     ],
@@ -82,7 +88,10 @@ const UserSchema = new Schema({
                 type: Number
             },
             buyer_id: {
-                type: String
+                type: Schema.ObjectId
+            },
+            product_id: {
+                type: Schema.ObjectId
             }
         }
     ]
