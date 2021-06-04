@@ -9,9 +9,9 @@ import TextField from '@material-ui/core/TextField';
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import ShareIcon from '@material-ui/icons/Share';
-
 import { useRouter } from '../hooks/useRouter.js';
 import CardSection from '../components/CardSection.js';
+import Plaid from '../components/Plaid';
 
 
 const AccountsPage = (props) => {
@@ -21,6 +21,8 @@ const AccountsPage = (props) => {
   const [section, setSection] = React.useState("purchases");
 
   const handleNav = {
+    //use these function to change the components being rendered in the accounts section dynamically
+    //todo --> Can turn this into child routes with react-router-dom
     purchases: () => {
       setTitle("Purchases & Sales");
     },
@@ -117,6 +119,7 @@ const AccountsPage = (props) => {
             <TextField type="text" name="balance" label="Balance" variant="outlined" />
             <TextField type="text" name="balance" label="$0.00" variant="outlined" />
           </FormControl>
+          {/* <Plaid /> */}
           <CardSection />
         </Card>
 

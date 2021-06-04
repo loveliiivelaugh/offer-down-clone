@@ -1,42 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const plaid = require('plaid');
+const client = require('../../../controller/plaid.js');
 
 
-const PLAID_CLIENT_ID = ''//('PLAID_CLIENT_ID'); //process.env.PLAID_CLIENT_ID
-const PLAID_SECRET = ''//('PLAID_SECRET'); //process.env.PLAID_SECRET
-const PLAID_PUBLIC_KEY = ''//('PLAID_PUBLIC_KEY'); //process.env.PLAID_PUBLIC_KEY
-const PLAID_ENV = ''//('PLAID_ENV', 'sandbox');
 // We store the access_token in memory - in production, store it in a secure
 // persistent data store
 let ACCESS_TOKEN = null;
 let PUBLIC_TOKEN = null;
 let ITEM_ID = null;
 
+let PLAID_COUNTRY_CODES = "US";//Or any supported country (US, CA, ES, FR, GB, IE, NL)
+PLAID_REDIRECT_URI="http://localhost:3000/";
 
-// Initialize the Plaid client
-// Find your API keys in the Dashboard (https://dashboard.plaid.com/account/keys)
-const client = new plaid.Client({
-  clientID: process.env.PLAID_CLIENT_ID,
-  secret: process.env.PLAID_SECRET,
-  env: plaid.environments[PLAID_ENV],
-  options: {
-    version: '2019-05-29',
-  }
-});
-
-
-app.post('/api/info', function(request, response, next) {
+router.post('/api/info', (request, response, next) => {
   response.json({
     item_id: ITEM_ID,
     access_token: ACCESS_TOKEN,
     products: PLAID_PRODUCTS
-  })
+  });
 });
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
-app.post('/api/create_link_token', function(request, response, next) {
+router.post('/create_link_token', (request, response, next) => {
   const configs = {
     'user': {
       // This should correspond to a unique id for the current user.
@@ -46,26 +32,53 @@ app.post('/api/create_link_token', function(request, response, next) {
     'products': PLAID_PRODUCTS,
     'country_codes': PLAID_COUNTRY_CODES,
     'language': "en",
-  }
+  };
 
   if (PLAID_REDIRECT_URI !== '') {
     configs.redirect_uri = PLAID_REDIRECT_URI;
   }
   
-  client.createLinkToken(configs, function(error, createTokenResponse) {
+  client.createLinkToken(configs, (error, createTokenResponse) => {
       if (error != null) {
-        prettyPrintResponse(error);
+        console.log(error);
         return response.json({
           error: error,
         });
       }
       response.json(createTokenResponse);
-  })
+  });
+});
+
+router.post('/exchange_public_token', async (request, response) => {
+  try {
+    const publicToken = request.body.public_token;
+    // Exchange the client-side public_token for a server access_token
+    const tokenResponse = await client.exchangePublicToken(publicToken);
+    // Save the access_token and item_id to a persistent database
+    const accessToken = tokenResponse.access_token;
+    const itemId = tokenResponse.item_id;
+    console.group()
+    console.log('%cExtremely Important!: ', "color:red; font-size:20px");
+    console.warn("Once we have successfully acquired the accessToken and itemId,", {
+      accessToken: accessToken,
+      itemId: itemId
+    })
+    console.warn("We need to store these in the database to be used in later API calls.");
+    console.log("Insert your database code here --->");
+    //db.storePlaidConnectionCredentials({
+      // accessToken: accessToken,
+      // itemId: itemId
+    // })
+    console.groupEnd();
+  } catch (e) {
+    // Display error on client
+    return response.send({ error: e.message });
+  }
 });
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#payment-initiation-create-link-token-request
-app.post('/api/create_link_token_for_payment', function(request, response, next) {
+router.post('/api/create_link_token_for_payment', function(request, response, next) {
     client.createPaymentRecipient(
       'Harry Potter',
       'GB33BUKB20201555555555',
@@ -134,32 +147,9 @@ app.post('/api/create_link_token_for_payment', function(request, response, next)
     )
 });
 
-// Exchange token flow - exchange a Link public_token for
-// an API access_token
-// https://plaid.com/docs/#exchange-token-flow
-app.post('/api/set_access_token', function(request, response, next) {
-  PUBLIC_TOKEN = request.body.public_token;
-  client.exchangePublicToken(PUBLIC_TOKEN, function(error, tokenResponse) {
-    if (error != null) {
-      prettyPrintResponse(error);
-      return response.json({
-        error: error,
-      });
-    }
-    ACCESS_TOKEN = tokenResponse.access_token;
-    ITEM_ID = tokenResponse.item_id;
-    prettyPrintResponse(tokenResponse);
-    response.json({
-      access_token: ACCESS_TOKEN,
-      item_id: ITEM_ID,
-      error: null,
-    });
-  });
-});
-
 // Retrieve an Item's accounts
 // https://plaid.com/docs/#accounts
-app.get('/api/accounts', function(request, response, next) {
+router.get('/api/accounts', function(request, response, next) {
   client.getAccounts(ACCESS_TOKEN, function(error, accountsResponse) {
     if (error != null) {
       prettyPrintResponse(error);
@@ -174,7 +164,7 @@ app.get('/api/accounts', function(request, response, next) {
 
 // Retrieve ACH or ETF Auth data for an Item's accounts
 // https://plaid.com/docs/#auth
-app.get('/api/auth', function(request, response, next) {
+router.get('/api/auth', function(request, response, next) {
   client.getAuth(ACCESS_TOKEN, function(error, authResponse) {
     if (error != null) {
       prettyPrintResponse(error);
@@ -189,7 +179,7 @@ app.get('/api/auth', function(request, response, next) {
 
 // Retrieve Transactions for an Item
 // https://plaid.com/docs/#transactions
-app.get('/api/transactions', function(request, response, next) {
+router.get('/api/transactions', function(request, response, next) {
   // Pull transactions for the Item for the last 30 days
   const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
   const endDate = moment().format('YYYY-MM-DD');
@@ -211,7 +201,7 @@ app.get('/api/transactions', function(request, response, next) {
 
 // Retrieve Identity for an Item
 // https://plaid.com/docs/#identity
-app.get('/api/identity', function(request, response, next) {
+router.get('/api/identity', function(request, response, next) {
   client.getIdentity(ACCESS_TOKEN, function(error, identityResponse) {
     if (error != null) {
       prettyPrintResponse(error);
@@ -226,7 +216,7 @@ app.get('/api/identity', function(request, response, next) {
 
 // Retrieve real-time Balances for each of an Item's accounts
 // https://plaid.com/docs/#balance
-app.get('/api/balance', function(request, response, next) {
+router.get('/api/balance', function(request, response, next) {
   client.getBalance(ACCESS_TOKEN, function(error, balanceResponse) {
     if (error != null) {
       prettyPrintResponse(error);
@@ -242,7 +232,7 @@ app.get('/api/balance', function(request, response, next) {
 
 // Retrieve Holdings for an Item
 // https://plaid.com/docs/#investments
-app.get('/api/holdings', function(request, response, next) {
+router.get('/api/holdings', function(request, response, next) {
   client.getHoldings(ACCESS_TOKEN, function(error, holdingsResponse) {
     if (error != null) {
       prettyPrintResponse(error);
@@ -257,7 +247,7 @@ app.get('/api/holdings', function(request, response, next) {
 
 // Retrieve Investment Transactions for an Item
 // https://plaid.com/docs/#investments
-app.get('/api/investment_transactions', function(request, response, next) {
+router.get('/api/investment_transactions', function(request, response, next) {
   const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
   const endDate = moment().format('YYYY-MM-DD');
   client.getInvestmentTransactions(ACCESS_TOKEN, startDate, endDate, function(error, investmentTransactionsResponse) {
@@ -276,7 +266,7 @@ app.get('/api/investment_transactions', function(request, response, next) {
 // Asset Report can contain up to 100 items, but for simplicity we're only
 // including one Item here.
 // https://plaid.com/docs/#assets
-app.get('/api/assets', function(request, response, next) {
+router.get('/api/assets', function(request, response, next) {
   // You can specify up to two years of transaction history for an Asset
   // Report.
   const daysRequested = 10;
@@ -317,7 +307,7 @@ app.get('/api/assets', function(request, response, next) {
 
 // This functionality is only relevant for the UK Payment Initiation product.
 // Retrieve Payment for a specified Payment ID
-app.get('/api/payment', function(request, response, next) {
+router.get('/api/payment', function(request, response, next) {
   client.getPayment(PAYMENT_ID, function(error, paymentGetResponse) {
     if (error != null) {
       prettyPrintResponse(error);
@@ -332,7 +322,7 @@ app.get('/api/payment', function(request, response, next) {
 
 // Retrieve information about an Item
 // https://plaid.com/docs/#retrieve-item
-app.get('/api/item', function(request, response, next) {
+router.get('/api/item', function(request, response, next) {
   // Pull the Item - this includes information about available products,
   // billed products, webhook information, and more.
   client.getItem(ACCESS_TOKEN, function(error, itemResponse) {
@@ -360,14 +350,6 @@ app.get('/api/item', function(request, response, next) {
     });
   });
 });
-
-const server = app.listen(APP_PORT, function() {
-  console.log('plaid-quickstart server listening on port ' + APP_PORT);
-});
-
-const prettyPrintResponse = response => {
-  console.log(util.inspect(response, {colors: true, depth: 4}));
-};
 
 // This is a helper function to poll for the completion of an Asset Report and
 // then send it in the response to the client. Alternatively, you can provide a

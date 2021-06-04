@@ -7,19 +7,30 @@ import React, { useEffect, useState } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 
 const Link = () => {
-  const [transactions, setTransactions] = React.useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [linkToken, setLinkToken] = useState(null);
+
+  const generateToken = async () => {
+    // const response = await axios.post('/api/plaid/create_link_token');
+    // const data = await response.json();
+    // setLinkToken(data.link_token);
+  };
+
+  useEffect(() => {
+    // generateToken();
+  }, []);
 
   const handleOnSuccess = (public_token, metadata) => {
-    console.log(public_token);
+    console.log(public_token, metadata);
     //send token to client server
-    axios.post('/auth/public_token', {
-      pblic_token: public_token
+    axios.post('/api/plaid/exchange_public_token', {
+      public_token: public_token
     });
   };
 
   const handleOnExit = () => {
     //handle the case when your user exits Link
-  }
+  };
 
   const handleClick = response => {
     axios
@@ -27,22 +38,20 @@ const Link = () => {
       .then(res => setTransactions({ transactions: res }));
   };
 
+  const config = {
+    token: linkToken ? linkToken : null,
+    onSuccess: handleOnSuccess,
+    onExit: handleOnExit,
+    onClick: handleClick
+    // ...
+  };
+
+  const { open, ready, error } = usePlaidLink(config);
+
   return (
-    <>
-      <PlaidLink
-        clientNme="React Plaid Setup"
-        env="sandbox"
-        product={["auth", "transactions"]}
-        publicKey=""
-        onExit={handleOnExit}
-        onSuccess={handleOnSuccess}
-      >
-        Open Link and connect your bank!
-      </PlaidLink>
-      <div>
-        <Button onClick={handleClick} >Get Transactions</Button>
-      </div>
-    </>
-  )
+    <Button onClick={() => open()} disabled={!ready}>
+      Connect a bank account
+    </Button>
+  );
 }
 export default Link;

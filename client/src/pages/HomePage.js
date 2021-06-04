@@ -6,7 +6,7 @@ import ProductCard from '../components/ProductCard';
 //MaterialUI
 import Container from '@material-ui/core/Container';
 import { makeStyles } from "@material-ui/core/styles";
-//spinner
+//spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,9 +60,11 @@ const HomePage = (props) => {
       <hr />
       <div className={classes.container}>
         {pending //todo --> Can we center this spinner without using the semantic html center tag?
-          ? <center>
+          ? (
+            <center>
               <ClipLoader color="#00b" loading={pending} size={150} />
             </center> 
+            )
           : products.map((product, i) => (
               <ProductCard key={i} product={product} />
             )

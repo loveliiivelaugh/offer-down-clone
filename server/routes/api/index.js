@@ -4,10 +4,10 @@ const axios = require('axios');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');//default test key
 
 const stripeRoutes = require('./stripeRoutes.js');
-// const plaidRoutes = require('./plaidRoutes.js');
+const plaidRoutes = require('./plaidRoutes.js');
 
 router.get('/stripe', stripeRoutes);
-// router.get('/plaid', plaidRoutes);
+router.get('/plaid', plaidRoutes);
 
 //fakestoreapi -- GET dummyProducts route 
 router.get('/products', (req, res) => {
