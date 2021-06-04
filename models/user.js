@@ -43,19 +43,19 @@ User.init(
             allowNull: false
         },
         inbox: {
-            type: DataTypes.ARRAY, //?????
+            type: DataTypes.STRING, //????? "[{}, {}, {}]"
             allowNull: false
         },
         saved_items: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.STRING,
             allowNull: true
         },
         purchases: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.STRING,
             allowNull: true
         },
         sales: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.STRING,
             allowNull: true
         }
     },

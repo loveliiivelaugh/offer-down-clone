@@ -10,12 +10,10 @@ Product.belongsTo(User, {
     foreignKey: 'user_id'
 });
 
-// Prducts belongs to many categories
-Product.belongsToMany(Category, {
+Product.belongsTo(Category, {
     foreignKey: 'category_id'
 });
 
-// Category has many products
 Category.belongsToMany(Product, {
     foreignKey: 'category_id'
 });
