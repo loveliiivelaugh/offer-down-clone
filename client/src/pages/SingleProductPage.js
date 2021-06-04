@@ -56,7 +56,6 @@ const SingleProductPage = () => {
       <h1>I am a single product page!</h1>
       <Grid container spacing={3}>
         <Grid item xs={12} md={9}>
-          {/* <ProductCard product={product} /> */}
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
           <hr />
           <Grid item xs={12} md={12}>
