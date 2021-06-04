@@ -19,10 +19,8 @@ const ImageLoader = () => {
               required
               id="image"
               name="image"
-              label="Upload an Image"
               type="file"
               fullWidth
-              autoComplete="given-name"
             />
 
           </Grid>
