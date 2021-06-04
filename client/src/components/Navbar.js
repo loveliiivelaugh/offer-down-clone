@@ -14,9 +14,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
 
 
@@ -88,11 +90,13 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const classes = useStyles();
   const auth = useAuth();
-  console.log(auth.user)
+  const router = useRouter();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   //Modal
   const [open, setOpen] = useState(false);
+  const [type, setType] = React.useState("signin");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -198,7 +202,13 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography 
+            className={classes.title} 
+            variant="h6" 
+            noWrap 
+            onClick={() => router.push('/home')}
+            style={{cursor:'pointer'}}
+          >
             OfferDown
           </Typography>
           <div className={classes.search}>
@@ -223,6 +233,11 @@ const Navbar = () => {
           <div className={classes.sectionDesktop}>
           {auth.user &&
             <div>
+              <IconButton aria-label="add to favorites" color="inherit" onClick={e => router.push('/accounts')}>
+                <Badge badgeContent={0} color="secondary">
+                  <FavoriteIcon />
+                </Badge>
+              </IconButton>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
@@ -258,7 +273,12 @@ const Navbar = () => {
             </IconButton>
           </div>
           <div>
-            <SimpleModal open={open} handleClose={handleClose} />
+            <SimpleModal 
+              open={open} 
+              handleClose={handleClose}
+              type={type}
+              setType={setType}
+            />
           </div>
         </Toolbar>
       </AppBar>

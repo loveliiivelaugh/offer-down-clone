@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "proxy": "http://localhost:3000/",
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
@@ -30,6 +29,7 @@
     "express": "^4.17.1",
     "firebase": "^8.6.3",
     "mongoose": "^5.12.12",
+    "plaid": "^8.5.1",
     "stripe": "^8.150.0"
   },
   "devDependencies": {
