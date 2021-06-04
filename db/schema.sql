@@ -6,7 +6,6 @@ USE offer_downDB;
 
 
 
-2 things: user and product (2 models)
 product has to get tied to user so only a user can out product up 
 product should have list of offers from another user.
 user = sold products, and posted products and email, password, and login
