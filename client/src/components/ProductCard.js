@@ -15,6 +15,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+//hooks
+import { useRouter } from '../hooks/useRouter.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,19 +41,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = (props) => {
+const ProductCard = ({ product }) => {
   const classes = useStyles();
+  const router = useRouter();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const product = props.products && props.products[0];
-  console.log(product);
+  const handleClick = (e, product) => {
+    e.preventDefault();
+
+    router.push({
+      pathname: "/products/" + product.id,
+      state: {
+        product: product
+      }
+    });
+  };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={e => handleClick(e, product)}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -88,7 +99,8 @@ const ProductCard = (props) => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <IconButton
+      </CardActions>
+        {/* <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
           })}
@@ -125,7 +137,7 @@ const ProductCard = (props) => {
             Set aside off of the heat to let rest for 10 minutes, and then serve.
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   );
 }
