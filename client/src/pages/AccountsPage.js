@@ -121,8 +121,9 @@ const AccountsPage = (props) => {
             <TextField type="text" name="balance" label="$0.00" variant="outlined" />
           </FormControl>
           <Plaid />
-          <ImageLoader />
           <CardSection />
+          <Divider />
+          <ImageLoader />
         </Card>
 
       </Grid>
