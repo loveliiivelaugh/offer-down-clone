@@ -1,29 +1,30 @@
-//ExpressJS Hello World boilerplate server
 const express = require('express');
-const app = express();
-const port = process.env.PORT || 8080;
 const cors = require('cors');
-const axios = require('axios');
-const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const axios = require('axios');
 
+const app = express();
 
+const port = process.env.PORT || 8080;
+//import routes 🔀
+const routes = require('./server/routes');
+
+//server mmiddleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(bodyParser.json())
-
 app.use(cors());
 
+//static resources
 app.use(express.static('public'));
 
+//check dev or production environment
 if ( process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/");
-
+//todo --> figure out why this isnt working in its own route 😑
+//fakestoreapi -- GET dummyProducts route 
 app.get('/api/products', (req, res) => {
   axios.get("https://fakestoreapi.com/products")
     .then(data => {
@@ -36,24 +37,9 @@ app.get('/api/products', (req, res) => {
     });
 });
 
-//Stripe route to accept payments
-app.post('/pay', async (req, res) => {
-  // Set your secret key. Remember to switch to your live secret key in production.
-  // See your keys here: https://dashboard.stripe.com/apikeys
-  console.log(req.body);
-  const { email } = req.body;
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: 1099,//todo --> Need to update this to grab the price from the db within the server to maintain security.
-    currency: 'usd',
-    // Verify your integration in this guide by including this parameter
-    metadata: {integration_check: 'accept_a_payment'},
-    receipt_email: email
-  });
-
-  console.log(paymentIntent.client_secret);
-  res.json({ client_secret: paymentIntent.client_secret });
-});
+//server routes
+app.use(routes); //🔀
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`OfferDown application listening at http://localhost:${port}`);
 });

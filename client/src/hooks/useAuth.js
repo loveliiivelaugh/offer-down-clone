@@ -1,3 +1,5 @@
+// refer to https://usehooks.com/useAuth to learn more about this custom hook
+
 import React, { useState, useEffect, useContext, createContext } from "react";
 import firebase from "../utils/firebase";
 
