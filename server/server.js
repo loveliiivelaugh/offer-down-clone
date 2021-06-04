@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require("body-parser");
 const axios = require('axios');
+const mongoose = require("mongoose");
+require("dotenv").config();
+
 
 const app = express();
 
@@ -17,6 +20,14 @@ app.use(cors());
 
 //static resources
 app.use(express.static('public'));
+
+//Mongoose
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/offerDown", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+});
 
 //check dev or production environment
 if ( process.env.NODE_ENV === "production") {
