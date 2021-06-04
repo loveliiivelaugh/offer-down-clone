@@ -7,7 +7,7 @@ const app = express();
 
 const port = process.env.PORT || 8080;
 //import routes 🔀
-const routes = require('./server/routes');
+const routes = require('./routes');
 
 //server mmiddleware
 app.use(express.json());
