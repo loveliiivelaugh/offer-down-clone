@@ -1,57 +1,40 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection.js');
+const mongoose = require('mongoose');
 
-class Product extends Model {}
+const Schema = mongoose.Schema;
 
-Product.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        product_name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
-            validate: {
-                isDecimal: true
-            }
-        },
-        stock: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 10,
-            validate: {
-                isNumeric: true
-            }
-        },
-        category_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'category',
-                key: 'id'
-            }
-        },
-        user_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'user',
-                key: 'id'
-            }
-        }
+const ProductSchema = new Schema ({
+    name: {
+        type: String,
+        required: 'Product name is required'
     },
-    {
-        sequelize,
-        timestamps:false,
-        freezeTableName: true,
-        underscored: true,
-        modelName: 'product',
-    }
-);
+    description: {
+        type: String,
+    },
+    price: {
+        type: Number, 
+        required: 'Price is required'
+    },
+    images: {
+        type: String,
+        required: 'An image is required'
+    },
+    zip_code: {
+        type: Number, 
+        required: 'Zip code is required'
+    },
+    offers: [
+        {
+           amount: {
+               type: Number,
+               required: 'A bid is required'
+           } ,
+           bidder_id: {
+               type: Schema.ObjectId
+           }
+        }
+    ]
+});
+
+const Product = mongoose.model('Product', ProductSchema);
 
 module.exports = Product;
