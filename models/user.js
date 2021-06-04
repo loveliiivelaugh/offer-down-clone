@@ -43,7 +43,7 @@ User.init(
             allowNull: false
         },
         inbox: {
-            type: DataTypes.STRING, //????? "[{}, {}, {}]"
+            type: DataTypes.STRING, // Will have to convert to array and back to string
             allowNull: false
         },
         saved_items: {
