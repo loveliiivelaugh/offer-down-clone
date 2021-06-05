@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from '../hooks/useRouter.js';
 import { useDatabase } from '../hooks/useDatabase.js';
 import { useAuth } from '../hooks/useAuth.js';
+import Api from '../api';
 //components
 import SimpleModal from '../components/SimpleModal';
 //MaterialUI
@@ -43,12 +44,15 @@ const SingleProductPage = () => {
     handleOpen();
   };
 
-  const handleLikeButton = (e, product) => {
+  const handleLikeButton = async (e) => {
     e.preventDefault()
+    console.log("handleFavoritesButton", product);
     //this is where the database code goes
 
     //hit the likeItem method passing in the current users email, and the product id.
     // db.likeItem(auth.user.email, product.id);
+    const newlyLikedItem = await Api.addLikedItem(auth.user, product);
+    console.log(newlyLikedItem);
   };
 
   return (
@@ -151,7 +155,7 @@ const SingleProductPage = () => {
               />
             </CardActions>
             <CardActions>
-              <IconButton aria-label="add to favorites" onClick={e => console.log("handleFavoritesButton") && handleLikeButton(e, product)}>
+              <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
                 <FavoriteIcon />
               </IconButton>
               <IconButton aria-label="share">

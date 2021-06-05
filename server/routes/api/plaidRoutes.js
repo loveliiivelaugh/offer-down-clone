@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const client = require('../../controller/plaid.js');
+const User = require('../../models/User');
 
 
 // We store the access_token in memory - in production, store it in a secure
@@ -16,21 +17,22 @@ router.post('/api/info', (request, response, next) => {
   response.json({
     item_id: ITEM_ID,
     access_token: ACCESS_TOKEN,
-    products: PLAID_PRODUCTS
+    products: ["auth"]
   });
 });
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 router.post('/create_link_token', (request, response, next) => {
+  console.log("This token route is being tapped.")
   const configs = {
     'user': {
       // This should correspond to a unique id for the current user.
       'client_user_id': 'user-id',
     },
     'client_name': "Plaid Quickstart",
-    'products': PLAID_PRODUCTS,
-    'country_codes': PLAID_COUNTRY_CODES,
+    'products': ["auth"],
+    'country_codes': ['US'],
     'language': "en",
   };
 
@@ -65,6 +67,18 @@ router.post('/exchange_public_token', async (request, response) => {
     })
     console.warn("We need to store these in the database to be used in later API calls.");
     console.log("Insert your database code here --->");
+    const authenticatedPlaidUser = await User.findOneAndUpdate({ _id: request.body.id }, { $set: { 
+      accessToken: accessToken,
+      itemId: itemId
+    }}, (err, doc, res) => {
+      if (err) throw err;
+
+      console.info(doc, res);
+
+      err 
+        ? res.status(500).json({ error: err}) 
+        : res.status(200).json(res);
+    })
     //db.storePlaidConnectionCredentials({
       // accessToken: accessToken,
       // itemId: itemId

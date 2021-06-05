@@ -100,7 +100,8 @@ const ProductCard = ({ product }) => {
           <ShareIcon />
         </IconButton>
       </CardActions>
-        {/* <IconButton
+        {/* 
+        <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
           })}

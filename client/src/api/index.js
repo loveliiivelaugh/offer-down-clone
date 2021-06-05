@@ -2,9 +2,12 @@ import axios from "axios";
 
 const Api = {
   //...User API functions go here....
-  createUser: async () => {
-    return await axios.post('/api/users')
-      .then(response => response)
+  createUser: async (user) => {
+    return await axios.post('/api/users', user)
+      .then(response => {
+        console.log(response)
+        return response;
+      })
       .catch(error => console.error(error));
   },
   getUser: async (id) => {
@@ -27,8 +30,9 @@ const Api = {
       .then(response => response)
       .catch(error => console.error(error));
   },
-  addLikedItem: async (id) => {
-    return await axios.post('/api/users/likes/' + id)
+  addLikedItem: async (user, item) => {
+    console.log(user, item)
+    return await axios.post('/api/users/likes', { user: user, items: item })
       .then(response => response)
       .catch(error => console.error(error))
   },

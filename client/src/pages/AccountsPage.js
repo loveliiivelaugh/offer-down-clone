@@ -13,13 +13,20 @@ import { useRouter } from '../hooks/useRouter.js';
 import CardSection from '../components/CardSection.js';
 import Plaid from '../components/Plaid';
 import ImageLoader from '../components/ImageLoader.js';
+import { useAuth } from '../hooks/useAuth.js';
+import axios from 'axios';
+
 
 
 const AccountsPage = (props) => {
   const router = useRouter();
-  const [title, setTitle] = React.useState("Purchase & Sales");
+  const auth = useAuth();
+  console.log(auth?.user?.uid);
 
+  const [title, setTitle] = React.useState("Purchase & Sales");
   const [section, setSection] = React.useState("purchases");
+ 
+
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -120,10 +127,11 @@ const AccountsPage = (props) => {
             <TextField type="text" name="balance" label="Balance" variant="outlined" />
             <TextField type="text" name="balance" label="$0.00" variant="outlined" />
           </FormControl>
-          <Plaid />
-          <CardSection />
-          <Divider />
+          {/* {auth &&
+            <Plaid auth={auth} /> 
+          } */}
           <ImageLoader />
+          <CardSection />
         </Card>
 
       </Grid>

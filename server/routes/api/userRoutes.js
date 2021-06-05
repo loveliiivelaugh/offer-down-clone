@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../../models/User');
+const User = require('../../models/User');
 
 //almost exactly same as productRoutes
 
-router.get('/users/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   //get your model
   const userData = await User.findOne({ id: req.params.id })
 
@@ -17,12 +17,48 @@ router.get('/users/:id', async (req, res) => {
 
 })
 
-router.get('/users', (req, res) => {})
+router.get('/', (req, res) => {})
 
-router.post('/users/:id', (req, res) => {})
+//createUser()
+router.post('/', async ({ body }, res) => {
 
-router.put('/users/:id', (req, res) => {})
+  console.log(body)
 
-router.delete('/users/:id', (req, res) => {})
+  const newUser = await User.create(body);
+
+  newUser 
+    ? res.status(200).json(newUser) 
+    : res.status(500).json({ error: "Somethings wrong?!" });
+
+});
+
+//addLikedItem()
+router.post('/likes/:id', async (req, res) => {
+
+  console.log(body)
+
+  const user = await User.find({ _id: req.params.id });
+
+  console.log(user)
+
+  const { title, price, id } = req.body;
+  
+  user.saved_items.push({
+    name: title,
+    price: price,
+    product_id: id
+  })
+
+  console.log(user)
+
+  user 
+    ? res.status(200).json(user) 
+    : res.status(500).json({ error: "Somethings wrong?!" });
+
+});
+
+router.put('/:id', (req, res) => {})
+
+router.delete('/:id', (req, res) => {})
 
 module.exports = router;
