@@ -11,6 +11,7 @@ const Api = {
       .catch(error => console.error(error));
   },
   getUser: async (id) => {
+    console.info(id);
     return await axios.get('/api/users/' + id)
       .then(response => response)
       .catch(error => console.error(error));

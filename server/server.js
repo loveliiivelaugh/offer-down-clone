@@ -109,6 +109,19 @@ app.post('/api/plaid/exchange_public_token', async (request, response) => {
   }
 });
 
+
+// getUser()
+app.get('/api/users/:id', async (req, res) => {
+  //get your model
+  const userData = await User.find({})
+  console.log(userData);
+
+  //other logical code goes in here.
+
+  res.status(200).json(userData);
+
+})
+
 //createUser()
 app.post('/api/users', async ({ body }, res) => {
 
