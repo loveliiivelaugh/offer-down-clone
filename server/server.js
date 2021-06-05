@@ -27,7 +27,7 @@ mongoose.connect("mongodb+srv://admin:gTDac4bsajEGLo1U@cluster0.ocuqj.mongodb.ne
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-  useFindAndModify: false
+  // useFindAndModify: false //idk what this is doing but i think its messing me up.
 });
 
 //check dev or production environment
