@@ -38,10 +38,41 @@ if ( process.env.NODE_ENV === "production") {
 //todo --> figure out why all these routes arent working through the router and fix 😑
 //fakestoreapi -- GET dummyProducts route 
 app.get('/api/products', (req, res) => {
-  axios.get("https://fakestoreapi.com/products")
-    .then(data => {
-      console.log(data.data);
-      res.json(data.data);
+
+  
+  axios
+    .get("https://fakestoreapi.com/products")
+    .then(({ data }) => res.status(200).json(data))
+    .catch(error => {
+      console.error(error);
+      res.json({ error: error });
+    });
+});
+
+//fakestoreapi and randomUser API  to create fake users with products -- GET dummyProducts route 
+app.get('/api/populate', async (req, res) => {
+  const users = [];
+
+  await axios
+    .get('https://randomuser.me/api/?results=1')
+    .then(({ data }) => {
+      const userData = data.results;
+
+      userData.forEach(async person => {
+        await axios
+          .get("https://fakestoreapi.com/products")
+          .then(data => {
+            const productsData = data.data;
+
+            users.push({
+              user: person,
+              items: productsData
+            });
+          });
+        }); 
+        
+      console.log(users);
+      res.json(users);
     })
     .catch(error => {
       console.error(error);
@@ -55,7 +86,7 @@ PLAID_REDIRECT_URI="http://localhost:3000/";
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 app.post('/api/plaid/create_link_token', ({ body }, response, next) => {
-  console.log("This token route is being tapped.", body.id)
+  console.log("This token route is being tapped.", body.id);
   const configs = {
     'user': {
       // This should correspond to a unique id for the current user.
@@ -162,6 +193,38 @@ app.post('/api/users/likes', async ({ body }, res) => {
     ? res.status(200).json(doc[0]) 
     : res.status(500).json({ error: "Somethings wrong?!" });
 
+});
+
+
+//removeLikedItem() //! BROKEN -- needs to be fixed
+app.delete('/api/users/likes/:id', async (req, res) => {
+  //the following line should be able to find just the user thats currently logged in
+  //theres a better way to do this
+  const doc = await User.find({});
+
+  console.log(doc);
+
+  const itemToDelete = await doc[0].saved_items.forEach(item => {
+    if (item.product_id === req.params.id) {
+
+      console.log(item);
+
+      const indexOfItemToDelete = doc[0].saved_items.indexOf(item);
+      
+      console.log("index", indexOfItemToDelete);
+
+      doc[0].saved_items.splice(indexOfItemToDelete, 1);
+    }
+    console.log(doc[0].saved_items);
+  });
+  
+  await doc.save();
+  console.log(doc[0].saved_items);
+  console.log(itemToDelete);
+
+  doc[0] 
+    ? res.status(200).json(doc[0]) 
+    : res.status(500).json({ error: "Somethings wrong?!" });
 });
 
 

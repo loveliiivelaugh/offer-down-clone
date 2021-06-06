@@ -1,8 +1,13 @@
 import axios from "axios";
 
 const Api = {
+  populate: async () => {
+    return await axios.get('/api/populate/')
+      .then(response => response)
+      .catch(error => console.error(error));
+  },
   //...User API functions go here....
-  createUser: async (user) => {
+  createUser: async function(user) {
     return await axios.post('/api/users', user)
       .then(response => {
         console.log(response)
@@ -18,7 +23,9 @@ const Api = {
   },
   getUsers: async () => {
     return await axios.get('/api/users')
-      .then(response => response)
+      .then(response => {
+        return response;
+      })
       .catch(error => console.error(error));
   },
   updateUser: async (id, updates) => {
@@ -32,16 +39,18 @@ const Api = {
       .catch(error => console.error(error));
   },
   addLikedItem: async (user, item) => {
-    console.log(user, item)
+    console.log(user, item);
     return await axios.post('/api/users/likes', { user: user, items: item })
       .then(response => response)
       .catch(error => console.error(error))
   },
+
   removeLikedItem: async (id) => {
     return await axios.delete('/api/users/likes/' + id)
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
+  
   sendMessage: async (id) => {
     return await axios.post('/api/users/' + id)
       .then(response => response)

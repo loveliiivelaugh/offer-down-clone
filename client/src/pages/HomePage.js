@@ -48,6 +48,7 @@ const HomePage = (props) => {
       console.log(data);
       setProducts(data);
       setPending(false);
+      await Api.populate();
     };
     
     fetchData();

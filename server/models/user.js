@@ -57,6 +57,26 @@ const UserSchema = new Schema({
             }
         }
     ],
+    messages: [
+        {
+            type: {
+                type: String,
+            },
+            content: {
+                type: String
+            },
+            recipient_id: {
+                type: String
+            },
+            sender_id: {
+                type: String
+            },
+            dateCreated: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
     saved_items: [
         {
             name: {

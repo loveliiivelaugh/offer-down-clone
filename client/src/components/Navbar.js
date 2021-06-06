@@ -187,10 +187,10 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   //Modal
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const [type, setType] = React.useState("signin");
 
   const handleOpen = () => setOpen(true);
@@ -204,8 +204,8 @@ const Navbar = () => {
   });
 
   const handleExpandClick = (e) => {
-    e.preventDefault()
-    console.log(e)
+    e.preventDefault();
+    console.log(e);
     // switch (type) {
     //   case "messages":
     //     setAlerts({ title: "Messages" })
@@ -254,8 +254,8 @@ const Navbar = () => {
     >
       {auth.user ? (
         <div>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+          <MenuItem onClick={() => router.push('/accounts')}>Profile</MenuItem>
+          <MenuItem onClick={() => router.push('/accounts')}>My account</MenuItem>
           <Button onClick={() => auth.signout()}>Signout</Button>
         </div>
         ) : (
@@ -285,7 +285,7 @@ const Navbar = () => {
             </IconButton>
             <p>Messages</p>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => router.push('/selling')}>
             <IconButton aria-label="show 11 new notifications" color="inherit">
               <Badge badgeContent={11} color="secondary">
                 <NotificationsIcon />
@@ -295,7 +295,7 @@ const Navbar = () => {
           </MenuItem>
         </div>
       }
-      <MenuItem onClick={auth.user ? handleProfileMenuOpen : handleOpen}>
+      <MenuItem onClick={() => router.push('/accounts')}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -352,18 +352,18 @@ const Navbar = () => {
           <div className={classes.sectionDesktop}>
           {auth.user &&
             <div>
-              <IconButton aria-label="add to favorites" color="inherit" onClick={e => router.push('/accounts')}>
-                <Badge badgeContent={0} color="secondary">
+              <IconButton aria-label="add to favorites" color="inherit" onClick={() => router.push('/accounts')}>
+                <Badge badgeContent={auth?.user?.liked_items?.length || 0} color="secondary">
                   <FavoriteIcon />
                 </Badge>
               </IconButton>
               <IconButton id="messages" aria-label="show 4 new mails" color="inherit" onClick={handleExpandClick}>
-                <Badge badgeContent={4} color="secondary">
+                <Badge badgeContent={auth?.user?.messages?.length || 0} color="secondary">
                   <MailIcon />
                 </Badge>
               </IconButton>
-              <IconButton id="notifications" aria-label="show 17 new notifications" color="inherit" onClick={handleExpandClick}>
-                <Badge badgeContent={17} color="secondary">
+              <IconButton id="notifications" aria-label="show 17 new notifications" color="inherit" onClick={() => router.push('/selling')}>
+                <Badge badgeContent={auth?.user?.notifications?.length || 0} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
