@@ -1,20 +1,31 @@
 import axios from "axios";
 
 const Api = {
-  //...User API functions go here....
-  createUser: async () => {
-    return await axios.post('/api/users')
+  populate: async () => {
+    return await axios.get('/api/populate/')
       .then(response => response)
       .catch(error => console.error(error));
   },
+  //...User API functions go here....
+  createUser: async function(user) {
+    return await axios.post('/api/users', user)
+      .then(response => {
+        console.log(response)
+        return response;
+      })
+      .catch(error => console.error(error));
+  },
   getUser: async (id) => {
+    console.info(id);
     return await axios.get('/api/users/' + id)
       .then(response => response)
       .catch(error => console.error(error));
   },
   getUsers: async () => {
     return await axios.get('/api/users')
-      .then(response => response)
+      .then(response => {
+        return response;
+      })
       .catch(error => console.error(error));
   },
   updateUser: async (id, updates) => {
@@ -27,16 +38,19 @@ const Api = {
       .then(response => response)
       .catch(error => console.error(error));
   },
-  addLikedItem: async (id) => {
-    return await axios.post('/api/users/likes/' + id)
+  addLikedItem: async (user, item) => {
+    console.log(user, item);
+    return await axios.post('/api/users/likes', { user: user, items: item })
       .then(response => response)
       .catch(error => console.error(error))
   },
+
   removeLikedItem: async (id) => {
     return await axios.delete('/api/users/likes/' + id)
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
+  
   sendMessage: async (id) => {
     return await axios.post('/api/users/' + id)
       .then(response => response)
@@ -82,9 +96,7 @@ const Api = {
       .catch(error => console.log(error));
   },
   addProduct: async (data) => {
-    return await axios.post('api/products', {
-      body: data
-    })
+    return await axios.post('api/products', data)
       .then(response => response)
       .catch(error => console.error(error));
   },

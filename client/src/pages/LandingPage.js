@@ -1,14 +1,14 @@
 import React from 'react';
-import CheckoutForm from '../components/CheckoutForm';
+// import CheckoutForm from '../components/CheckoutForm';
 import Confetti from 'confetti-react';
 
 const LandingPage = () => {
   const [confettiSwitch, toggleConfetti] = React.useState(false);
   return (
-    <div>
+    <div style={{height:'67vh'}}>
       {confettiSwitch && <Confetti /> }
       <h1 style={{fontSize:"160px"}}>Landing</h1>
-      <CheckoutForm toggleConfetti={toggleConfetti} />
+      {/* <CheckoutForm toggleConfetti={toggleConfetti} /> */}
     </div>
   )
 }

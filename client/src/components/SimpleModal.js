@@ -1,7 +1,8 @@
 import React from 'react';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import AskForm from './AskForm';
+import SignIn from './forms/SignIn';
+import SignUp from './forms/SignUp';
+import AskForm from './forms/AskForm';
+import SellingForm from './forms/SellingForm';
 import Modal from '@material-ui/core/Modal';
 
 
@@ -19,7 +20,8 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
         type === "signup" ? <SignUp setType={setType} /> :
         type === "ask" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
         type === "message" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
-        <AskForm handleClose={handleClose} setType={setType} />
+        type === "sell" ? <SellingForm handleClose={handleClose} setType={setType} type={type} /> :
+        <SellingForm handleClose={handleClose} setType={setType} />
       }
     </Modal>
   );

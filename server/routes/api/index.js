@@ -5,9 +5,11 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');//default t
 
 const stripeRoutes = require('./stripeRoutes.js');
 const plaidRoutes = require('./plaidRoutes.js');
+const userRoutes = require('./userRoutes.js');
 
 router.get('/stripe', stripeRoutes);
 router.get('/plaid', plaidRoutes);
+router.get('/users', userRoutes);
 
 //fakestoreapi -- GET dummyProducts route 
 router.get('/products', (req, res) => {

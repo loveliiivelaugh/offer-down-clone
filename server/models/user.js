@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     name: {
         type: String,
-        required: 'Username is required'
     },
     email: {
         type: String,
@@ -23,12 +22,17 @@ const UserSchema = new Schema({
     },
     zip_code: {
         type: Number,
-        required: 'Zip code is required',
         validate: [({ length }) => length != 5, 'Please enter a valid zip code']
     },
     password: {
         type: String,
         required: 'Password is required'
+    },
+    plaid_accessToken: {
+        type: String,
+    },
+    plaid_itemId: {
+        type: String
     },
     notifications: [
         {
@@ -53,6 +57,26 @@ const UserSchema = new Schema({
             }
         }
     ],
+    messages: [
+        {
+            type: {
+                type: String,
+            },
+            content: {
+                type: String
+            },
+            recipient_id: {
+                type: String
+            },
+            sender_id: {
+                type: String
+            },
+            dateCreated: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
     saved_items: [
         {
             name: {
@@ -62,7 +86,7 @@ const UserSchema = new Schema({
                 type: Number
             },
             product_id: {
-                type: Schema.ObjectId
+                type: String
             }
         }
     ],
@@ -76,6 +100,22 @@ const UserSchema = new Schema({
             },
             product_id: {
                 type: Schema.ObjectId
+            }
+        }
+    ],
+    posted_items: [
+        {
+            name: {
+                type: String
+            },
+            price: {
+                type: Number
+            },
+            seller_id: {
+                type: String
+            },
+            product_id: {
+                type: Number
             }
         }
     ],
