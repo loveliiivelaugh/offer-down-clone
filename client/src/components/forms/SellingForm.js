@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../hooks/useAuth.js";
 import ImageLoader from './ImageLoader.js';
 
+import Api from '../../api';
+
   
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,6 +53,7 @@ const SellingForm = () => {
 
     console.log(data)
     const { name, description, price, images, zip_code } = data;
+    Api.addProduct({ product: data, user: auth.user });
     
     const clearValues = () => {
       setSellingData({
@@ -114,6 +117,7 @@ const SellingForm = () => {
             id="price"
             label="Price"
             name="price"
+            type="currency"
             value={sellingData ? price : "price"}
             onChange={onChange}
             autoFocus

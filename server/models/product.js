@@ -24,13 +24,13 @@ const ProductSchema = new Schema ({
     },
     offers: [
         {
-           amount: {
-               type: Number,
-               required: 'A bid is required'
-           } ,
-           bidder_id: {
-               type: Schema.ObjectId
-           }
+            amount: {
+                type: Number,
+                required: 'A bid is required'
+            } ,
+            bidder_id: {
+                type: Schema.ObjectId
+            }
         }
     ]
 });

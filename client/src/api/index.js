@@ -96,9 +96,7 @@ const Api = {
       .catch(error => console.log(error));
   },
   addProduct: async (data) => {
-    return await axios.post('api/products', {
-      body: data
-    })
+    return await axios.post('api/products', data)
       .then(response => response)
       .catch(error => console.error(error));
   },

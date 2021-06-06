@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const User = require('./models/User.js');
+const Product = require('./models/User.js');
 
 const app = express();
 
@@ -218,7 +219,7 @@ app.delete('/api/users/likes/:id', async (req, res) => {
     console.log(doc[0].saved_items);
   });
   
-  await doc.save();
+  await doc[0].save();
   console.log(doc[0].saved_items);
   console.log(itemToDelete);
 
@@ -227,6 +228,41 @@ app.delete('/api/users/likes/:id', async (req, res) => {
     : res.status(500).json({ error: "Somethings wrong?!" });
 });
 
+// addProduct()
+app.post('/api/products', async (req, res) => {
+  const { product, user } = req.body;
+
+  // const newProduct = await Product.create(product); //this is definitely not right..
+
+  console.log(product, user);
+
+  //the following line should be able to find just the user thats currently logged in
+  //theres a better way to do this
+  const userData = await User.find({});
+
+  // console.log(userData);
+
+  const generateProductId = () => {
+    //need to write this function. can also import and use the uuid library.
+    return 12;
+  };
+
+  //gotta fix everywhere where its hard coded selecting the only user in the db at the moment through the array index...otherwise the rest is good.
+  userData[0].posted_items.push({
+    name: product.name,
+    price: product.price,
+    seller_id: user.id,
+    product_id: generateProductId()
+  })
+
+  await userData[0].save();
+
+  
+
+  userData[0] 
+    ? res.status(200).json({ status: "success", userData }) 
+    : res.status(500).json({ error: "Somethings wrong?!" });
+});
 
 //server routes
 app.use('/', routes); //🔀

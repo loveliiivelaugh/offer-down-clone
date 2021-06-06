@@ -103,6 +103,22 @@ const UserSchema = new Schema({
             }
         }
     ],
+    posted_items: [
+        {
+            name: {
+                type: String
+            },
+            price: {
+                type: Number
+            },
+            seller_id: {
+                type: String
+            },
+            product_id: {
+                type: Number
+            }
+        }
+    ],
     sold_items: [
         {
             name: {
