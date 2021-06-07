@@ -22,7 +22,7 @@ import { useRouter } from '../hooks/useRouter.js';
 import axios from 'axios';
 import Api from '../api';
 
-
+//How is Michael keeping tracking of whos accessing these pages?
 const useStyles = makeStyles((theme) => ({
   list: {
     marginBottom: theme.spacing(2),
