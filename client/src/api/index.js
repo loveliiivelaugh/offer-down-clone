@@ -24,6 +24,7 @@ const Api = {
   getUsers: async () => {
     return await axios.get('/api/users')
       .then(response => {
+        //response is either going to be all the users (userData), or response will be the object errorMesssage.  console.log(response.errorMessage)
         return response;
       })
       .catch(error => console.error(error));
@@ -40,7 +41,7 @@ const Api = {
   },
   addLikedItem: async (user, item) => {
     console.log(user, item);
-    return await axios.post('/api/users/likes', { user: user, items: item })
+    return await axios.post('/api/users/likes/:id', { user: user, items: item })
       .then(response => response)
       .catch(error => console.error(error))
   },

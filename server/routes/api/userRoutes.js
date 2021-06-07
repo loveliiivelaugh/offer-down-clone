@@ -1,64 +1,82 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/User');
+const User = require('../../models/user');
+const Product = require('../../models/product');
 
 //almost exactly same as productRoutes
 
+// Get one user
 router.get('/:id', async (req, res) => {
-  //get your model
-  const userData = await User.findOne({ id: req.params.id })
+  try {
+    const userData = await User.findOne({ id: req.params.id });
 
-  //convert it and add any associated models in your response
-  const user = userData.find({ plain: true });
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 
-  //other logical code goes in here.
+});
 
-  res.status(200).json(user);
+// get all users
+router.get('/', async (req, res) => {
+  try {
+    const userData = await User.findAll({});
 
-})
-
-router.get('/', (req, res) => {})
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 //createUser()
 router.post('/', async ({ body }, res) => {
+  try {
+    const newUser = await User.create(body);
 
-  console.log(body)
-
-  const newUser = await User.create(body);
-
-  newUser 
-    ? res.status(200).json(newUser) 
-    : res.status(500).json({ error: "Somethings wrong?!" });
-
+    res.status(200).json(newUser);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 });
 
 //addLikedItem()
+//On the front end, we also send the id of the current user along with this post request
 router.post('/likes/:id', async (req, res) => {
+  try {
+    const product = await Product.find({ _id: req.params.id });
+    const user = await User.findOne({ id: req.body.user });
 
-  console.log(body)
+    user.saved_items.push(product);
 
-  const user = await User.find({ _id: req.params.id });
+    const updatedUser = await User.updateOne({ id: req.body.user }, { user });
 
-  console.log(user)
-
-  const { title, price, id } = req.body;
-  
-  user.saved_items.push({
-    name: title,
-    price: price,
-    product_id: id
-  })
-
-  console.log(user)
-
-  user 
-    ? res.status(200).json(user) 
-    : res.status(500).json({ error: "Somethings wrong?!" });
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 
 });
 
-router.put('/:id', (req, res) => {})
+router.put('/:id', (req, res) => {
+  console.log(req.body);
+  try {
+    const userData = await User.updateOne({ id: req.params.id }, req.body); // talk with team
 
-router.delete('/:id', (req, res) => {})
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  };
+
+});
+
+router.delete('/:id', (req, res) => { 
+  try {
+    const userData = await User.remove({ id: req.params.id });
+
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 module.exports = router;
