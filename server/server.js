@@ -23,8 +23,8 @@ app.use(cors());
 //static resources
 app.use(express.static('public'));
 
-//Mongoose //process.env.MONGODB_URI
-mongoose.connect("mongodb+srv://admin:gTDac4bsajEGLo1U@cluster0.ocuqj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" || "mongodb://localhost/offerDown", {
+//Mongoose //
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/offerDown", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

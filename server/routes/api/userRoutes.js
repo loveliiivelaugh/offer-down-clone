@@ -5,17 +5,18 @@ const User = require('../../models/User');
 //almost exactly same as productRoutes
 
 router.get('/:id', async (req, res) => {
-  //get your model
-  const userData = await User.findOne({ id: req.params.id })
+  try {
+    //get your model
+    const userData = await User.findOne({ id: req.params.id })
 
-  //convert it and add any associated models in your response
-  const user = userData.find({ plain: true });
+    //other logical code goes in here.
 
-  //other logical code goes in here.
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
 
-  res.status(200).json(user);
-
-})
+});
 
 router.get('/', (req, res) => {})
 
