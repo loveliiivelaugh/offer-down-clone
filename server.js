@@ -142,32 +142,6 @@ app.post('/api/plaid/exchange_public_token', async (request, response) => {
 });
 
 
-// getUser()
-app.get('/api/users/:id', async (req, res) => {
-  //get your model
-  const userData = await User.find({})
-  console.log(userData);
-
-  //other logical code goes in here.
-
-  res.status(200).json(userData);
-
-})
-
-//createUser()
-app.post('/api/users', async ({ body }, res) => {
-
-  console.log(body)
-
-  const newUser = await User.create(body);
-
-  newUser 
-    ? res.status(200).json(newUser) 
-    : res.status(500).json({ error: "Somethings wrong?!" });
-
-});
-
-
 //addLikedItem()
 app.post('/api/users/likes', async ({ body }, res) => {
   //this function/route is very sloppy

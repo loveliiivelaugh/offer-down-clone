@@ -15,7 +15,7 @@ router.get('/:id', async (req, res) => {
 
   res.status(200).json(user);
 
-})
+});
 
 router.get('/', (req, res) => {})
 
@@ -56,6 +56,7 @@ router.post('/likes/:id', async (req, res) => {
     : res.status(500).json({ error: "Somethings wrong?!" });
 
 });
+
 
 router.put('/:id', (req, res) => {})
 
