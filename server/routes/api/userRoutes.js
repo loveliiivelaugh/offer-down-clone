@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/user');
-const Product = require('../../models/product');
+const User = require('../../models/User');
+const Product = require('../../models/Product');
 
 
 // @method: GET /api/users/:id
@@ -54,13 +54,14 @@ router.post('/', async ({ body }, res) => {
   try {
     const newUser = await User.create(body);
 
-  console.log(body);
+    console.log(body);
 
-  const newUser = await User.create(body);
-
-  newUser 
-    ? res.status(200).json(newUser) 
-    : res.status(500).json({ error: "Somethings wrong?!" });
+    newUser 
+      ? res.status(200).json(newUser) 
+      : res.status(500).json({ error: "Somethings wrong?!" });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 
 });
 
@@ -68,7 +69,13 @@ router.post('/', async ({ body }, res) => {
 // @method: POST /api/likes/:id
 // @descr: Return the current logged in users saved items
 // @API addLikedItem()
-    res.status(200).json(newUser);
+router.post('/likes/:id', async ({ body }, res) => {
+  try {
+    const user = await User.find({});
+
+    console.log(body);
+
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }
@@ -92,7 +99,7 @@ router.post('/likes/:id', async (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   console.log(req.body);
   try {
     const userData = await User.updateOne({ id: req.params.id }, req.body); // talk with team
@@ -104,7 +111,7 @@ router.put('/:id', (req, res) => {
 
 });
 
-router.delete('/:id', (req, res) => { 
+router.delete('/:id', async (req, res) => { 
   try {
     const userData = await User.remove({ id: req.params.id });
 
