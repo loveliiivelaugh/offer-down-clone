@@ -96,11 +96,19 @@ const Api = {
       .then(response => response)
       .catch(error => console.log(error));
   },
+
+
+  
   addProduct: async (data) => {
+    console.log(data);
     return await axios.post('api/products', data)
       .then(response => response)
       .catch(error => console.error(error));
   },
+
+
+
+  
   updateProduct: async (id, updates) => {
     return await axios.put('api/products/' + id, updates)
       .then(response => response)

@@ -62,11 +62,21 @@ const SellingForm = () => {
 
   const handleSubmit = (data) => {
     setPending(true);
-    const { name, description, price, picture, zip_code } = data;
 
-    console.log(data);
+    console.log(data, 'data getting passed in the handler')
+
+    let formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('picture', data.picture, data.picture.name);
+    formData.append('price', data.price);
+    formData.append('zip_code', data.zip_code);
     
-    Api.addProduct({ product: data, user: auth.user });
+
+
+    // const { name, description, price, picture, zip_code } = data;
+    
+    Api.addProduct({ product: formData, user: auth.user });
     
     const clearValues = () => {
       setSellingData({
