@@ -12,8 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useAuth } from "../hooks/useAuth.js";
+import { useAuth } from "../../hooks/useAuth.js";
 
+import Api from '../../api';
 
 function Copyright() {
   return (
@@ -68,13 +69,16 @@ const SignUp = ({ setType }) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value })
   );
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     setPending(true);
 
     console.log(data)
-    const { email, password } = data;
+    const { first, last, email, password } = data;
 
     auth.signup(email, password);
+    const newUser = await Api.createUser(data);
+
+    console.log(newUser);
     
     const clearValues = () => {
       setAuthData({
