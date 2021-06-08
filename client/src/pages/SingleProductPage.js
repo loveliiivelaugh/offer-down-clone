@@ -1,40 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouter } from '../hooks/useRouter.js';
 import { useAuth } from '../hooks/useAuth.js';
-import { useUser, updateUser } from '../utils/mongoDb.js';
 import Api from '../api';
 //components
 import SimpleModal from '../components/SimpleModal';
 //MaterialUI
-import { 
-  Avatar, Button, Card, CardActions, CardActionArea, CardContent, CardHeader, Container, Grid, IconButton, Typography
-} from '@material-ui/core';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import Avatar from '@material-ui/core/Avatar';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import { Button, Card, CardActions, CardActionArea, CardContent, CardHeader, Typography } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 
 const SingleProductPage = () => {
-  const router = useRouter(); //useRouter hook -- refer to hooks directory
-  const auth = useAuth(); //useAuth hook -- refer to hooks directory
+  const router = useRouter();
+  const auth = useAuth();
   const product = router.location.state.product;
-
-  // Fetch user data (hook) returns data, status, and error.
-  const {
-    data: user,
-    status: userStatus,
-    error: userError
-  } = useUser(auth.user.uid); //pass in the uid from the currently logged in user
-
   //Modal
-  const [open, setOpen] = useState(false);
-  const [type, setType] = useState("ask");
+  const [open, setOpen] = React.useState(false);
+  const [type, setType] = React.useState("ask");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
 
-  console.log(user, product);
+  console.log(product);
 
   const handleOfferButton = (e) => {
     e.preventDefault();
@@ -50,11 +43,14 @@ const SingleProductPage = () => {
   };
 
   const handleLikeButton = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     console.log("handleFavoritesButton", product);
     //this is where the database code goes
-    await user.liked_items.push(product);
-    return user;
+
+    //hit the likeItem method passing in the current users email, and the product id.
+    // db.likeItem(auth.user.email, product.id);
+    const newlyLikedItem = await Api.addLikedItem(auth.user, product);
+    console.log(newlyLikedItem);
   };
 
   return (
