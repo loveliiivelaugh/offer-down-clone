@@ -43,7 +43,7 @@ const Api = {
     console.log(user, item);
     return await axios.post('/api/users/likes', { user: user, items: item })
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
 
   removeLikedItem: async (id) => {

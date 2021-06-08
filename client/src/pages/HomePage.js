@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState } from 'react';
 //api
 import Api from '../api';
 //components
@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
-  const [products, setProducts] = React.useState([]);
-  const [pending, setPending] = React.useState(true);
+  const [products, setProducts] = useState([]);
+  const [pending, setPending] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPending(true);
     const fetchData = async () => {
       const data = await Api.getDummyProducts();

@@ -9,10 +9,12 @@ const User = require('../../models/User');
 router.get('/:id', async (req, res) => {
   try {
     //get your model
-    const userData = await User.findOne({ id: req.params.id })
+
+    const userData = await User.find({})
+    console.log(userData)
 
     //return a rersponse code and json object.
-    res.status(200).json(userData);
+    res.status(200).json(userData[0]);
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -38,8 +40,8 @@ router.post('/', async ({ body }, res) => {
 });
 
 
-// @method: POST /api/users/:id
-// @descr: Return all the users in database
+// @method: POST /api/likes/:id
+// @descr: Return the current logged in users saved items
 // @API addLikedItem()
 router.post('/likes/:id', async (req, res) => {
 

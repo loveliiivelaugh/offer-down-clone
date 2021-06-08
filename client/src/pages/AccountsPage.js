@@ -27,11 +27,21 @@ const AccountsPage = (props) => {
   const router = useRouter();
   const auth = useAuth();
   const [user, setUser] = useState({});
+  console.log(user)
   const [pending, setPending] = useState(false);
+  const [section, setSection] = useState({
+    type: "purchases",
+    title: "Purchases & Sales",
+  });
+
+  const { type, title } = section;
 
   const fetchLoggedInUser = async () => {
     const userId = await auth.user.uid;
+    console.log(userId)
     const loggedInUser = await Api.getUser(userId);
+
+    console.log(loggedInUser);
     setUser(loggedInUser);
     setPending(false);
   };
@@ -41,17 +51,12 @@ const AccountsPage = (props) => {
     fetchLoggedInUser();
   }, []);
 
-  // const saved_items = user.data ? user.data[0].saved_items : [];
+  // console.log(user.data)
+
+  // const saved_items = !user.data ? [] : user.data[0].saved_items;
   const saved_items = [];
 
   console.log(user, "SavedItems []: ", saved_items);
-
-  const [section, setSection] = useState({
-    type: "purchases",
-    title: "Purchases & Sales",
-  });
-
-  const { type, title } = section;
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
