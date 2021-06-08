@@ -12,7 +12,7 @@ import SettingsSection from '../components/SettingsSection';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-
+//How is Michael keeping tracking of whos accessing these pages?
 const useStyles = makeStyles((theme) => ({
   list: {
     marginBottom: theme.spacing(2),

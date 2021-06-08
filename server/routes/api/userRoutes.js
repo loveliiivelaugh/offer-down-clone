@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/User');
+const User = require('../../models/user');
+const Product = require('../../models/product');
 
 
 // @method: GET /api/users/:id
@@ -25,9 +26,33 @@ router.get('/:id', async (req, res) => {
 // @descr: Return all the users in database
 // @API: getUsers()
 router.get('/', (req, res) => {});
+// Get one user
+router.get('/:id', async (req, res) => {
+  try {
+    const userData = await User.findOne({ id: req.params.id });
+
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+
+});
+
+// get all users
+router.get('/', async (req, res) => {
+  try {
+    const userData = await User.findAll({});
+
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 //createUser()
 router.post('/', async ({ body }, res) => {
+  try {
+    const newUser = await User.create(body);
 
   console.log(body);
 
@@ -43,38 +68,50 @@ router.post('/', async ({ body }, res) => {
 // @method: POST /api/likes/:id
 // @descr: Return the current logged in users saved items
 // @API addLikedItem()
+    res.status(200).json(newUser);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
+
+//addLikedItem()
+//On the front end, we also send the id of the current user along with this post request
 router.post('/likes/:id', async (req, res) => {
+  try {
+    const product = await Product.find({ _id: req.params.id });
+    const user = await User.findOne({ id: req.body.user });
 
-  console.log(body);
+    user.saved_items.push(product);
 
-  const user = await User.find({ _id: req.params.id });
+    const updatedUser = await User.updateOne({ id: req.body.user }, { user });
 
-  console.log(user);
-
-  const { title, price, id } = req.body;
-  
-  user.saved_items.push({
-    name: title,
-    price: price,
-    product_id: id
-  })
-
-  console.log(user);
-
-  user 
-    ? res.status(200).json(user) 
-    : res.status(500).json({ error: "Somethings wrong?!" });
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 
 });
 
-// @method: UPDATE /api/users/:id
-// @descr: Update a user by id
-// @API updateUser()
-router.put('/:id', (req, res) => {});
+router.put('/:id', (req, res) => {
+  console.log(req.body);
+  try {
+    const userData = await User.updateOne({ id: req.params.id }, req.body); // talk with team
 
-// @method: DELETE /api/users/:id
-// @descr: Delete a user by id from the database
-// @API deleteUser()
-router.delete('/:id', (req, res) => {});
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  };
+
+});
+
+router.delete('/:id', (req, res) => { 
+  try {
+    const userData = await User.remove({ id: req.params.id });
+
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 module.exports = router;
