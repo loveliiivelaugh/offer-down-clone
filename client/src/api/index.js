@@ -8,6 +8,7 @@ const Api = {
   },
   //...User API functions go here....
   createUser: async function(user) {
+
     return await axios.post('/api/users', user)
       .then(response => {
         console.log(response)
@@ -79,8 +80,11 @@ const Api = {
   },
   //...Product API functions go here....
   getDummyProducts: async () => {
-    return await axios.get('api/products')
-      .then(({ data }) => data)
+    return await axios.get('/api/products')
+      .then(({ data }) => {
+        console.log(data);
+        return data;
+      })
       .catch(error => console.error(error));
   },
   getProduct: async (id) => {
