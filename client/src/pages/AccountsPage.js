@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
+// import { useUser, deleteItem } from '../utils/mongoDb.js';
 import Api from '../api';
 //components
 import SideNavCard from '../components/SideNavCard';
@@ -26,7 +27,7 @@ const AccountsPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const auth = useAuth();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({}); //OLD WAY
   console.log(user)
   const [pending, setPending] = useState(false);
   const [section, setSection] = useState({
@@ -36,6 +37,22 @@ const AccountsPage = (props) => {
 
   const { type, title } = section;
 
+  // //NEW WAY
+  // // Fetch user data (hook) returns data, status, and error.
+  // const {
+  //   data: user,
+  //   status: userStatus,
+  //   error: userError
+  // } = useUser(auth.user.uid); //pass in the uid from the currently logged in user
+
+  // console.log(user);
+
+  // userStatus === "loading" ||
+  // userStatus === "error"
+  //   ? setPending(true)
+  //   : setPending(false);
+
+  // OLD WAY
   const fetchLoggedInUser = async () => {
     const userId = await auth.user.uid;
     console.log(userId)
@@ -51,12 +68,11 @@ const AccountsPage = (props) => {
     fetchLoggedInUser();
   }, []);
 
-  // console.log(user.data)
+  console.log(user.data)
 
   // const saved_items = !user.data ? [] : user.data[0].saved_items;
   const saved_items = [];
 
-  console.log(user, "SavedItems []: ", saved_items);
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -84,6 +100,7 @@ const AccountsPage = (props) => {
     });
   };
 
+  //OLD WAY
   const handleDelete = async (id) => {
     const deletedItem = await Api.removeLikedItem(id);
   };
@@ -100,9 +117,10 @@ const AccountsPage = (props) => {
         {type === "purchases" && <TransactionsSection />}
         {type === "saves" && 
           <LikedItemsSection 
-            saved_items={saved_items} 
-            handleClick={handleClick} 
-            handleDelete={handleDelete} 
+            saved_items={user.data.saved_items}
+            handleClick={handleClick}
+            handleDelete={handleDelete} //NEW WAY
+            // handleDelete={deleteItem} //NEW WAY
           />
         }
         {type === "banking" && <BankingSection /> }
