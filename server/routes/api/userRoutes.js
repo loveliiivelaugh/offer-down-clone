@@ -3,8 +3,29 @@ const router = express.Router();
 const User = require('../../models/user');
 const Product = require('../../models/product');
 
-//almost exactly same as productRoutes
 
+// @method: GET /api/users/:id
+// @descr: Return select user by id
+// @API getUser()
+router.get('/:id', async (req, res) => {
+  try {
+    //get your model
+
+    const userData = await User.find({})
+    console.log(userData)
+
+    //return a rersponse code and json object.
+    res.status(200).json(userData[0]);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+
+});
+
+// @method: GET /api/users/:id
+// @descr: Return all the users in database
+// @API: getUsers()
+router.get('/', (req, res) => {});
 // Get one user
 router.get('/:id', async (req, res) => {
   try {
@@ -33,6 +54,20 @@ router.post('/', async ({ body }, res) => {
   try {
     const newUser = await User.create(body);
 
+  console.log(body);
+
+  const newUser = await User.create(body);
+
+  newUser 
+    ? res.status(200).json(newUser) 
+    : res.status(500).json({ error: "Somethings wrong?!" });
+
+});
+
+
+// @method: POST /api/likes/:id
+// @descr: Return the current logged in users saved items
+// @API addLikedItem()
     res.status(200).json(newUser);
   } catch (error) {
     res.status(500).json({ errorMessage: error });

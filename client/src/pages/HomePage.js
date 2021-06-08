@@ -1,6 +1,6 @@
-import React from 'react';
-//api
-import Api from '../api';
+import React, { useEffect, useState } from 'react';
+//useMongoDb
+// import { useItems, updateItem } from '../utils/mongoDb.js';
 //components
 import ProductCard from '../components/ProductCard';
 //MaterialUI
@@ -8,6 +8,8 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from "@material-ui/core/styles";
 //spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
+
+import Api from "../api";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,17 +40,29 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
-  const [products, setProducts] = React.useState([]);
-  const [pending, setPending] = React.useState(true);
+  const [products, setProducts] = useState([]); //dont need these state
+  const [pending, setPending] = useState(false); //hooks with useMongoDb()
 
-  React.useEffect(() => {
+  //NEW WAY
+  // const {
+  //   data: products,
+  //   status: productsStatus,
+  //   error: productsError
+  // } = useItems();
+
+  // productsStatus === "loading" ||
+  // productsStatus === "error"
+  //   ? setPending(true)
+  //   : setPending(false);
+  
+  // OLD WAY
+  useEffect(() => {
     setPending(true);
     const fetchData = async () => {
       const data = await Api.getDummyProducts();
       console.log(data);
       setProducts(data);
       setPending(false);
-      await Api.populate();
     };
     
     fetchData();

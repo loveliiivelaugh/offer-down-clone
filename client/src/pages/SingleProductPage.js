@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from '../hooks/useRouter.js';
-import { useDatabase } from '../hooks/useDatabase.js';
 import { useAuth } from '../hooks/useAuth.js';
 import Api from '../api';
 //components
@@ -18,7 +17,6 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const SingleProductPage = () => {
   const router = useRouter();
-  // const db = useDatabase();
   const auth = useAuth();
   const product = router.location.state.product;
   //Modal

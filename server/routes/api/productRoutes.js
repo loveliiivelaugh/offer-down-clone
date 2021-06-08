@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../../../models/Product');
-
-
+const Product = require('../../models/Product');
+const axios = require('axios');
 
 
 //fakestoreapi -- GET dummyProducts route 
-router.get('/products', (req, res) => {
+router.get('/', (req, res) => {
+  console.log("Api is hit")
   axios.get("https://fakestoreapi.com/products")
     .then(data => {
       console.log(data.data);
@@ -28,24 +28,24 @@ router.get('/products/:id', async (req, res) => {
   })
 })
 
-router.get('/products', async (req, res) => {
-  const productsData = await Product.findAll();
+// router.get('/products', async (req, res) => {
+//   const productsData = await Product.findAll();
 
-  const products = productsData.find({ plain: true });
+//   const products = productsData.find({ plain: true });
 
-  if (!products) {
-    console.error({ error: "Something went wrong!" });
-  }
+//   if (!products) {
+//     console.error({ error: "Something went wrong!" });
+//   }
 
-  res.json(products);
-});
+//   res.json(products);
+// });
 
-router.post('/products', async (req, res) => {
-  const product = req.body;
-  const newProduct = await Product.createOne(product) //this is definitely not right..
+// router.post('/products', async (req, res) => {
+//   const product = req.body;
+//   const newProduct = await Product.createOne(product) //this is definitely not right..
 
-  res.json(newProduct)
-});
+//   res.json(newProduct)
+// });
 
 router.put('/products/:id', async (req, res) => {
   const products = req.body;
@@ -60,7 +60,7 @@ router.put('/products/:id', async (req, res) => {
 
 })
 
-reouter.delete('/products/:id', async (req, res) => {
+router.delete('/products/:id', async (req, res) => {
   const deleteProduct = await Product.destroy({ id: req.params.id })
 })
 
