@@ -13,6 +13,14 @@ import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ShareIcon from '@material-ui/icons/Share';
 
 //How is Michael keeping tracking of whos accessing these pages?
 const useStyles = makeStyles((theme) => ({
@@ -55,19 +63,19 @@ const AccountsPage = (props) => {
   //   : setPending(false);
 
   // OLD WAY
-  const fetchLoggedInUser = async () => {
-    const userId = await auth.user.uid;
-    console.log(userId)
-    const loggedInUser = await Api.getUser(userId);
+  // const fetchLoggedInUser = async () => {
+  //   const userId = await auth.user.uid;
+  //   console.log(userId);
+  //   const loggedInUser = await Api.getUser(userId);
 
-    console.log(loggedInUser);
-    setUser(loggedInUser);
-    setPending(false);
-  };
+  //   console.log(loggedInUser);
+  //   setUser(loggedInUser);
+  //   setPending(false);
+  // };
 
   useEffect(() => {
     setPending(true);
-    fetchLoggedInUser();
+    // fetchLoggedInUser();
   }, []);
 
   console.log(user)
@@ -111,8 +119,8 @@ const AccountsPage = (props) => {
     <Grid container spacing={3}>
       <Grid item xs={12} md={3}>
 
-      {/* SideNavCard.js */}
-        <Card>
+        {/* SideNavCard.js */}
+        {/* <Card>
           <CardContent>
             <Typography component="h1" variant="h4" align="left">
               Account
@@ -159,8 +167,8 @@ const AccountsPage = (props) => {
             </List>
           
           </CardContent>
-        </Card>
-      {/* --- end --- SideNavCard.js */}
+        </Card> */}
+        {/* --- end --- SideNavCard.js */}
 
         <SideNavCard handleNav={handleNav} />
       </Grid>
@@ -168,19 +176,9 @@ const AccountsPage = (props) => {
         <Typography component="h1" variant="h4" align="left">
           {title}
         </Typography>
-        <Card style={{height: '60vh'}}>
-          <CardContent>
-        <AccountSettings user={user} pizza='pizza'/>
-        </CardContent>
-        </Card>
-        <Card style={{height: '60vh'}}>
-          <CardContent>
-        <PaymentSettings user={user} />
-        </CardContent>
-        </Card>
 
 
-{/* 
+        {/* 
   Move this Card into its own component.
   Call it TransactionsSection.js 
 */}
@@ -220,7 +218,7 @@ const AccountsPage = (props) => {
         </Card> 
         */}
 
-{/* 
+        {/* 
   Move this Card into its own component.
   Call it LikedItemsSection.js
   
@@ -248,20 +246,25 @@ const AccountsPage = (props) => {
         </Card> */}
 
 
-        {type === "purchases" && <TransactionsSection />}
-        {type === "saves" && 
-          <LikedItemsSection 
-            saved_items={user.data.saved_items}
-            handleClick={handleClick}
-            handleDelete={handleDelete} //NEW WAY
-            // handleDelete={deleteItem} //NEW WAY
-          />
-        }
-        {type === "banking" && <BankingSection /> }
-        {type === "settings" && <SettingsSection /> }
+
+        <Card style={{ height: '60vh' }}>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                saved_items={user.data.saved_items}
+                handleClick={handleClick}
+                handleDelete={handleDelete} //NEW WAY
+              // handleDelete={deleteItem} //NEW WAY
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 
-export default AccountsPage
+export default AccountsPage;
