@@ -22,6 +22,9 @@ const ProductSchema = new Schema ({
         type: Number, 
         // required: 'Zip code is required'
     },
+    user_id: {
+        type: String
+    },
     offers: [
         {
             amount: {
