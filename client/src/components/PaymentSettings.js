@@ -47,7 +47,7 @@ function PaymentSettings(props) {
 
     return (
         <div>
-{/* <Grid container spacing={2}>
+            <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <Typography variant="h6" className={classes.title}>
                         Payment Information
@@ -61,7 +61,7 @@ function PaymentSettings(props) {
                                 <Button variant="contained" color="primary">
                                     MANAGE BALANCE
                                 </Button>
-                            </ListItem> 
+                            </ListItem>
                             <ListItem>
                                 <ListItemText>
                                     Payment Methods
@@ -69,11 +69,11 @@ function PaymentSettings(props) {
                                 <Button variant="contained" color="primary">
                                     EDIT
                                 </Button>
-                            </ListItem> 
+                            </ListItem>
                         </List>
                     </div>
                 </Grid>
-            </Grid> */}
+            </Grid>
         </div>
     );
 }

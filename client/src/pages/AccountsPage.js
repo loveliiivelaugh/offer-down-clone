@@ -55,19 +55,19 @@ const AccountsPage = (props) => {
   //   : setPending(false);
 
   // OLD WAY
-  const fetchLoggedInUser = async () => {
-    const userId = await auth.user.uid;
-    console.log(userId);
-    const loggedInUser = await Api.getUser(userId);
+  // const fetchLoggedInUser = async () => {
+  //   const userId = await auth.user.uid;
+  //   console.log(userId);
+  //   const loggedInUser = await Api.getUser(userId);
 
-    console.log(loggedInUser);
-    // setUser(loggedInUser);
-    setPending(false);
-  };
+  //   console.log(loggedInUser);
+  //   setUser(loggedInUser);
+  //   setPending(false);
+  // };
 
   useEffect(() => {
     setPending(true);
-    fetchLoggedInUser();
+    // fetchLoggedInUser();
   }, []);
 
   console.log(user);
@@ -120,17 +120,22 @@ const AccountsPage = (props) => {
           {title}
         </Typography>
 
-        {type === "purchases" && <TransactionsSection />}
-        {type === "saves" && 
-          <LikedItemsSection 
-            // saved_items={user.data.saved_items}
-            handleClick={handleClick}
-            handleDelete={handleDelete} //NEW WAY
-            // handleDelete={deleteItem} //NEW WAY
-          />
-        }
-        {type === "banking" && <PaymentSettings /> }
-        {type === "settings" && <AccountSettings /> }
+        
+        <Card style={{ height: '60vh' }}>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                // saved_items={user.data.saved_items}
+                handleClick={handleClick}
+                handleDelete={handleDelete} //NEW WAY
+              // handleDelete={deleteItem} //NEW WAY
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
 {/* 
         <Card style={{height: '60vh'}}>
           <CardContent>
@@ -145,7 +150,7 @@ const AccountsPage = (props) => {
         </Card>
  */}
 
-{/* 
+        {/* 
   Move this Card into its own component.
   Call it TransactionsSection.js 
 */}
@@ -185,7 +190,7 @@ const AccountsPage = (props) => {
         </Card> 
         */}
 
-{/* 
+        {/* 
   Move this Card into its own component.
   Call it LikedItemsSection.js
   
@@ -211,10 +216,9 @@ const AccountsPage = (props) => {
             </List>
           </CardContent>
         </Card> */}
-
       </Grid>
     </Grid>
-  )
+  );
 }
 
-export default AccountsPage
+export default AccountsPage;
