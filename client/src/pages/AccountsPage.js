@@ -68,7 +68,7 @@ const AccountsPage = (props) => {
     fetchLoggedInUser();
   }, []);
 
-  console.log(user.data)
+  console.log(user)
 
   // const saved_items = !user.data ? [] : user.data[0].saved_items;
   const saved_items = [];

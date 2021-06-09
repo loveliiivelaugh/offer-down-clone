@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../../models/User.js');
 
 
 // const router = express.Router();
@@ -7,23 +8,29 @@ router.get('/', async (req, res) => {
   res.json({ message: "Success" });
 })
 
-// // @method: GET /api/users/:id
-// // @descr: Return select user by id
-// // @API getUser()
-// router.get('/:id', async (req, res) => {
-//   try {
-//     //get your model
+// @method: GET /api/users/:id
+// @descr: Return select user by id
+// @API getUser()
+router.get('/:id', async ({ params }, res) => {
 
-//     const userData = await User.find({})
-//     console.log(userData)
+  console.log(params.id);
+  //get your users from your User model
+  // User.find({ _id: params.id })
+  User.find({})
+    .then(response => {
+      console.log("User from User model.", response);
+      
+      const user = response.filter(user => user._id == params.id);
 
-//     //return a rersponse code and json object.
-//     res.status(200).json(userData[0]);
-//   } catch (error) {
-//     res.status(500).json({ error: error });
-//   }
+      console.log(user);
 
-// });
+      if (user) {
+        //return a response code and json object.
+        res.status(200).json(response);
+      }
+    })
+    .catch(error => res.status(500).json({ error: error }));
+});
 
 // // @method: GET /api/users/:id
 // // @descr: Return all the users in database

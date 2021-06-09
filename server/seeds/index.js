@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const axios = require('axios');
 const User = require('../models/User');
+const { v4: uuidv4 } = require('uuid');
+
 
 //connection string needs to go in .env
 mongoose.connect("mongodb+srv://admin:gTDac4bsajEGLo1U@cluster0.ocuqj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" || "mongodb://localhost/offerDown", {
@@ -30,7 +32,15 @@ const handleSeeds = async () => {
 
   users.results.forEach(async user => {
 
-    items.forEach(item => item.seller_id = user.login.uuid);
+  //use uuid library to generate a truly unique id -- 
+  //set it to a variable so we can use the same one more than once in this loop
+  const uuid = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+
+  //assign a new attr to user called  uniqueId and set it to the newly generated uuid
+  user.uniqueId = uuid;
+
+    //for each item belonging to the user assign a new attr to that item with the same uuid
+    items.forEach(item => item.seller_id = uuid);
 
     sellers.push({
       name: user.name.first + " " + user.name.last,
