@@ -1,11 +1,6 @@
 import axios from "axios";
 
 const Api = {
-  populate: async () => {
-    return await axios.get('/api/populate/')
-      .then(response => response)
-      .catch(error => console.error(error));
-  },
   //...User API functions go here....
   createUser: async function(user) {
 
@@ -16,20 +11,20 @@ const Api = {
       })
       .catch(error => console.error(error));
   },
-  getUser: async (id) => {
-    console.info(id);
-    return await axios.get('/api/users/' + id)
+  getUser: async (query) => {
+    console.info(query);
+    return await axios.get('/api/users/user/' + query)
       .then(response => response)
       .catch(error => console.error(error));
   },
-  getUsers: async () => {
-    return await axios.get('/api/users')
-      .then(response => {
-        //response is either going to be all the users (userData), or response will be the object errorMesssage.  console.log(response.errorMessage)
-        return response;
-      })
-      .catch(error => console.error(error));
-  },
+  // getUsers: async () => {
+  //   return await axios.get('/api/users')
+  //     .then(response => {
+  //       //response is either going to be all the users (userData), or response will be the object errorMesssage.  console.log(response.errorMessage)
+  //       return response;
+  //     })
+  //     .catch(error => console.error(error));
+  // },
   updateUser: async (id, updates) => {
     return await axios.put('/api/users/' + id, updates)
       .then(response => response)

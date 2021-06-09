@@ -108,21 +108,26 @@ router.get('/:id', async ({ params }, res) => {
     .catch(error => res.status(500).json({ error: error }));
 });
 
-// // @method: GET /api/users/:id
-// // @descr: Return all the users in database
-// // @API: getUsers()
-// router.get('/', (req, res) => {});
-// // Get one user
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const userData = await User.findOne({ id: req.params.id });
+// @method: GET /api/users/:id
+// @descr: Return a user in database by id or email
+// @API: getUser()
+// Get one user
+router.get('/user/:query', async (req, res) => {
+  const { query } = req.params;
 
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
+  try {
+    const userData = await User.find({});
 
-// });
+    const user = userData.filter(user => user.email == query);
+
+    console.log(user, userData[0].email);
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+
+});
 
 // // get all users
 // router.get('/', async (req, res) => {

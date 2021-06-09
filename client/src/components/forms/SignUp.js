@@ -75,10 +75,11 @@ const SignUp = ({ handleClose, setType }) => {
     console.log(data)
     const { email, password } = data;
 
-    auth.signup(email, password);
     const newUser = await Api.createUser(data);
 
-    console.log(newUser);
+    console.log(newUser.data);
+    
+    auth.signup(newUser.data);
     
     const clearValues = () => {
       setAuthData({
