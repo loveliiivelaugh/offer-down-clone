@@ -216,6 +216,26 @@ const AccountsPage = (props) => {
             </List>
           </CardContent>
         </Card> */}
+
+
+
+
+        <Card>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                saved_items={user.data.saved_items}
+                handleClick={handleClick}
+                handleDelete={handleDelete} //NEW WAY
+              // handleDelete={deleteItem} //NEW WAY
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
+
       </Grid>
     </Grid>
   );
