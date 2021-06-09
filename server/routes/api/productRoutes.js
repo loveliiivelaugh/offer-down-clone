@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 // })
 
 // router.get('/products', async (req, res) => {
-//   const productsData = await Product.findAll();
+//   const productsData = await Product.findA({});
 
 //   const products = productsData.find({ plain: true });
 
