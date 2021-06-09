@@ -15,7 +15,7 @@ const helper = async () => {
   try {
     const users = await User.find({});
 
-    users.forEach(({ posted_items, zip_code }) => {
+    users.forEach(({ posted_items, zip_code, _id }) => {
 
       posted_items.forEach(({ title, description, price, image }) => {
         Product.create({
@@ -24,6 +24,7 @@ const helper = async () => {
           price: price,
           images: image,
           zip_code: zip_code,
+          user_id: _id,
           offers: []
         })
           .then(response => {
