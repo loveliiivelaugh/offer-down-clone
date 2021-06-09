@@ -34,13 +34,17 @@ const useStyles = makeStyles((theme) => ({
 function PaymentSettings(props) {
 
     const classes = useStyles();
-    console.log(props);
+
     const user = {
         name: 'Melanie',
         email: 'melanie@test.com',
         location: 'Chicago, IL',
         password: 'password123',
-        balance: 10.75
+        balance: 10.75,
+        purchased_items: {
+            name: 'Hat',
+            price: 4.25
+        }
 
     }
 
@@ -59,7 +63,7 @@ function PaymentSettings(props) {
                                     Balance: $ {user.balance}
                                 </ListItemText>
                                 <Button variant="contained" color="primary">
-                                    MANAGE BALANCE
+                                    MANAGE
                                 </Button>
                             </ListItem>
                             <ListItem>

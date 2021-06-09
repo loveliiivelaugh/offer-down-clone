@@ -11,7 +11,7 @@ import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
 import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
-import { Card, CardContent, Divider, List, ListItem, ListItemText, ListItemIcon, Typography, Grid } from '@material-ui/core';
+import { Avatar, Card, CardContent, Divider, List, ListItem, ListItemAvatar, ListItemText, ListItemIcon, ShareIcon, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 //How is Michael keeping tracking of whos accessing these pages?
@@ -216,6 +216,26 @@ const AccountsPage = (props) => {
             </List>
           </CardContent>
         </Card> */}
+
+
+
+
+        <Card>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                saved_items={user.data.saved_items}
+                handleClick={handleClick}
+                handleDelete={handleDelete} //NEW WAY
+              // handleDelete={deleteItem} //NEW WAY
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
+
       </Grid>
     </Grid>
   );

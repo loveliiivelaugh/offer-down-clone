@@ -6,8 +6,6 @@ const routes = require('./server/routes');
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const multer = require('multer');
-const upload = multer({dest: './images/'});
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/offerDown", {
   useNewUrlParser: true,
