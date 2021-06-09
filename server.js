@@ -6,6 +6,8 @@ const routes = require('./server/routes');
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const multer = require('multer');
+const upload = multer({dest: './images/'});
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/offerDown", {
   useNewUrlParser: true,
@@ -21,6 +23,7 @@ const port = process.env.PORT || 8080;
 //server mmiddleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 app.use(cors());
 
@@ -40,3 +43,5 @@ app.use(routes);
 app.listen(port, () => {
   console.log(`OfferDown application listening at http://localhost:${port}`);
 });
+
+module.exports = app;

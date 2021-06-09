@@ -103,6 +103,7 @@ const Api = {
   
   addProduct: async (data) => {
     console.log(data);
+
     return await axios.post('api/products', data)
       .then(response => response)
       .catch(error => console.error(error));
