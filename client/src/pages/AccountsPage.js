@@ -247,7 +247,7 @@ const AccountsPage = (props) => {
 
 
 
-        <Card style={{ height: '60vh' }}>
+        <Card>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
             {type === "saves" &&
