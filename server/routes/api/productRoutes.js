@@ -1,26 +1,30 @@
 const express = require('express');
 const router = express.Router();
-// const Product = require('../../models/Product');
-const axios = require('axios');
+const User = require('../../models/User');
+// const axios = require('axios');
 
 
-//fakestoreapi -- GET dummyProducts route 
+// @method -- GET
+// @api -- getProducts()
+// @descr --  Return all products posted in the database.
 router.get('/', async (req, res) => {
-  console.log("Api is hit");
+  console.log("getProducts()");
+  const totalItems = [];
 
-  // try {
-  //   await axios.get("https://fakestoreapi.com/products")
-  //     .then(data => {
-  //       console.log(data.data);
-  //       res.status(200).json(data.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //       res.json({ error: error });
-  //     });
-  // } catch (error) {
-  //   res.status(500).json({ error: error });
-  // }
+  try {
+    const users = await User.find({});
+
+    users.forEach(({ posted_items }) => {
+      posted_items.forEach(item => {
+        totalItems.push(item);
+      });
+    });
+
+    console.log(totalItems);
+    res.status(200).json(totalItems);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
 });
 
 
