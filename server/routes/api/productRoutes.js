@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../../models/Product');
 const axios = require('axios');
+const fs = require('fs');
+
+//file
 
 
 //fakestoreapi -- GET dummyProducts route 
@@ -46,6 +49,17 @@ router.get('/products/:id', async (req, res) => {
 
 //   res.json(newProduct)
 // });
+
+router.post('/', (req, res) => {
+  console.log("backend here now.");
+  console.log((req.body));
+
+  res.end();
+})
+
+
+
+
 
 router.put('/products/:id', async (req, res) => {
   const products = req.body;

@@ -13,17 +13,14 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../hooks/useAuth.js";
-import ImageLoader from './ImageLoader.js';
+import firebase from "../../utils/firebase";
+import "firebase/analytics";
+import "firebase/auth";
+import "firebase/firestore";
+import 'firebase/storage';
+
 
 import Api from '../../api';
-
-
-// const fileSelectedHandler = event => {
-//   console.log(event.target.files[0]);
-// }
-
-
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +42,7 @@ const SellingForm = () => {
     name: '',
     description: '',
     price: '',
-    picture: {},
+    picture: '',
     zip_code: '',
   });
 
@@ -60,23 +57,23 @@ const SellingForm = () => {
     }
   };
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     setPending(true);
 
     console.log(data, 'data getting passed in the handler')
 
-    let formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('description', data.description);
-    formData.append('picture', data.picture, data.picture.name);
-    formData.append('price', data.price);
-    formData.append('zip_code', data.zip_code);
-    
+    var storageRef = firebase.storage().ref();
+    var imageRef = storageRef.child('images/' + data.picture.name);
+    await imageRef.put(data.picture).then( async (snapshot) => {
+      
+      await snapshot.ref.getDownloadURL().then((url)=> {
+        data.picture = url;
+      })
+    });
 
+    console.log(data, 'modified data project');
 
-    // const { name, description, price, picture, zip_code } = data;
-    
-    Api.addProduct({ product: formData, user: auth.user });
+    Api.addProduct({product: data, user: auth.user})
     
     const clearValues = () => {
       setSellingData({
