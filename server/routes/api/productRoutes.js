@@ -8,19 +8,19 @@ const axios = require('axios');
 router.get('/', async (req, res) => {
   console.log("Api is hit");
 
-  try {
-    await axios.get("https://fakestoreapi.com/products")
-      .then(data => {
-        console.log(data.data);
-        res.status(200).json(data.data);
-      })
-      .catch(error => {
-        console.error(error);
-        res.json({ error: error });
-      });
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
+  // try {
+  //   await axios.get("https://fakestoreapi.com/products")
+  //     .then(data => {
+  //       console.log(data.data);
+  //       res.status(200).json(data.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //       res.json({ error: error });
+  //     });
+  // } catch (error) {
+  //   res.status(500).json({ error: error });
+  // }
 });
 
 
