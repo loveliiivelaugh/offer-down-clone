@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/user');
-const Product = require('../../models/product');
+const User = require('../../models/user.js');
+const Product = require('../../models/product.js');
 
 //almost exactly same as productRoutes
 
-// Get one user
+// getUser()
 router.get('/:id', async (req, res) => {
   try {
     const userData = await User.findOne({ id: req.params.id });
@@ -17,7 +17,7 @@ router.get('/:id', async (req, res) => {
 
 });
 
-// get all users
+// getUsers()
 router.get('/', async (req, res) => {
   try {
     const userData = await User.findAll({});
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-//createUser()
+// createUser()
 router.post('/', async ({ body }, res) => {
   try {
     const newUser = await User.create(body);
@@ -39,7 +39,7 @@ router.post('/', async ({ body }, res) => {
   }
 });
 
-//addLikedItem()
+// addLikedItem()
 //On the front end, we also send the id of the current user along with this post request
 router.post('/likes/:id', async (req, res) => {
   try {
@@ -57,7 +57,8 @@ router.post('/likes/:id', async (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => {
+// updateUser()
+router.put('/:id', async (req, res) => {
   console.log(req.body);
   try {
     const userData = await User.updateOne({ id: req.params.id }, req.body); // talk with team
@@ -69,7 +70,8 @@ router.put('/:id', (req, res) => {
 
 });
 
-router.delete('/:id', (req, res) => { 
+// deleteUser()
+router.delete('/:id', async (req, res) => { 
   try {
     const userData = await User.remove({ id: req.params.id });
 

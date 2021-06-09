@@ -28,6 +28,25 @@ const UserSchema = new Schema({
         type: String,
         required: 'Password is required'
     },
+    balance: {
+        type: Number
+    },
+    payment_methods: [
+        {
+            card_number: {
+                type: String,
+                required: 'A valid card number is required'
+            },
+            expiration: {
+                type: String,
+                required: 'Expiration date is required'
+            },
+            security: {
+                type: Number,
+                required: 'Security code is required'
+            }
+        }
+    ],
     plaid_accessToken: {
         type: String,
     },

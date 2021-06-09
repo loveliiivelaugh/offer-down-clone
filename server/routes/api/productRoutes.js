@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../../../models/Product');
-
-
-
+const Product = require('../../models/product');
 
 //fakestoreapi -- GET dummyProducts route 
 router.get('/products', (req, res) => {
-  axios.get("https://fakestoreapi.com/products")
+  axios.get('https://fakestoreapi.com/products')
     .then(data => {
       console.log(data.data);
       res.json(data.data);
@@ -18,51 +15,64 @@ router.get('/products', (req, res) => {
     });
 });
 
-
+// getProduct()
 router.get('/products/:id', async (req, res) => {
-  const product = await Product.findOne({ id: req.params.id }, (error, success) => {
-    error //if error
-      ? ( console.error({ error: error }) && res.json({ error: error }) )
-      //otherwise if successful
-      : ( console.log(success) && res.json(success) );
-  })
-})
+  try {
+    const productData = await Product.findOne({ id: req.params.id });
 
-router.get('/products', async (req, res) => {
-  const productsData = await Product.findAll();
-
-  const products = productsData.find({ plain: true });
-
-  if (!products) {
-    console.error({ error: "Something went wrong!" });
+    res.status(200).json(productData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
   }
 
-  res.json(products);
 });
 
+// getProducts()
+router.get('/products', async (req, res) => {
+  try {
+    const productData = await Product.findAll({});
+
+    res.status(200).json(productData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+
+});
+
+// addProduct()
 router.post('/products', async (req, res) => {
-  const product = req.body;
-  const newProduct = await Product.createOne(product) //this is definitely not right..
+  try {
+    const newProduct = await Product.create(body);
 
-  res.json(newProduct)
+    res.status(200).json(newProduct);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 });
 
+// updateProduct()
 router.put('/products/:id', async (req, res) => {
-  const products = req.body;
-  const updatedProduct = await Product.findOneAndUpdate({ id: req.params.id }, {
-    SET: products
-  }, (success, error) => {
-    if (error) throw error;
+  console.log(req.body);
+  try {
+    const productData = await Product.updateOne({ id: req.params.id }, req.body); // talk with team
 
-    console.log(success)
-    res.json(success);
-  })
+    res.status(200).json(productData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  };
 
-})
+});
 
-reouter.delete('/products/:id', async (req, res) => {
-  const deleteProduct = await Product.destroy({ id: req.params.id })
-})
+// deleteProduct() 
+router.delete('/products/:id', async (req, res) => {
+  try {
+    const productData = await Product.remove({ id: req.params.id });
+
+    res.status(200).json(productData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 
 module.exports = router;

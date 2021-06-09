@@ -21,6 +21,8 @@ import { useAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
 import axios from 'axios';
 import Api from '../api';
+import AccountSettings from '../components/AccountSettings';
+import PaymentSettings from '../components/PaymentSettings';
 
 //How is Michael keeping tracking of whos accessing these pages?
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +54,8 @@ const AccountsPage = (props) => {
     fetchLoggedInUser();
   }, []);
 
-  const saved_items = user.data ? user.data[0].saved_items : [];
+  // const saved_items = user.data ? user.data[0].saved_items : [];
+  const saved_items = [];
 
   console.log(user, "SavedItems []: ", saved_items);
 
@@ -146,12 +149,21 @@ const AccountsPage = (props) => {
         </Card>
       {/* --- end --- SideNavCard.js */}
 
-
       </Grid>
       <Grid item xs={12} md={9}>
         <Typography component="h1" variant="h4" align="left">
           {title}
         </Typography>
+        <Card style={{height: '60vh'}}>
+          <CardContent>
+        <AccountSettings user={user} pizza='pizza'/>
+        </CardContent>
+        </Card>
+        <Card style={{height: '60vh'}}>
+          <CardContent>
+        <PaymentSettings user={user} />
+        </CardContent>
+        </Card>
 
 
 {/* 
@@ -203,7 +215,7 @@ const AccountsPage = (props) => {
   !!! reason the data is not being passed correctly further up the tree. Needs to be fixed. handleDelete() is connected
   !!! to the server but the server route is broken.
 */}
-        <Card style={{height: '60vh'}}>
+        {/* <Card style={{height: '60vh'}}>
           <CardContent>
             <List className={classes.list}>
               {saved_items.map(({ userId: _id, name, price, product_id }) => (
@@ -219,7 +231,7 @@ const AccountsPage = (props) => {
               ))}
             </List>
           </CardContent>
-        </Card>
+        </Card> */}
 
 
       </Grid>
