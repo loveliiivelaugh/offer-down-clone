@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AccountSettings(props) {
+    
     const classes = useStyles();
     console.log(props);
     const user = {

@@ -7,10 +7,8 @@ import AccountSettings from '../components/AccountSettings';
 import PaymentSettings from '../components/PaymentSettings';
 //components
 import SideNavCard from '../components/SideNavCard';
-import LikedItemsSection from '../components/LikedItemsSection';
+import SavedItems from '../components/SavedItems';
 import TransactionsSection from '../components/TransactionsSection';
-import BankingSection from '../components/BankingSection';
-import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, ListItem, ListItemAvatar, ListItemText, ListItemIcon, ShareIcon, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -120,22 +118,6 @@ const AccountsPage = (props) => {
           {title}
         </Typography>
 
-        
-        <Card style={{ height: '60vh' }}>
-          <CardContent>
-            {type === "purchases" && <TransactionsSection />}
-            {type === "saves" &&
-              <LikedItemsSection
-                // saved_items={user.data.saved_items}
-                handleClick={handleClick}
-                handleDelete={handleDelete} //NEW WAY
-              // handleDelete={deleteItem} //NEW WAY
-              />
-            }
-            {type === "banking" && <PaymentSettings user={user} />}
-            {type === "settings" && <AccountSettings user={user} />}
-          </CardContent>
-        </Card>
 {/* 
         <Card style={{height: '60vh'}}>
           <CardContent>
@@ -192,7 +174,7 @@ const AccountsPage = (props) => {
 
         {/* 
   Move this Card into its own component.
-  Call it LikedItemsSection.js
+  Call it SavedItems.js
   
   !!! Also this component needs to be fixed up. Styling needs to be adjusted. Positioning of delete button adjusted.
   !!! clickHandler() is not passing in the correct data nor data structure. After investigating a little, for whatever
@@ -224,8 +206,8 @@ const AccountsPage = (props) => {
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
             {type === "saves" &&
-              <LikedItemsSection
-                saved_items={user.data.saved_items}
+              <SavedItems
+                saved_items={user.saved_items}
                 handleClick={handleClick}
                 handleDelete={handleDelete} //NEW WAY
               // handleDelete={deleteItem} //NEW WAY
