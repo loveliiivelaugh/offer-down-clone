@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
 const Product = require('../../models/product');
 
 //fakestoreapi -- GET dummyProducts route 
@@ -13,7 +12,8 @@ router.get('/products', (req, res) => {
     .catch(error => {
       console.error(error);
       res.json({ error: error });
-=======
+    })
+})
 const User = require('../../models/User');
 // const axios = require('axios');
 
@@ -32,7 +32,6 @@ router.get('/', async (req, res) => {
       posted_items.forEach(item => {
         totalItems.push(item);
       });
->>>>>>> main
     });
 
     console.log(totalItems);
@@ -42,7 +41,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 // getProduct()
 router.get('/products/:id', async (req, res) => {
   try {
@@ -101,7 +99,6 @@ router.delete('/products/:id', async (req, res) => {
     res.status(500).json({ errorMessage: error });
   }
 });
-=======
 
 // router.get('/products/:id', async (req, res) => {
 //   const product = await Product.findOne({ id: req.params.id }, (error, success) => {
@@ -150,7 +147,6 @@ router.delete('/products/:id', async (req, res) => {
 // router.delete('/products/:id', async (req, res) => {
 //   const deleteProduct = await Product.destroy({ id: req.params.id })
 // })
->>>>>>> main
 
 
 module.exports = router;
