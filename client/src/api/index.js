@@ -46,13 +46,11 @@ const Api = {
       .then(response => response)
       .catch(error => console.error(error));
   },
-
   removeLikedItem: async (id) => {
     return await axios.delete('/api/users/likes/' + id)
       .then(response => response)
       .catch(error => console.error(error));
   },
-  
   sendMessage: async (id) => {
     return await axios.post('/api/users/' + id)
       .then(response => response)

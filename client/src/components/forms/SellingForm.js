@@ -60,7 +60,7 @@ const SellingForm = () => {
   const handleSubmit = async (data) => {
     setPending(true);
 
-    console.log(data, 'data getting passed in the handler')
+    console.log(data, 'data getting passed in the handler');
 
     var storageRef = firebase.storage().ref();
     var imageRef = storageRef.child('images/' + data.picture.name);

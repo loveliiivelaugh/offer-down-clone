@@ -79,7 +79,9 @@ const ProductCard = ({ product }) => {
       />
       <CardMedia
         className={classes.media}
-        image={product && product.image}
+        // component="img"
+        // src=""
+        image={product.image ? product.image : ""}
         title={product && product.title}
       />
       <CardContent>

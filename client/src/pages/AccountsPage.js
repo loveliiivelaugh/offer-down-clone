@@ -3,6 +3,8 @@ import { useAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
 // import { useUser, deleteItem } from '../utils/mongoDb.js';
 import Api from '../api';
+import AccountSettings from '../components/AccountSettings';
+import PaymentSettings from '../components/PaymentSettings';
 //components
 import SideNavCard from '../components/SideNavCard';
 import LikedItemsSection from '../components/LikedItemsSection';
@@ -68,7 +70,7 @@ const AccountsPage = (props) => {
     fetchLoggedInUser();
   }, []);
 
-  console.log(user.data)
+  console.log(user)
 
   // const saved_items = !user.data ? [] : user.data[0].saved_items;
   const saved_items = [];
@@ -108,12 +110,144 @@ const AccountsPage = (props) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={3}>
+
+      {/* SideNavCard.js */}
+        <Card>
+          <CardContent>
+            <Typography component="h1" variant="h4" align="left">
+              Account
+            </Typography>
+          </CardContent>
+          <CardContent>
+          
+            <Divider />
+            <Typography component="h6" variant="h6" align="left">
+              Transactions
+            </Typography>
+            <List>
+              <ListItem button onClick={() => handleNav.purchases()}>
+                <ListItemText primary="Purchases & Sales" />
+              </ListItem>
+              <ListItem button onClick={() => handleNav.banking()}>
+                <ListItemText primary="Payment & Deposit methods" />
+              </ListItem>
+            </List>
+            <Divider />
+            <Typography component="h6" variant="h6" align="left">
+              Saves
+            </Typography>
+            <List>
+              <ListItem button onClick={() => handleNav.saves()}>
+                <ListItemText primary="Saved items" />
+              </ListItem>
+              
+              </List>
+            <Divider />
+            <Typography component="h6" variant="h6" align="left">
+              Account
+            </Typography>
+            <List>
+              <ListItem button onClick={() => handleNav.settings()}>
+                <ListItemText primary="Account Settings" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="View public profile" />
+                <ListItemIcon>
+                  <ShareIcon />
+                </ListItemIcon>
+              </ListItem>
+            </List>
+          
+          </CardContent>
+        </Card>
+      {/* --- end --- SideNavCard.js */}
+
         <SideNavCard handleNav={handleNav} />
       </Grid>
       <Grid item xs={12} md={9}>
         <Typography component="h1" variant="h4" align="left">
           {title}
         </Typography>
+        <Card style={{height: '60vh'}}>
+          <CardContent>
+        <AccountSettings user={user} pizza='pizza'/>
+        </CardContent>
+        </Card>
+        <Card style={{height: '60vh'}}>
+          <CardContent>
+        <PaymentSettings user={user} />
+        </CardContent>
+        </Card>
+
+
+{/* 
+  Move this Card into its own component.
+  Call it TransactionsSection.js 
+*/}
+        {/* 
+        <Card style={{height: '60vh'}}>
+          <Tabs
+            value={props.activeKey}
+            indicatorColor="primary"
+            textColor="primary"
+            centered={false}
+          >
+            <Tab
+              label="Accounts"
+              value="general"
+              // component={Link}
+              // to="/settings/general"
+            ></Tab>
+
+            <Tab
+              label="Transactions"
+              value="password"
+              // component={Link}
+              // to="/settings/password"
+            ></Tab>
+
+          </Tabs>
+          <Divider />
+          <FormControl component="fieldset">
+            <TextField type="text" name="balance" label="Balance" variant="outlined" />
+            <TextField type="text" name="balance" label="$0.00" variant="outlined" />
+          </FormControl>
+          {auth &&
+            <Plaid auth={auth} /> 
+          }
+          <ImageLoader />
+          <CardSection />
+        </Card> 
+        */}
+
+{/* 
+  Move this Card into its own component.
+  Call it LikedItemsSection.js
+  
+  !!! Also this component needs to be fixed up. Styling needs to be adjusted. Positioning of delete button adjusted.
+  !!! clickHandler() is not passing in the correct data nor data structure. After investigating a little, for whatever
+  !!! reason the data is not being passed correctly further up the tree. Needs to be fixed. handleDelete() is connected
+  !!! to the server but the server route is broken.
+*/}
+        {/* <Card style={{height: '60vh'}}>
+          <CardContent>
+            <List className={classes.list}>
+              {saved_items.map(({ userId: _id, name, price, product_id }) => (
+                <React.Fragment key={product_id}>
+                  <ListItem button onClick={() => handleClick({ _id, name, price, product_id })}>
+                    <ListItemAvatar>
+                      <Avatar alt="Profile Picture" src="" />
+                    </ListItemAvatar>
+                    <ListItemText primary={name} />
+                  </ListItem>
+                  <Button onClick={() => handleDelete(product_id)} color="secondary">Delete</Button>
+                </React.Fragment>
+              ))}
+            </List>
+          </CardContent>
+        </Card> */}
+
+
         {type === "purchases" && <TransactionsSection />}
         {type === "saves" && 
           <LikedItemsSection 
