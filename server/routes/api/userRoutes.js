@@ -1,14 +1,9 @@
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
 const User = require('../../models/user.js');
 const Product = require('../../models/product.js');
-=======
-const User = require('../../models/User.js');
->>>>>>> main
 
 
-<<<<<<< HEAD
 // getUser()
 router.get('/:id', async (req, res) => {
   try {
@@ -84,7 +79,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ errorMessage: error });
   }
 });
-=======
 // const router = express.Router();
 router.get('/', async (req, res) => {
   res.json({ message: "Success" });
@@ -212,6 +206,5 @@ router.get('/:id', async ({ params }, res) => {
 //     res.status(500).json({ errorMessage: error });
 //   }
 // });
->>>>>>> main
 
 module.exports = router;
