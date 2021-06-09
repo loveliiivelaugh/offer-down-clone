@@ -11,7 +11,7 @@ import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
 import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
-import { Grid, Typography } from '@material-ui/core';
+import { Avatar, Card, CardContent, Divider, List, ListItem, ListItemAvatar, ListItemText, ListItemIcon, ShareIcon, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 //How is Michael keeping tracking of whos accessing these pages?
@@ -153,7 +153,7 @@ const AccountsPage = (props) => {
               <ListItem button>
                 <ListItemText primary="View public profile" />
                 <ListItemIcon>
-                  <ShareIcon />
+                  {/* <ShareIcon /> */}
                 </ListItemIcon>
               </ListItem>
             </List>
