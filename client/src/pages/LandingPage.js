@@ -16,7 +16,7 @@ import Confetti from 'confetti-react';
 // }));
 
 const LandingPage = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [confettiSwitch, toggleConfetti] = React.useState(false);
   return (
     <div style={{height:'67vh'}}>
