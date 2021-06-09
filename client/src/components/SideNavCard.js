@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Divider, List, ListItem, ListItemText, ListItemIcon, Typography } from '@material-ui/core';
-// import { ShareIcon } from '@material-ui/icons';
+// import ShareIcon from '@material-ui/icons/Share';
 
 const SideNavCard = ({ handleNav }) => {
   return (

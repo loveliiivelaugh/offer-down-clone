@@ -55,23 +55,25 @@ export default function Header() {
                 </Toolbar>
             </AppBar>
 
-            <Collapse
+            <div className={classes.container}>
+                <h1 className={classes.title}>
+                    Welcome to <br />
+                    the<span className={classes.colorText}>OfferDown Community!</span>
+                </h1>
+                <Scroll to="items-to-buy" smooth={true}>
+                    <IconButton>
+                        <ExpandMoreIcon className={classes.goDown} />
+                    </IconButton>
+                </Scroll>
+            </div>
+
+            {/* <Collapse
             in={checked}
             {...Collapse(checked ? { timeout: 1000} :{})}
             collapedHeight={50}
             >
-                <div className={classes.container}>
-                    <h1 className={classes.title}>
-                        Welcome to <br />
-                        the<span className={classes.colorText}>OfferDown Community!</span>
-                    </h1>
-                    <Scroll to="items-to-buy" smooth={true}>
-                        <IconButton>
-                            <ExpandMoreIcon className={classes.goDown} />
-                        </IconButton>
-                    </Scroll>
-                </div>
-            </Collapse>
+                
+            </Collapse> */}
         </div>
     );
 }

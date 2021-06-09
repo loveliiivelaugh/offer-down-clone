@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const client = require('../../controller/plaid.js');
-const User = require('../../models/User');
+const User = require('../../models/user.js');
 
 
 // We store the access_token in memory - in production, store it in a secure
