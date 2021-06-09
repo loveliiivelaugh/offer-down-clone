@@ -19,14 +19,14 @@ router.get('/', (req, res) => {
 });
 
 
-router.get('/products/:id', async (req, res) => {
-  const product = await Product.findOne({ id: req.params.id }, (error, success) => {
-    error //if error
-      ? ( console.error({ error: error }) && res.json({ error: error }) )
-      //otherwise if successful
-      : ( console.log(success) && res.json(success) );
-  })
-})
+// router.get('/products/:id', async (req, res) => {
+//   const product = await Product.findOne({ id: req.params.id }, (error, success) => {
+//     error //if error
+//       ? ( console.error({ error: error }) && res.json({ error: error }) )
+//       //otherwise if successful
+//       : ( console.log(success) && res.json(success) );
+//   })
+// })
 
 // router.get('/products', async (req, res) => {
 //   const productsData = await Product.findAll();
@@ -40,32 +40,32 @@ router.get('/products/:id', async (req, res) => {
 //   res.json(products);
 // });
 
-router.post('/', async (req, res) => {
+// router.post('/', async (req, res) => {
 
-  const product = req.body;
-  console.log(product);
+//   const product = req.body;
+//   console.log(product);
 
-  const newProduct = await Product.create(product); //this is definitely not right..
+//   const newProduct = await Product.create(product); //this is definitely not right..
 
-  res.json(newProduct);
-});
+//   res.json(newProduct);
+// });
 
-router.put('/products/:id', async (req, res) => {
-  const products = req.body;
-  const updatedProduct = await Product.findOneAndUpdate({ id: req.params.id }, {
-    SET: products
-  }, (success, error) => {
-    if (error) throw error;
+// router.put('/products/:id', async (req, res) => {
+//   const products = req.body;
+//   const updatedProduct = await Product.findOneAndUpdate({ id: req.params.id }, {
+//     SET: products
+//   }, (success, error) => {
+//     if (error) throw error;
 
-    console.log(success)
-    res.json(success);
-  })
+//     console.log(success)
+//     res.json(success);
+//   })
 
-})
+// })
 
-router.delete('/products/:id', async (req, res) => {
-  const deleteProduct = await Product.destroy({ id: req.params.id })
-})
+// router.delete('/products/:id', async (req, res) => {
+//   const deleteProduct = await Product.destroy({ id: req.params.id })
+// })
 
 
 module.exports = router;
