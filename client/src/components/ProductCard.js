@@ -61,6 +61,7 @@ const ProductCard = ({ product }) => {
     });
   };
 
+  
   return (
     <Card className={classes.root} onClick={e => handleClick(e, product)}>
       <CardHeader
