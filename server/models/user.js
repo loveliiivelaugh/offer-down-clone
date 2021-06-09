@@ -117,6 +117,9 @@ const UserSchema = new Schema({
             price: {
                 type: Number
             },
+            image: {
+                type: String
+            },
             seller_id: {
                 type: String
             },
