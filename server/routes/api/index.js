@@ -10,7 +10,7 @@ const userRoutes = require('./userRoutes.js');
 // router.get('/stripe', stripeRoutes);
 // router.get('/plaid', plaidRoutes);
 router.use('/users', userRoutes);
-// router.use('/products', productRoutes);
+router.use('/products', productRoutes);
 
 
 module.exports = router;
