@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import LandingPage from './LandingPage';
+import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import AccountsPage from './AccountsPage';
 import SellingPage from './SellingPage';
@@ -10,6 +10,7 @@ import CheckoutPage from './CheckoutPage';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+
 const router = () => {
   return (
     <Router>
@@ -18,9 +19,9 @@ const router = () => {
 
       <Switch>
 
-        <Route path="/" component={HomePage} />
+        <Route path="/" component={LandingPage} />
 
-        {/* <Route exact path="/home" component={HomePage} /> */}
+        <Route exact path="/home" component={HomePage} />
 
         <Route exact path="/accounts" component={AccountsPage} />
 
