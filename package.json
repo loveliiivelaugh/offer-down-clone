@@ -1,7 +1,7 @@
 {
   "name": "offer-down",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Description",
   "main": "server.js",
   "scripts": {
     "start": "cd server && node server",
