@@ -135,21 +135,23 @@ router.get('/:id', async ({ params }, res) => {
 //   }
 // });
 
-// //createUser()
-// router.post('/', async ({ body }, res) => {
-//   try {
-//     const newUser = await User.create(body);
+// @method -- createUser()
+// @descr -- Create a new user
+// @route POST /api/users
+router.post('/', async ({ body }, res) => {
+  try {
+    const newUser = await User.create(body);
 
-//     console.log(body);
+    console.log(newUser, body);
 
-//     newUser 
-//       ? res.status(200).json(newUser) 
-//       : res.status(500).json({ error: "Somethings wrong?!" });
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
+    newUser 
+      ? res.status(200).json(newUser) 
+      : res.status(500).json({ error: "Somethings wrong?!" });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
 
-// });
+});
 
 
 // // @method: POST /api/likes/:id

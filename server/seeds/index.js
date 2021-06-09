@@ -36,9 +36,6 @@ const handleSeeds = async () => {
   //set it to a variable so we can use the same one more than once in this loop
   const uuid = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 
-  //assign a new attr to user called  uniqueId and set it to the newly generated uuid
-  user.uniqueId = uuid;
-
     //for each item belonging to the user assign a new attr to that item with the same uuid
     items.forEach(item => item.seller_id = uuid);
 
@@ -51,14 +48,15 @@ const handleSeeds = async () => {
       zip_code: user.location.postcode,
       username: user.login.username,
       password: user.login.password,
+      unique_id: uuid,
       posted_items: items
     });
   });
   
   sellers.forEach(seller => {
     User.create(seller)
-      .then((data) => {
-        console.log(data, ' record inserted!');
+      .then(({ unique_id }) => {
+        console.log(unique_id, ' record inserted!');
       })
       .catch((error) => {
         console.error(error);

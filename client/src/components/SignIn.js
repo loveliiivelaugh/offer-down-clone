@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ setType }) => {
+const SignIn = ({ handleClose, setType }) => {
   const auth = useAuth();
   const classes = useStyles();
   const [pending, setPending] = React.useState()
@@ -72,7 +72,9 @@ const SignIn = ({ setType }) => {
     };
     clearValues();
 
-    setPending(false);  
+    setPending(false);
+
+    handleClose()
   };
 
   return (

@@ -16,8 +16,8 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
       aria-describedby="simple-modal-description"
     >
       {
-        type === "signin" ? <SignIn setType={setType} /> :
-        type === "signup" ? <SignUp setType={setType} /> :
+        type === "signin" ? <SignIn setType={setType} handleClose={handleClose} /> :
+        type === "signup" ? <SignUp setType={setType} handleClose={handleClose} /> :
         type === "ask" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
         type === "message" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
         type === "sell" ? <SellingForm handleClose={handleClose} setType={setType} type={type} /> :
