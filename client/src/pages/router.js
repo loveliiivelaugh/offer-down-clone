@@ -19,7 +19,7 @@ const router = () => {
 
       <Switch>
 
-        <Route path="/" component={LandingPage} />
+        <Route exact path="/" component={LandingPage} />
 
         <Route exact path="/home" component={HomePage} />
 
