@@ -23,9 +23,6 @@ import Api from '../../api';
 // }
 
 
-
-
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -63,7 +60,7 @@ const SellingForm = () => {
   const handleSubmit = (data) => {
     setPending(true);
 
-    console.log(data, 'data getting passed in the handler')
+    console.log(data, 'data getting passed in the handler');
 
     let formData = new FormData();
     formData.append('name', data.name);
@@ -71,12 +68,10 @@ const SellingForm = () => {
     formData.append('picture', data.picture, data.picture.name);
     formData.append('price', data.price);
     formData.append('zip_code', data.zip_code);
-    
 
-
-    // const { name, description, price, picture, zip_code } = data;
+    const { name, description, price, picture, zip_code } = data;
     
-    Api.addProduct({ product: formData, user: auth.user });
+    Api.addProduct(data, auth.user);
     
     const clearValues = () => {
       setSellingData({

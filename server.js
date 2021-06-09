@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require("body-parser");
-const connectDatabase = require('./db');
-const routes = require('./routes');
+const connectDatabase = require('./server/db');
+const routes = require('./server/routes');
 const mongoose = require("mongoose");
 require("dotenv").config();
 

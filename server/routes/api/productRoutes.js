@@ -40,12 +40,15 @@ router.get('/products/:id', async (req, res) => {
 //   res.json(products);
 // });
 
-// router.post('/products', async (req, res) => {
-//   const product = req.body;
-//   const newProduct = await Product.createOne(product) //this is definitely not right..
+router.post('/', async (req, res) => {
 
-//   res.json(newProduct)
-// });
+  const product = req.body;
+  console.log(product);
+
+  const newProduct = await Product.create(product); //this is definitely not right..
+
+  res.json(newProduct);
+});
 
 router.put('/products/:id', async (req, res) => {
   const products = req.body;
