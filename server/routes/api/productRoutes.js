@@ -5,17 +5,22 @@ const axios = require('axios');
 
 
 //fakestoreapi -- GET dummyProducts route 
-router.get('/', (req, res) => {
-  console.log("Api is hit")
-  axios.get("https://fakestoreapi.com/products")
-    .then(data => {
-      console.log(data.data);
-      res.json(data.data);
-    })
-    .catch(error => {
-      console.error(error);
-      res.json({ error: error });
-    });
+router.get('/', async (req, res) => {
+  console.log("Api is hit");
+
+  try {
+    await axios.get("https://fakestoreapi.com/products")
+      .then(data => {
+        console.log(data.data);
+        res.status(200).json(data.data);
+      })
+      .catch(error => {
+        console.error(error);
+        res.json({ error: error });
+      });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
 });
 
 
