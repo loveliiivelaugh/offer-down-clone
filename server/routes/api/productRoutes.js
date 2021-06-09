@@ -1,5 +1,19 @@
 const express = require('express');
 const router = express.Router();
+// const Product = require('../../models/product');
+
+// //fakestoreapi -- GET dummyProducts route 
+// router.get('/products', (req, res) => {
+//   axios.get('https://fakestoreapi.com/products')
+//     .then(data => {
+//       console.log(data.data);
+//       res.json(data.data);
+//     })
+//     .catch(error => {
+//       console.error(error);
+//       res.json({ error: error });
+//     })
+// })
 const User = require('../../models/User');
 // const axios = require('axios');
 

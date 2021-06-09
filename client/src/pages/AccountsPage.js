@@ -55,22 +55,22 @@ const AccountsPage = (props) => {
   //   : setPending(false);
 
   // OLD WAY
-  const fetchLoggedInUser = async () => {
-    const userId = await auth.user.uid;
-    console.log(userId)
-    const loggedInUser = await Api.getUser(userId);
+  // const fetchLoggedInUser = async () => {
+  //   const userId = await auth.user.uid;
+  //   console.log(userId);
+  //   const loggedInUser = await Api.getUser(userId);
 
-    console.log(loggedInUser);
-    setUser(loggedInUser);
-    setPending(false);
-  };
+  //   console.log(loggedInUser);
+  //   setUser(loggedInUser);
+  //   setPending(false);
+  // };
 
   useEffect(() => {
     setPending(true);
-    fetchLoggedInUser();
+    // fetchLoggedInUser();
   }, []);
 
-  console.log(user)
+  console.log(user);
 
   // const saved_items = !user.data ? [] : user.data[0].saved_items;
   const saved_items = [];
@@ -109,78 +109,48 @@ const AccountsPage = (props) => {
 
   return (
     <Grid container spacing={3}>
+
       <Grid item xs={12} md={3}>
-
-      {/* SideNavCard.js */}
-        <Card>
-          <CardContent>
-            <Typography component="h1" variant="h4" align="left">
-              Account
-            </Typography>
-          </CardContent>
-          <CardContent>
-          
-            <Divider />
-            <Typography component="h6" variant="h6" align="left">
-              Transactions
-            </Typography>
-            <List>
-              <ListItem button onClick={() => handleNav.purchases()}>
-                <ListItemText primary="Purchases & Sales" />
-              </ListItem>
-              <ListItem button onClick={() => handleNav.banking()}>
-                <ListItemText primary="Payment & Deposit methods" />
-              </ListItem>
-            </List>
-            <Divider />
-            <Typography component="h6" variant="h6" align="left">
-              Saves
-            </Typography>
-            <List>
-              <ListItem button onClick={() => handleNav.saves()}>
-                <ListItemText primary="Saved items" />
-              </ListItem>
-              
-              </List>
-            <Divider />
-            <Typography component="h6" variant="h6" align="left">
-              Account
-            </Typography>
-            <List>
-              <ListItem button onClick={() => handleNav.settings()}>
-                <ListItemText primary="Account Settings" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="View public profile" />
-                <ListItemIcon>
-                  {/* <ShareIcon /> */}
-                </ListItemIcon>
-              </ListItem>
-            </List>
-          
-          </CardContent>
-        </Card>
-      {/* --- end --- SideNavCard.js */}
-
         <SideNavCard handleNav={handleNav} />
       </Grid>
+
       <Grid item xs={12} md={9}>
+
         <Typography component="h1" variant="h4" align="left">
           {title}
         </Typography>
-        <Card style={{height: '60vh'}}>
-          <CardContent>
-        <AccountSettings user={user} pizza='pizza'/>
-        </CardContent>
-        </Card>
-        <Card style={{height: '60vh'}}>
-          <CardContent>
-        <PaymentSettings user={user} />
-        </CardContent>
-        </Card>
 
-
+        
+        <Card style={{ height: '60vh' }}>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                // saved_items={user.data.saved_items}
+                handleClick={handleClick}
+                handleDelete={handleDelete} //NEW WAY
+              // handleDelete={deleteItem} //NEW WAY
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
 {/* 
+        <Card style={{height: '60vh'}}>
+          <CardContent>
+            <AccountSettings user={user} pizza='pizza'/>
+          </CardContent>
+        </Card>
+
+        <Card style={{height: '60vh'}}>
+          <CardContent>
+            <PaymentSettings user={user} />
+          </CardContent>
+        </Card>
+ */}
+
+        {/* 
   Move this Card into its own component.
   Call it TransactionsSection.js 
 */}
@@ -220,7 +190,7 @@ const AccountsPage = (props) => {
         </Card> 
         */}
 
-{/* 
+        {/* 
   Move this Card into its own component.
   Call it LikedItemsSection.js
   
@@ -248,20 +218,27 @@ const AccountsPage = (props) => {
         </Card> */}
 
 
-        {type === "purchases" && <TransactionsSection />}
-        {type === "saves" && 
-          <LikedItemsSection 
-            saved_items={user.data.saved_items}
-            handleClick={handleClick}
-            handleDelete={handleDelete} //NEW WAY
-            // handleDelete={deleteItem} //NEW WAY
-          />
-        }
-        {type === "banking" && <BankingSection /> }
-        {type === "settings" && <SettingsSection /> }
+
+
+        <Card>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                saved_items={user.data.saved_items}
+                handleClick={handleClick}
+                handleDelete={handleDelete} //NEW WAY
+              // handleDelete={deleteItem} //NEW WAY
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
+
       </Grid>
     </Grid>
-  )
+  );
 }
 
-export default AccountsPage
+export default AccountsPage;

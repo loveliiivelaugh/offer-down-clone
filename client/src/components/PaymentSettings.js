@@ -34,20 +34,24 @@ const useStyles = makeStyles((theme) => ({
 function PaymentSettings(props) {
 
     const classes = useStyles();
-    console.log(props);
+
     const user = {
         name: 'Melanie',
         email: 'melanie@test.com',
         location: 'Chicago, IL',
         password: 'password123',
-        balance: 10.75
+        balance: 10.75,
+        purchased_items: {
+            name: 'Hat',
+            price: 4.25
+        }
 
     }
 
 
     return (
         <div>
-{/* <Grid container spacing={2}>
+            <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <Typography variant="h6" className={classes.title}>
                         Payment Information
@@ -59,9 +63,9 @@ function PaymentSettings(props) {
                                     Balance: $ {user.balance}
                                 </ListItemText>
                                 <Button variant="contained" color="primary">
-                                    MANAGE BALANCE
+                                    MANAGE
                                 </Button>
-                            </ListItem> 
+                            </ListItem>
                             <ListItem>
                                 <ListItemText>
                                     Payment Methods
@@ -69,11 +73,11 @@ function PaymentSettings(props) {
                                 <Button variant="contained" color="primary">
                                     EDIT
                                 </Button>
-                            </ListItem> 
+                            </ListItem>
                         </List>
                     </div>
                 </Grid>
-            </Grid> */}
+            </Grid>
         </div>
     );
 }
