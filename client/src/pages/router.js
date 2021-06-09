@@ -10,6 +10,7 @@ import CheckoutPage from './CheckoutPage';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+
 const router = () => {
   return (
     <Router>

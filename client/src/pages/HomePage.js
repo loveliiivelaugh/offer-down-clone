@@ -80,7 +80,7 @@ const HomePage = (props) => {
               <ClipLoader color="#00b" loading={pending} size={150} />
             </center> 
             )
-          : products.map((product, i) => (
+          : products.splice(0, 20).map((product, i) => (
               <ProductCard key={i} product={product} />
             )
         )}

@@ -8,8 +8,8 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: 'An email is required',
-        match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
+        // required: 'An email is required',
+        // match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
     },
     street_address: {
         type: String
@@ -22,12 +22,34 @@ const UserSchema = new Schema({
     },
     zip_code: {
         type: Number,
-        validate: [({ length }) => length != 5, 'Please enter a valid zip code']
+        // validate: [({ length }) => length != 5, 'Please enter a valid zip code']
+    },
+    username: {
+        type: String // Or from a list of options?
     },
     password: {
         type: String,
-        required: 'Password is required'
+        // required: 'Password is required'
     },
+    balance: {
+        type: Number
+    },
+    payment_methods: [
+        {
+            card_number: {
+                type: String,
+                required: 'A valid card number is required'
+            },
+            expiration: {
+                type: String,
+                required: 'Expiration date is required'
+            },
+            security: {
+                type: Number,
+                required: 'Security code is required'
+            }
+        }
+    ],
     plaid_accessToken: {
         type: String,
     },
@@ -105,17 +127,26 @@ const UserSchema = new Schema({
     ],
     posted_items: [
         {
-            name: {
+            id: {
+                type: Number
+            },
+            title: {
                 type: String
             },
             price: {
                 type: Number
             },
+            image: {
+                type: String
+            },
             seller_id: {
                 type: String
             },
-            product_id: {
-                type: Number
+            category: {
+                type: String
+            },
+            description: {
+                type: String
             }
         }
     ],
