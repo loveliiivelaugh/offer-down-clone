@@ -22,6 +22,7 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
 app.use(cors());
 
 //static resources
@@ -40,3 +41,5 @@ app.use(routes);
 app.listen(port, () => {
   console.log(`OfferDown application listening at http://localhost:${port}`);
 });
+
+module.exports = app;

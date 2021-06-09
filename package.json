@@ -28,9 +28,12 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "firebase": "^8.6.3",
+    "form-data": "^4.0.0",
     "mongoose": "^5.12.12",
+    "multer": "^1.4.2",
     "plaid": "^8.5.1",
-    "stripe": "^8.150.0"
+    "stripe": "^8.150.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
