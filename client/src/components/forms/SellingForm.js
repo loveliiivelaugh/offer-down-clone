@@ -17,7 +17,12 @@ import ImageLoader from './ImageLoader.js';
 
 import Api from '../../api';
 
-  
+
+// const fileSelectedHandler = event => {
+//   console.log(event.target.files[0]);
+// }
+
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -37,30 +42,43 @@ const SellingForm = () => {
     name: '',
     description: '',
     price: '',
-    images: [],
+    picture: {},
     zip_code: '',
   });
 
-  const { name, description, price, images, zip_code } = sellingData;
+  const { name, description, price, picture, zip_code } = sellingData;
 
   //function to update form data state upon form change
-  const onChange = e => (
-    setSellingData({ ...sellingData, [e.target.name]: e.target.value })
-  );
+  const onChange = e => {
+    if (e.target.name === "picture") {
+      setSellingData({...sellingData, picture:e.target.files[0]});
+    } else if (e.target.name !== "picture") {
+      setSellingData({ ...sellingData, [e.target.name]: e.target.value })
+    }
+  };
 
   const handleSubmit = (data) => {
     setPending(true);
 
-    console.log(data)
-    const { name, description, price, images, zip_code } = data;
-    Api.addProduct({ product: data, user: auth.user });
+    console.log(data, 'data getting passed in the handler');
+
+    let formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('picture', data.picture, data.picture.name);
+    formData.append('price', data.price);
+    formData.append('zip_code', data.zip_code);
+
+    const { name, description, price, picture, zip_code } = data;
+    
+    Api.addProduct(data, auth.user);
     
     const clearValues = () => {
       setSellingData({
         name: '',
         description: '',
         price: '',
-        images: [],
+        picture: {},
         zip_code: '',
       });
     };
@@ -77,7 +95,8 @@ const SellingForm = () => {
           Sell an item
         </Typography>
         <form 
-          className={classes.form} 
+          className={classes.form}
+          encType='multipart/form-data'
           noValidate
           onSubmit={e => {
             e.preventDefault();
@@ -117,12 +136,23 @@ const SellingForm = () => {
             id="price"
             label="Price"
             name="price"
-            type="currency"
+            type="number"
             value={sellingData ? price : "price"}
             onChange={onChange}
             autoFocus
           />
-          <ImageLoader />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="picture"
+            label="Picture"
+            name="picture"
+            type="file"
+            onChange={onChange}
+            autoFocus
+          />
           <TextField
             variant="outlined"
             margin="normal"

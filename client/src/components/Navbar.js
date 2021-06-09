@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SimpleModal from './SimpleModal';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -187,19 +187,21 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  console.log(auth)
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   //Modal
-  const [open, setOpen] = React.useState(false);
-  const [type, setType] = React.useState("signin");
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState("signin");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
 
   //messages and notifications dropdown
-  const [expanded, setExpanded] = React.useState(false);
-  const [alerts, setAlerts] = React.useState({
+  const [expanded, setExpanded] = useState(false);
+  const [alerts, setAlerts] = useState({
     title: ""
   });
 

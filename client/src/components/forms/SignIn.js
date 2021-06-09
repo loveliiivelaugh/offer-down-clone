@@ -63,6 +63,7 @@ const SignIn = ({ setType }) => {
     const { email, password } = data;
 
     auth.signin(email, password);
+    // await Api.login() //not working yet
     
     const clearValues = () => {
       setAuthData({
