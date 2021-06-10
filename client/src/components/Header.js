@@ -54,11 +54,16 @@ export default function Header() {
                     </h1>
                 </Toolbar>
             </AppBar>
-
+           
+     <Collapse
+        in={checked}
+        {...(checked ? { timeout: 1000 } : {})}
+        collapsedHeight={50}
+      >
             <div className={classes.container}>
                 <h1 className={classes.title}>
-                    Welcome to <br />
-                    the<span className={classes.colorText}>OfferDown Community!</span>
+                    Welcome to the <br />
+                    <span className={classes.colorText}>OfferDown Community!</span>
                 </h1>
                 <Scroll to="items-to-buy" smooth={true}>
                     <IconButton>
@@ -66,14 +71,7 @@ export default function Header() {
                     </IconButton>
                 </Scroll>
             </div>
-
-            {/* <Collapse
-            in={checked}
-            {...Collapse(checked ? { timeout: 1000} :{})}
-            collapedHeight={50}
-            >
-                
-            </Collapse> */}
-        </div>
-    );
+        </Collapse>
+    </div>
+  );
 }
