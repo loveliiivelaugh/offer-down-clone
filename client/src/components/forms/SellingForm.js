@@ -18,8 +18,6 @@ import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
 import 'firebase/storage';
-
-
 import Api from '../../api';
 
 
@@ -80,8 +78,8 @@ const SellingForm = ({ handleClose }) => {
 
     console.log(data, 'data getting passed in the handler');
 
-    var storageRef = firebase.storage().ref();
-    var imageRef = storageRef.child('images/' + data.picture.name);
+    let storageRef = firebase.storage().ref();
+    let imageRef = storageRef.child('images/' + data.picture.name);
     await imageRef.put(data.picture).then( async (snapshot) => {
       
       await snapshot.ref.getDownloadURL().then((url)=> {
@@ -91,6 +89,7 @@ const SellingForm = ({ handleClose }) => {
 
     console.log(data, 'modified data project');
     console.log(auth);
+
 
     Api.addProduct({product: data, user: user._id});
     
