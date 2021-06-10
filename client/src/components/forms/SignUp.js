@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUp = ({ setType }) => {
+const SignUp = ({ handleClose, setType }) => {
   const auth = useAuth();
   const classes = useStyles();
   const [pending, setPending] = React.useState()
@@ -73,12 +73,13 @@ const SignUp = ({ setType }) => {
     setPending(true);
 
     console.log(data)
-    const { first, last, email, password } = data;
+    const { email, password } = data;
 
-    auth.signup(email, password);
     const newUser = await Api.createUser(data);
 
-    console.log(newUser);
+    console.log(newUser.data);
+    
+    auth.signup(newUser.data);
     
     const clearValues = () => {
       setAuthData({
@@ -90,7 +91,9 @@ const SignUp = ({ setType }) => {
     };
     clearValues();
 
-    setPending(false);  
+    setPending(false)
+
+    handleClose()
   };
 
   return (
@@ -111,10 +114,10 @@ const SignUp = ({ setType }) => {
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="first"
                 variant="outlined"
                 fullWidth
-                id="firstName"
+                id="first"
                 label="First Name"
                 autoFocus
                 value={authData ? first : "first"}
@@ -125,9 +128,9 @@ const SignUp = ({ setType }) => {
               <TextField
                 variant="outlined"
                 fullWidth
-                id="lastName"
+                id="last"
                 label="Last Name"
-                name="lastName"
+                name="last"
                 autoComplete="lname"
                 value={authData ? last : "last"}
                 onChange={onChange}

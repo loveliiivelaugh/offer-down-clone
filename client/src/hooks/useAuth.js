@@ -21,22 +21,24 @@ function useProvideAuth() {
   const [user, setUser] = useState(null);
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
-  const signin = (email, password) => {
+  const signin = (user) => {
+    console.log(user[0])
     return firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(user[0].email, user[0].password)
       .then((response) => {
-        setUser(response.user);
-        return response.user;
+        setUser(user[0]);
+        return user[0];
       });
   };
-  const signup = (email, password) => {
+  const signup = (user) => {
+    console.log(user)
     return firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(user.email, user.password)
       .then((response) => {
-        setUser(response.user);
-        return response.user;
+        setUser(user);
+        return user;
       });
   };
   const signout = () => {

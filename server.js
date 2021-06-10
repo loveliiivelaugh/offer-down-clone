@@ -6,7 +6,6 @@ const routes = require('./server/routes');
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/offerDown", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
