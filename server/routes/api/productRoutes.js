@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const Product = require('../../models/product');
 
 // //fakestoreapi -- GET dummyProducts route 
 // router.get('/products', (req, res) => {
@@ -22,7 +21,9 @@ const User = require('../../models/User');
 // @api -- getProducts()
 // @descr --  Return all products posted in the database.
 router.get('/', async (req, res) => {
+
   console.log("getProducts()");
+  
   const totalItems = [];
 
   try {
@@ -34,7 +35,7 @@ router.get('/', async (req, res) => {
       });
     });
 
-    console.log(totalItems);
+    // console.log(totalItems);
     res.status(200).json(totalItems);
   } catch (error) {
     res.status(500).json({ error: error });

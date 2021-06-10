@@ -14,6 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../hooks/useAuth.js";
 
+import Api from '../../api';
+
 
 
 function Copyright() {
@@ -40,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ setType }) => {
+const SignIn = ({ setType, handleClose }) => {
   const auth = useAuth();
   const classes = useStyles();
   const [pending, setPending] = React.useState()
@@ -56,14 +58,17 @@ const SignIn = ({ setType }) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value })
   );
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     setPending(true);
 
     console.log(data)
     const { email, password } = data;
 
-    auth.signin(email, password);
-    // await Api.login() //not working yet
+    const user = await Api.getUser(email);
+
+    console.log(user);
+
+    auth.signin(user.data);
     
     const clearValues = () => {
       setAuthData({

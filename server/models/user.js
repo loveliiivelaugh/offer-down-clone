@@ -165,8 +165,10 @@ const UserSchema = new Schema({
                 type: Schema.ObjectId
             }
         }
-    ]
-
+    ],
+    unique_id: {
+        type: String
+    },
 });
 
 const User = mongoose.model('User', UserSchema);
