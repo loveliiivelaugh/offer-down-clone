@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Divider, List, ListItem, ListItemText, ListItemIcon, Typography } from '@material-ui/core';
+import { Card, CardContent, Divider, Link, List, ListItem, ListItemText, ListItemIcon, Typography } from '@material-ui/core';
 // import ShareIcon from '@material-ui/icons/Share';
 
 const SideNavCard = ({ handleNav }) => {
@@ -43,7 +43,7 @@ const SideNavCard = ({ handleNav }) => {
             <ListItemText primary="Account Settings" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="View public profile" />
+            <Link to='/profile'><ListItemText primary="View public profile" /></Link>
             <ListItemIcon>
               {/* <ShareIcon /> */}
             </ListItemIcon>
@@ -52,7 +52,7 @@ const SideNavCard = ({ handleNav }) => {
       
       </CardContent>
     </Card>
-  )
+  );
 }
 
-export default SideNavCard
+export default SideNavCard;

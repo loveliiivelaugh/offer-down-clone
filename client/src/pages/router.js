@@ -7,6 +7,7 @@ import SellingPage from './SellingPage';
 import OfferPage from './OfferPage';
 import SingleProductPage from './SingleProductPage';
 import CheckoutPage from './CheckoutPage';
+import ProfilePage from './ProfilePage';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -32,6 +33,8 @@ const router = () => {
         <Route exact path="/products/:id" component={SingleProductPage} />
 
         <Route exact path="/checkout" component={CheckoutPage} />
+
+        <Route exact path="/profile" component={ProfilePage} />
 
       </Switch>
 
