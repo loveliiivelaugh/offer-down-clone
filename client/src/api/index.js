@@ -40,8 +40,8 @@ const Api = {
       .then(response => response)
       .catch(error => console.error(error));
   },
-  removeLikedItem: async (id) => {
-    return await axios.delete('/api/users/likes/' + id)
+  removeLikedItem: async (user_id, id) => {
+    return await axios.delete(`/api/users/likes/${user_id}/${id}`)
       .then(response => response)
       .catch(error => console.error(error));
   },

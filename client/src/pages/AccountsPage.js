@@ -102,6 +102,8 @@ const AccountsPage = (props) => {
   //OLD WAY
   const handleDelete = async (id) => {
     const deletedItem = await Api.removeLikedItem(id);
+
+    console.log(deletedItem);
   };
 
   return (
@@ -123,7 +125,7 @@ const AccountsPage = (props) => {
             {type === "purchases" && <TransactionsSection />}
             {type === "saves" &&
               <LikedItemsSection
-                saved_items={user && user.saved_items}
+                saved_items={user}
                 handleClick={handleClick}
                 handleDelete={handleDelete}
               />
