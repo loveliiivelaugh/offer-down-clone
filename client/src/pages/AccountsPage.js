@@ -9,7 +9,9 @@ import PaymentSettings from '../components/PaymentSettings';
 import SideNavCard from '../components/SideNavCard';
 import SavedItems from '../components/SavedItems';
 import TransactionsSection from '../components/TransactionsSection';
-import { Avatar, Card, CardContent, Divider, List, ListItem, ListItemAvatar, ListItemText, ListItemIcon, ShareIcon, Button, Grid, Typography } from '@material-ui/core';
+import BankingSection from '../components/BankingSection';
+import SettingsSection from '../components/SettingsSection';
+import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ProfilePage from './ProfilePage';
 
@@ -29,7 +31,7 @@ const AccountsPage = (props) => {
   const router = useRouter();
   const auth = useAuth();
   const [user, setUser] = useState({}); //OLD WAY
-  console.log(user)
+  console.log(auth, user)
   const [pending, setPending] = useState(false);
   const [section, setSection] = useState({
     type: "purchases",
@@ -54,20 +56,17 @@ const AccountsPage = (props) => {
   //   : setPending(false);
 
   // OLD WAY
-  // const fetchLoggedInUser = async () => {
-  //   const userId = await auth.user.uid;
-  //   console.log(userId);
-  //   const loggedInUser = await Api.getUser(userId);
-
-  //   console.log(loggedInUser);
-  //   setUser(loggedInUser);
-  //   setPending(false);
-  // };
+  const fetchLoggedInUser = async () => {
+    const loggedInUser = await Api.getUser(await auth.user.uid);
+    console.log(loggedInUser);
+    setUser(loggedInUser.data[0]);
+    setPending(false);
+  };
 
   useEffect(() => {
     setPending(true);
-    // fetchLoggedInUser();
-  }, []);
+    fetchLoggedInUser();
+  }, [auth]);
 
   console.log(user);
 
@@ -104,6 +103,8 @@ const AccountsPage = (props) => {
   //OLD WAY
   const handleDelete = async (id) => {
     const deletedItem = await Api.removeLikedItem(id);
+
+    console.log(deletedItem);
   };
 
   return (
@@ -119,6 +120,21 @@ const AccountsPage = (props) => {
           {title}
         </Typography>
 
+        
+        <Card style={{ height: '60vh' }}>
+          <CardContent>
+            {type === "purchases" && <TransactionsSection />}
+            {type === "saves" &&
+              <LikedItemsSection
+                saved_items={user}
+                handleClick={handleClick}
+                handleDelete={handleDelete}
+              />
+            }
+            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "settings" && <AccountSettings user={user} />}
+          </CardContent>
+        </Card>
 {/* 
         <Card style={{height: '60vh'}}>
           <CardContent>
@@ -199,25 +215,6 @@ const AccountsPage = (props) => {
             </List>
           </CardContent>
         </Card> */}
-
-
-
-
-        <Card>
-          <CardContent>
-            {type === "purchases" && <TransactionsSection />}
-            {type === "saves" &&
-              <SavedItems
-                saved_items={user.saved_items}
-                handleClick={handleClick}
-                handleDelete={handleDelete} //NEW WAY
-              // handleDelete={deleteItem} //NEW WAY
-              />
-            }
-            {type === "banking" && <PaymentSettings user={user} />}
-            {type === "settings" && <AccountSettings user={user} />}
-          </CardContent>
-        </Card>
 
       </Grid>
     </Grid>

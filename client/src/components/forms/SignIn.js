@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../hooks/useAuth.js";
+
+import Api from '../../api';
 
 
 
@@ -40,11 +42,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ setType }) => {
+const SignIn = ({ setType, handleClose }) => {
   const auth = useAuth();
   const classes = useStyles();
-  const [pending, setPending] = React.useState()
-  const [authData, setAuthData] = React.useState({
+  const [user, setUser] = useState()
+  const [pending, setPending] = useState()
+  const [authData, setAuthData] = useState({
     email: '',
     password: ''
   });
@@ -56,14 +59,15 @@ const SignIn = ({ setType }) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value })
   );
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     setPending(true);
-
-    console.log(data)
     const { email, password } = data;
 
-    auth.signin(email, password);
-    // await Api.login() //not working yet
+    const firebaseDetails = await auth.signin(email, password);
+    console.log(firebaseDetails)
+
+    const signedInUser = await Api.getUser(firebaseDetails.user.uid);
+    setUser(signedInUser);
     
     const clearValues = () => {
       setAuthData({
@@ -73,7 +77,9 @@ const SignIn = ({ setType }) => {
     };
     clearValues();
 
-    setPending(false);  
+    setPending(false);
+
+    handleClose()
   };
 
   return (

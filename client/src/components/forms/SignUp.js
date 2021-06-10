@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUp = ({ setType }) => {
+const SignUp = ({ handleClose, setType }) => {
   const auth = useAuth();
   const classes = useStyles();
   const [pending, setPending] = React.useState()
@@ -71,14 +71,14 @@ const SignUp = ({ setType }) => {
 
   const handleSubmit = async (data) => {
     setPending(true);
+    const { email, password } = data
+    const firebaseDetails = await auth.signup(email, password);
 
-    console.log(data)
-    const { first, last, email, password } = data;
+    console.log(firebaseDetails)
 
-    auth.signup(email, password);
-    const newUser = await Api.createUser(data);
+    const newUser = await Api.createUser(Object.assign(firebaseDetails.user, { password: password }));
 
-    console.log(newUser);
+    console.log(newUser)
     
     const clearValues = () => {
       setAuthData({
@@ -90,7 +90,9 @@ const SignUp = ({ setType }) => {
     };
     clearValues();
 
-    setPending(false);  
+    setPending(false)
+
+    handleClose()
   };
 
   return (
@@ -111,10 +113,10 @@ const SignUp = ({ setType }) => {
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="first"
                 variant="outlined"
                 fullWidth
-                id="firstName"
+                id="first"
                 label="First Name"
                 autoFocus
                 value={authData ? first : "first"}
@@ -125,9 +127,9 @@ const SignUp = ({ setType }) => {
               <TextField
                 variant="outlined"
                 fullWidth
-                id="lastName"
+                id="last"
                 label="Last Name"
-                name="lastName"
+                name="last"
                 autoComplete="lname"
                 value={authData ? last : "last"}
                 onChange={onChange}
