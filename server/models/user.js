@@ -166,7 +166,7 @@ const UserSchema = new Schema({
             }
         }
     ],
-    unique_id: {
+    firebase_uid: {
         type: String
     },
 });

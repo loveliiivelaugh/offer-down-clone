@@ -71,15 +71,14 @@ const SignUp = ({ handleClose, setType }) => {
 
   const handleSubmit = async (data) => {
     setPending(true);
+    const { email, password } = data
+    const firebaseDetails = await auth.signup(email, password);
 
-    console.log(data)
-    const { email, password } = data;
+    console.log(firebaseDetails)
 
-    const newUser = await Api.createUser(data);
+    const newUser = await Api.createUser(Object.assign(firebaseDetails.user, { password: password }));
 
-    console.log(newUser.data);
-    
-    auth.signup(newUser.data);
+    console.log(newUser)
     
     const clearValues = () => {
       setAuthData({

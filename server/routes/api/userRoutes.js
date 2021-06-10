@@ -115,10 +115,12 @@ router.get('/:id', async ({ params }, res) => {
 router.get('/user/:query', async (req, res) => {
   const { query } = req.params;
 
+  console.log(query)
+
   try {
     const userData = await User.find({});
 
-    const user = userData.filter(user => user.email == query);
+    const user = userData.filter(user => user.firebase_uid == query);
 
     console.log(user, userData[0].email);
 
@@ -140,17 +142,32 @@ router.get('/user/:query', async (req, res) => {
 //   }
 // });
 
-// @method -- createUser()
-// @descr -- Create a new user
-// @route POST /api/users
+/**
+ * @method createUser()
+ * @descr Create a new user
+ * @route POST /api/users
+ */
 router.post('/', async ({ body }, res) => {
-  try {
-    const newUser = await User.create(body);
 
-    console.log(newUser, body);
+  const { email, providerData, uid, lastLoginAt, createdAt } = body;
+
+  console.log(body);
+
+
+  try {
+    const newUser = await User.create({ 
+      email: email, 
+      password: providerData[0].providerId,
+      firebase_uid: uid 
+    });
+
+    // console.log(newUser);
+    const appendedAuthObject = Object.assign(newUser, body);
+    
+    console.log(appendedAuthObject);
 
     newUser 
-      ? res.status(200).json(newUser) 
+      ? res.status(200).json(appendedAuthObject) 
       : res.status(500).json({ error: "Somethings wrong?!" });
   } catch (error) {
     res.status(500).json({ errorMessage: error });

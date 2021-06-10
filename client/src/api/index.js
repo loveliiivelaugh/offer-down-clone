@@ -3,7 +3,6 @@ import axios from "axios";
 const Api = {
   //...User API functions go here....
   createUser: async function(user) {
-
     return await axios.post('/api/users', user)
       .then(response => {
         console.log(response)
@@ -99,9 +98,9 @@ const Api = {
   addProduct: async (data) => {
     console.log(data);
 
-    return await axios.post('api/products', data)
-      .then(response => response)
-      .catch(error => console.error(error));
+    // return await axios.post('api/products', data)
+    //   .then(response => response)
+    //   .catch(error => console.error(error));
   },
 
 

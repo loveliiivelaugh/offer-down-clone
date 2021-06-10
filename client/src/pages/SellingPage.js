@@ -25,24 +25,25 @@ const SellingPage = () => {
   const auth = useAuth();
   const classes = useStyles();
 
+  console.log(auth)
+
   const [user, setUser] = useState({});
   const [pending, setPending] = useState(false);
 
-  const postedItems = user ? user.posted_items : [];
-
-  console.log(user, postedItems)
-  //this is the long way to do this.
-  //this can be moved into a useDatabase hook
   useEffect(() => {
     setPending(true);
-    const fetchUser = async () => {
-      const userData = await auth.user;
-      setUser(userData);
+    const getLoggedInUser = async () => {
+      const signedInUser = await Api.getUser(auth.user.uid);
+      setUser(signedInUser.data[0]);
       setPending(false);
     };
 
-    fetchUser();
+    getLoggedInUser();
+
   }, []);
+
+  console.log(user)
+  // const postedItems = user ? user.posted_items : [];
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -53,7 +54,6 @@ const SellingPage = () => {
   //end modal
 
   const handleDelete = async (id) => {
-    console.log("You are deleting me?!", id);
     const deletedItem = await Api.removeLikedItem(id);
     console.info(deletedItem);
   };
@@ -79,7 +79,7 @@ const SellingPage = () => {
             <CardContent>
               <List className={classes.list}>
                 {pending ? <ClipLoader /> :
-                  !pending && postedItems && postedItems.map(({ name, price, seller_id, product_id }) => (
+                  !pending && user.postedItems && user.postedItems.map(({ name, price, seller_id, product_id }) => (
                   <React.Fragment key={product_id}>
                     <ListItem button>
                       <ListItemAvatar>
