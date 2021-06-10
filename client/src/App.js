@@ -2,6 +2,7 @@ import React from 'react';
 import Pages from './pages/router';
 import './App.css';
 import { ProvideAuth } from "./hooks/useAuth.js";
+import { ProvideUser } from "./utils/mongoDb.js";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -13,9 +14,11 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 function App() {
   return (
     <ProvideAuth>
-      <Elements stripe={stripePromise}>
-        <Pages />
-      </Elements>
+      <ProvideUser>
+        <Elements stripe={stripePromise}>
+          <Pages />
+        </Elements>
+      </ProvideUser>
     </ProvideAuth>
   );
 }

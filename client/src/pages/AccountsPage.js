@@ -14,6 +14,7 @@ import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ProfilePage from './ProfilePage';
+import { useMongoDb } from '../utils/mongoDb.js';
 
 //How is Michael keeping tracking of whos accessing these pages?
 //https://usehooks.com/useRequireAuth/
@@ -31,6 +32,8 @@ const AccountsPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const auth = useAuth();
+  const loggedInUser = useMongoDb();
+  console.log(loggedInUser);
   const [user, setUser] = useState({}); //OLD WAY
   console.log(auth, user)
   const [pending, setPending] = useState(false);
