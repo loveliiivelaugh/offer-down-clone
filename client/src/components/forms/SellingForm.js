@@ -18,8 +18,6 @@ import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
 import 'firebase/storage';
-
-
 import Api from '../../api';
 
 
@@ -32,12 +30,30 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  closeBtn: {
+    float: 'right'
+  }
 }));
 
-const SellingForm = () => {
+const SellingForm = ({ handleClose }) => {
   const auth = useAuth();
   const classes = useStyles();
-  const [pending, setPending] = useState()
+  const [user, setUser] = useState({});
+  const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    setPending(true);
+    const getLoggedInUser = async () => {
+      const signedInUser = await Api.getUser(auth.user.uid);
+      setUser(signedInUser.data[0]);
+      setPending(false);
+    };
+
+    getLoggedInUser();
+
+  }, []);
+
+  console.log(user)
   const [sellingData, setSellingData] = useState({
     name: '',
     description: '',
@@ -62,8 +78,8 @@ const SellingForm = () => {
 
     console.log(data, 'data getting passed in the handler');
 
-    var storageRef = firebase.storage().ref();
-    var imageRef = storageRef.child('images/' + data.picture.name);
+    let storageRef = firebase.storage().ref();
+    let imageRef = storageRef.child('images/' + data.picture.name);
     await imageRef.put(data.picture).then( async (snapshot) => {
       
       await snapshot.ref.getDownloadURL().then((url)=> {
@@ -72,8 +88,10 @@ const SellingForm = () => {
     });
 
     console.log(data, 'modified data project');
+    console.log(auth);
 
-    Api.addProduct({product: data, user: auth.user})
+
+    Api.addProduct({product: data, user: user._id});
     
     const clearValues = () => {
       setSellingData({
@@ -96,6 +114,15 @@ const SellingForm = () => {
         <Typography component="h1" variant="h5">
           Sell an item
         </Typography>
+        <Button
+            type="submit"
+            variant="outlined"
+            color="secondary"
+            className={classes.close}
+            onClick={handleClose}
+          >
+            X
+          </Button>
         <form 
           className={classes.form}
           encType='multipart/form-data'

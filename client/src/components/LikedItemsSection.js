@@ -18,23 +18,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LikedItemsSection = ({ saved_items, handleClick, handleDelete }) => {
+
+const LikedItemsSection = ({ user, handleClick, handleDelete }) => {
   const classes = useStyles();
+
+  // const { saved_items } = user;
+  console.log(user)
   return (
     <Card style={{height: '60vh'}}>
       <CardContent>
         <List className={classes.list}>
-          {saved_items.map(({ userId: _id, name, price, product_id }) => (
-            <React.Fragment key={product_id}>
-              <ListItem button onClick={() => handleClick({ _id, name, price, product_id })}>
+          {/* {user &&
+            user?.saved_items.length > 0 ? 
+            user?.saved_items.map(({ _id, title, price, product_id }) => (
+            <React.Fragment key={_id}>
+              <ListItem button onClick={() => handleClick({ _id, title, price, _id })}>
                 <ListItemAvatar>
                   <Avatar alt="Profile Picture" src="" />
                 </ListItemAvatar>
-                <ListItemText primary={name} />
+                <ListItemText primary={title} />
               </ListItem>
-              <Button onClick={() => handleDelete(product_id)} color="secondary">Delete</Button>
+              <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
             </React.Fragment>
-          ))}
+          )) : "No items saved yet..." }
+           */}
+            "No Items yet"
         </List>
       </CardContent>
     </Card>
