@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -45,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = ({ setType, handleClose }) => {
   const auth = useAuth();
   const classes = useStyles();
-  const [pending, setPending] = React.useState()
-  const [authData, setAuthData] = React.useState({
+  const [user, setUser] = useState()
+  const [pending, setPending] = useState()
+  const [authData, setAuthData] = useState({
     email: '',
     password: ''
   });
@@ -60,15 +61,13 @@ const SignIn = ({ setType, handleClose }) => {
 
   const handleSubmit = async (data) => {
     setPending(true);
-
-    console.log(data)
     const { email, password } = data;
 
-    const user = await Api.getUser(email);
+    const firebaseDetails = await auth.signin(email, password);
+    console.log(firebaseDetails)
 
-    console.log(user);
-
-    auth.signin(user.data);
+    const signedInUser = await Api.getUser(firebaseDetails.user.uid);
+    setUser(signedInUser);
     
     const clearValues = () => {
       setAuthData({
@@ -78,7 +77,9 @@ const SignIn = ({ setType, handleClose }) => {
     };
     clearValues();
 
-    setPending(false);  
+    setPending(false);
+
+    handleClose()
   };
 
   return (

@@ -38,23 +38,67 @@ const User = require('../../models/User.js');
 //   }
 // });
 
-// // addLikedItem()
-// //On the front end, we also send the id of the current user along with this post request
-// router.post('/likes/:id', async (req, res) => {
-//   try {
-//     const product = await Product.find({ _id: req.params.id });
-//     const user = await User.findOne({ id: req.body.user });
 
-//     user.saved_items.push(product);
+/**
+ * @method POST /api/likes
+ * @descr Return the current logged in users saved items -- On the front end, we also send the id of the current user along with this post request
+ * @API addLikedItem()
+ */
+router.post('/likes', async ({ body }, res) => {
+  console.log(body);
+  
+  try {
+    User.findById(body.user._id, (err, doc) => {
+      if (err) throw err;
+      doc.saved_items.push(body.item);
 
-//     const updatedUser = await User.updateOne({ id: req.body.user }, { user });
+      doc.save();
 
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
+      console.log(doc);
 
-// });
+      res.status(200).json(doc);
+    });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
+
+/**
+ * @method DELETE /api/likes/:id
+ * @descr Delete a saved item from the users saved_items array
+ * @API removeLikedItem()
+ */
+router.delete('/likes/:user/:id', async ({ params }, res) => {
+  console.log(params);
+  
+  try {
+    User.findById(params.user._id, (err, doc) => {
+      if (err) throw err;
+      
+      console.log(doc);
+
+      const itemToBeDeleted = doc.liked_items.forEach(item => {
+        if (item._id == params.id) {
+          return item;
+        }
+      });
+
+      console.log(itemToBeDeleted);
+
+      const index = doc.liked_items.indexOf({ _id: itemToBeDeleted.id });
+
+      const updatedLikedItems = doc.liked_items.splice(index, 1);
+
+      console.log(updatedLikedItems);
+
+      doc.save();
+
+      res.status(200).json(doc);
+    });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 // // updateUser()
 // router.put('/:id', async (req, res) => {
@@ -115,10 +159,12 @@ router.get('/:id', async ({ params }, res) => {
 router.get('/user/:query', async (req, res) => {
   const { query } = req.params;
 
+  console.log(query)
+
   try {
     const userData = await User.find({});
 
-    const user = userData.filter(user => user.email == query);
+    const user = userData.filter(user => user.firebase_uid == query);
 
     console.log(user, userData[0].email);
 
@@ -140,69 +186,38 @@ router.get('/user/:query', async (req, res) => {
 //   }
 // });
 
-// @method -- createUser()
-// @descr -- Create a new user
-// @route POST /api/users
+/**
+ * @method createUser()
+ * @descr Create a new user
+ * @route POST /api/users
+ */
 router.post('/', async ({ body }, res) => {
-  try {
-    const newUser = await User.create(body);
 
-    console.log(newUser, body);
+  const { email, providerData, uid, lastLoginAt, createdAt } = body;
+
+  console.log(body);
+
+
+  try {
+    const newUser = await User.create({ 
+      email: email, 
+      password: providerData[0].providerId,
+      firebase_uid: uid 
+    });
+
+    // console.log(newUser);
+    const appendedAuthObject = Object.assign(newUser, body);
+    
+    console.log(appendedAuthObject);
 
     newUser 
-      ? res.status(200).json(newUser) 
+      ? res.status(200).json(appendedAuthObject) 
       : res.status(500).json({ error: "Somethings wrong?!" });
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }
 
 });
-
-
-// // @method: POST /api/likes/:id
-// // @descr: Return the current logged in users saved items
-// // @API addLikedItem()
-// router.post('/likes/:id', async ({ body }, res) => {
-//   try {
-//     const user = await User.find({});
-
-//     console.log(body);
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-// });
-
-// //addLikedItem()
-// //On the front end, we also send the id of the current user along with this post request
-// router.post('/likes/:id', async (req, res) => {
-//   try {
-//     const product = await Product.find({ _id: req.params.id });
-//     const user = await User.findOne({ id: req.body.user });
-
-//     user.saved_items.push(product);
-
-//     const updatedUser = await User.updateOne({ id: req.body.user }, { user });
-
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-
-// });
-
-// router.put('/:id', async (req, res) => {
-//   console.log(req.body);
-//   try {
-//     const userData = await User.updateOne({ id: req.params.id }, req.body); // talk with team
-
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   };
-
-// });
 
 // router.delete('/:id', async (req, res) => { 
 //   try {

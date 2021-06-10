@@ -3,7 +3,6 @@ import axios from "axios";
 const Api = {
   //...User API functions go here....
   createUser: async function(user) {
-
     return await axios.post('/api/users', user)
       .then(response => {
         console.log(response)
@@ -37,12 +36,12 @@ const Api = {
   },
   addLikedItem: async (user, item) => {
     console.log(user, item);
-    return await axios.post('/api/users/likes/:id', { user: user, items: item })
+    return await axios.post('/api/users/likes', { user: user, item: item })
       .then(response => response)
       .catch(error => console.error(error));
   },
-  removeLikedItem: async (id) => {
-    return await axios.delete('/api/users/likes/' + id)
+  removeLikedItem: async (user_id, id) => {
+    return await axios.delete(`/api/users/likes/${user_id}/${id}`)
       .then(response => response)
       .catch(error => console.error(error));
   },
@@ -99,9 +98,9 @@ const Api = {
   addProduct: async (data) => {
     console.log(data);
 
-    return await axios.post('api/products', data)
-      .then(response => response)
-      .catch(error => console.error(error));
+    // return await axios.post('api/products', data)
+    //   .then(response => response)
+    //   .catch(error => console.error(error));
   },
 
 

@@ -101,13 +101,28 @@ const UserSchema = new Schema({
     ],
     saved_items: [
         {
-            name: {
-                type: String
-            },
             price: {
                 type: Number
             },
             product_id: {
+                type: String
+            },
+            _id: {
+                type: String
+            },
+            title: {
+                type: String
+            },
+            description: {
+                type: String
+            },
+            category: {
+                type: String
+            },
+            image: {
+                type: String
+            },
+            seller_id: {
                 type: String
             }
         }
@@ -166,7 +181,7 @@ const UserSchema = new Schema({
             }
         }
     ],
-    unique_id: {
+    firebase_uid: {
         type: String
     },
 });
