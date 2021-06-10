@@ -37,7 +37,7 @@ const LikedItemsSection = ({ user, handleClick, handleDelete }) => {
                 <ListItemText primary={title} />
               </ListItem>
               <Button onClick={() => {
-                console.log(user._id, _id)
+                console.log(user._id, _id, 'my click here')
                 handleDelete(user._id, _id)
                 }} color="secondary">Delete</Button>
             </React.Fragment>
