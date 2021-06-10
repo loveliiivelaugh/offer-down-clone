@@ -7,12 +7,13 @@ import AccountSettings from '../components/AccountSettings';
 import PaymentSettings from '../components/PaymentSettings';
 //components
 import SideNavCard from '../components/SideNavCard';
-import LikedItemsSection from '../components/LikedItemsSection';
+import SavedItems from '../components/SavedItems';
 import TransactionsSection from '../components/TransactionsSection';
 import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ProfilePage from './ProfilePage';
 
 //How is Michael keeping tracking of whos accessing these pages?
 const useStyles = makeStyles((theme) => ({
@@ -87,7 +88,7 @@ const AccountsPage = (props) => {
     },
     settings: () => {
       setSection({ ...section, title: "Account Settings", type: "settings" });
-    }
+    },
   };
 
   const handleClick = (product) => {
@@ -190,7 +191,7 @@ const AccountsPage = (props) => {
 
         {/* 
   Move this Card into its own component.
-  Call it LikedItemsSection.js
+  Call it SavedItems.js
   
   !!! Also this component needs to be fixed up. Styling needs to be adjusted. Positioning of delete button adjusted.
   !!! clickHandler() is not passing in the correct data nor data structure. After investigating a little, for whatever

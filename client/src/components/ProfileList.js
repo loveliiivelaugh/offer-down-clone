@@ -17,6 +17,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { PromiseProvider } from 'mongoose';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function AccountSettings(props) {
+function ProfileList(props) {
     
     const classes = useStyles();
     console.log(props);
@@ -39,7 +40,12 @@ function AccountSettings(props) {
         name: 'Melanie',
         email: 'melanie@test.com',
         location: 'Chicago, IL',
-        password: 'password123'
+        password: 'password123',
+        posted_items: {
+            title: 'Blanket',
+            price: '12'
+        }
+
 
     }
 
@@ -52,41 +58,14 @@ function clickHandler() {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <Typography variant="h6" className={classes.title}>
-                        Account Information
+                        Items from this seller
             </Typography>
                     <div className={classes.demo}>
                         <List>
                             <ListItem>
-                                <ListItemText
-                                    primary={user.name}
-                                />
-                                <Button variant="contained" color="primary" onClick={clickHandler}>
-                                    EDIT
-                                </Button>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText
-                                    primary={user.email}
-                                />
-                                <Button variant="contained" color="primary" onClick={clickHandler}> 
-                                    EDIT
-                                </Button>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText
-                                    primary={user.location}
-                                />
-                                <Button variant="contained" color="primary" onClick={clickHandler}>
-                                    EDIT
-                                </Button>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText
-                                    primary={user.password}
-                                />
-                                <Button variant="contained" color="primary" onClick={clickHandler}>
-                                    EDIT
-                                </Button>
+                                <Link to={'/products/' + user.posted_items.id}><ListItemText
+                                    primary={user.posted_items.title}
+                                /></Link>
                             </ListItem>
                         </List>
                     </div>
@@ -97,4 +76,4 @@ function clickHandler() {
 }
 
 
-export default AccountSettings;
+export default ProfileList;
