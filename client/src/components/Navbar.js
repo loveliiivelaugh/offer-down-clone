@@ -33,6 +33,7 @@ import Collapse from '@material-ui/core/Collapse';
 
 import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
+import Api from "../api";
 
 
 const messages = [
@@ -188,6 +189,15 @@ const Navbar = () => {
   const router = useRouter();
 
   console.log(auth)
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      const loggedInUser = await Api.getUser(await auth.user.uid);
+      setUser(loggedInUser);
+    };
+
+    fetchLoggedInUser();
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -413,10 +423,8 @@ const Navbar = () => {
             Inbox
           </Typography>
           <List className={classes.list}>
-            {messages.map(({ id, primary, secondary, person }) => (
+            {user && user.messages ? user.messages.map(({ id, primary, secondary, person }) => (
               <React.Fragment key={id}>
-                {id === 1 && <ListSubheader className={classes.subheader}>Today</ListSubheader>}
-                {id === 3 && <ListSubheader className={classes.subheader}>Yesterday</ListSubheader>}
                 <ListItem button>
                   <ListItemAvatar>
                     <Avatar alt="Profile Picture" src={person} />
@@ -424,7 +432,7 @@ const Navbar = () => {
                   <ListItemText primary={primary} secondary={secondary} />
                 </ListItem>
               </React.Fragment>
-            ))}
+            )) : "No messages yet..." }
           </List>
         </Paper>
       </Collapse>

@@ -55,20 +55,17 @@ const AccountsPage = (props) => {
   //   : setPending(false);
 
   // OLD WAY
-  // const fetchLoggedInUser = async () => {
-  //   const userId = await auth.user.uid;
-  //   console.log(userId);
-  //   const loggedInUser = await Api.getUser(userId);
-
-  //   console.log(loggedInUser);
-  //   setUser(loggedInUser);
-  //   setPending(false);
-  // };
+  const fetchLoggedInUser = async () => {
+    const loggedInUser = await Api.getUser(await auth.user.uid);
+    console.log(loggedInUser);
+    setUser(loggedInUser.data[0]);
+    setPending(false);
+  };
 
   useEffect(() => {
     setPending(true);
-    // fetchLoggedInUser();
-  }, []);
+    fetchLoggedInUser();
+  }, [auth]);
 
   console.log(user);
 
@@ -126,10 +123,9 @@ const AccountsPage = (props) => {
             {type === "purchases" && <TransactionsSection />}
             {type === "saves" &&
               <LikedItemsSection
-                // saved_items={user.data.saved_items}
+                saved_items={user && user.saved_items}
                 handleClick={handleClick}
-                handleDelete={handleDelete} //NEW WAY
-              // handleDelete={deleteItem} //NEW WAY
+                handleDelete={handleDelete}
               />
             }
             {type === "banking" && <PaymentSettings user={user} />}

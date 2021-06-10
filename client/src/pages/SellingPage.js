@@ -33,7 +33,7 @@ const SellingPage = () => {
   useEffect(() => {
     setPending(true);
     const getLoggedInUser = async () => {
-      const signedInUser = await Api.getUser(auth.user.uid);
+      const signedInUser = await Api.getUser(await auth.user.uid);
       setUser(signedInUser.data[0]);
       setPending(false);
     };

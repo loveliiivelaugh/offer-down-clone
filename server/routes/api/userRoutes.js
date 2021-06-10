@@ -38,23 +38,30 @@ const User = require('../../models/User.js');
 //   }
 // });
 
-// // addLikedItem()
-// //On the front end, we also send the id of the current user along with this post request
-// router.post('/likes/:id', async (req, res) => {
-//   try {
-//     const product = await Product.find({ _id: req.params.id });
-//     const user = await User.findOne({ id: req.body.user });
 
-//     user.saved_items.push(product);
+/**
+ * @method POST /api/likes/:id
+ * @descr Return the current logged in users saved items -- On the front end, we also send the id of the current user along with this post request
+ * @API addLikedItem()
+ */
+router.post('/likes', async ({ body }, res) => {
+  console.log(body);
+  
+  try {
+    User.findById(body.user._id, (err, doc) => {
+      if (err) throw err;
+      doc.saved_items.push(body.item);
 
-//     const updatedUser = await User.updateOne({ id: req.body.user }, { user });
+      doc.save();
 
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
+      console.log(doc);
 
-// });
+      res.status(200).json(doc);
+    });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 // // updateUser()
 // router.put('/:id', async (req, res) => {
