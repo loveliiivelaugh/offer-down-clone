@@ -66,15 +66,30 @@ router.get('/', async (req, res) => {
 // });
 
 // // addProduct()
-// router.post('/products', async (req, res) => {
-//   try {
-//     const newProduct = await Product.create(body);
+router.post('/products', async (req, res) => {
+  try {
 
-//     res.status(200).json(newProduct);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-// });
+    console.log(req.body, 'im in the bbackend product route')
+
+    const searchedUser = await User.find({email: req.body.user})
+      
+    const productObject = {
+      name: req.body.product.name,
+      description: req.body.product.description,
+      image: req.body.product.picture,
+      price: req.body.product.price,
+      zip_code: req.body.product.zip_code,
+    }
+    
+
+  //   const newProduct = await Product.create(body);
+
+  //   res.status(200).json(newProduct);
+  res.end();
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 // // updateProduct()
 // router.put('/products/:id', async (req, res) => {
