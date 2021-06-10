@@ -7,8 +7,8 @@ import Api from '../api';
 /**** USERS ****/
 // Fetch user data (hook)
 // This is called automatically by auth.js and merged into auth.user
-export function useUser(uid) {
-  return useQuery(uid && "useUser");
+export function useUser(user) {
+  return useQuery(user);
 }
 
 // Update an existing user

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useContext, useMemo, createContext } from "react";
 import firebase from "../utils/firebase";
+import { useUser } from "../utils/mongoDb";
 
 
 const authContext = createContext();
@@ -19,26 +20,25 @@ export const useAuth = () => {
 // Provider hook that creates auth object and handles state
 function useProvideAuth() {
   const [user, setUser] = useState(null);
+
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
-  const signin = (user) => {
-    console.log(user[0])
+  const signin = (email, password) => {
     return firebase
       .auth()
-      .signInWithEmailAndPassword(user[0].email, user[0].password)
+      .signInWithEmailAndPassword(email, password)
       .then((response) => {
-        setUser(user[0]);
-        return user[0];
+        setUser(response);
+        return response;
       });
   };
-  const signup = (user) => {
-    console.log(user)
+  const signup = (email, password) => {
     return firebase
       .auth()
-      .createUserWithEmailAndPassword(user.email, user.password)
+      .createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        setUser(user);
-        return user;
+        setUser(response);
+        return response;
       });
   };
   const signout = () => {
@@ -72,7 +72,7 @@ function useProvideAuth() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        setUser(user);
+        setUser({ ...user, auth: user });
       } else {
         setUser(false);
       }
