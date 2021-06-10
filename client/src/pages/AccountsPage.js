@@ -7,7 +7,7 @@ import AccountSettings from '../components/AccountSettings';
 import PaymentSettings from '../components/PaymentSettings';
 //components
 import SideNavCard from '../components/SideNavCard';
-import SavedItems from '../components/SavedItems';
+import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
 import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ProfilePage from './ProfilePage';
 
 //How is Michael keeping tracking of whos accessing these pages?
+//https://usehooks.com/useRequireAuth/
 const useStyles = makeStyles((theme) => ({
   list: {
     marginBottom: theme.spacing(2),
@@ -101,8 +102,9 @@ const AccountsPage = (props) => {
   };
 
   //OLD WAY
-  const handleDelete = async (id) => {
-    const deletedItem = await Api.removeLikedItem(id);
+  const handleDelete = async (user_id, id) => {
+
+    const deletedItem = await Api.removeLikedItem(id, user_id);
 
     console.log(deletedItem);
   };
@@ -124,9 +126,9 @@ const AccountsPage = (props) => {
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
-            {type === "saves" &&
+            {type === "saves" && user &&
               <LikedItemsSection
-                saved_items={user}
+                user={user}
                 handleClick={handleClick}
                 handleDelete={handleDelete}
               />
