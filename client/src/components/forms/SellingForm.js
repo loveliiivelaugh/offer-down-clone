@@ -71,7 +71,7 @@ const SellingForm = () => {
 
     console.log(data, 'modified data project');
 
-    Api.addProduct({product: data, user: auth.user.email});
+    Api.addProduct({product: data, user: auth.user});
     
     const clearValues = () => {
       setSellingData({
