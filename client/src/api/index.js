@@ -93,14 +93,28 @@ const Api = {
       .catch(error => console.log(error));
   },
 
+  //accounts page handle
+  // getUsersListedProducts: async (user) => {
+  //   return await axios.get('/api/products/:id')
+  //     .then(res => response)
+  //     .catch(error => console.log(error));
+  // },
 
-  
+
+  // completed.
   addProduct: async (data) => {
     console.log(data);
-
-    return await axios.post('api/products', data)
+    return await axios.post('/api/products', data)
       .then(response => response)
       .catch(error => console.error(error));
+  },
+
+  removeListedItem: async (id, user) => {
+    console.log(id, 'id');
+    console.log(user, 'user')
+    return await axios.delete(`/api/products/${id}/${user}`)
+    .then(response => response)
+    .catch(error => console.error(error));
   },
 
 

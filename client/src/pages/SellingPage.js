@@ -45,6 +45,12 @@ const SellingPage = () => {
   console.log(user)
   // const postedItems = user ? user.posted_items : [];
 
+  // load products from db
+  // const getUsersProducts = (user) => {
+  //   Api.getUsersListedProducts(user)
+  // }
+
+
   //Modal
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("sell");
@@ -54,7 +60,7 @@ const SellingPage = () => {
   //end modal
 
   const handleDelete = async (id) => {
-    const deletedItem = await Api.removeLikedItem(id);
+    const deletedItem = await Api.removeListedItem(id, user._id);
     console.info(deletedItem);
   };
 
@@ -79,15 +85,15 @@ const SellingPage = () => {
             <CardContent>
               <List className={classes.list}>
                 {pending ? <ClipLoader /> :
-                  !pending && user.postedItems && user.postedItems.map(({ name, price, seller_id, product_id }) => (
-                  <React.Fragment key={product_id}>
+                  !pending && user.posted_items && user.posted_items.map(({ name, image, price, _id }) => (
+                  <React.Fragment key={_id}>
                     <ListItem button>
                       <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src="" />
+                        <Avatar alt="Profile Picture" src={image} />
                       </ListItemAvatar>
                       <ListItemText primary={name} />
                     </ListItem>
-                    <Button onClick={() => handleDelete(product_id)} color="secondary">Delete</Button>
+                    <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
                 ))}
               </List>
