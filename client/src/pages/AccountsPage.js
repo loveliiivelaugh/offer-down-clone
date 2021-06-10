@@ -7,7 +7,7 @@ import AccountSettings from '../components/AccountSettings';
 import PaymentSettings from '../components/PaymentSettings';
 //components
 import SideNavCard from '../components/SideNavCard';
-import SavedItems from '../components/SavedItems';
+import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
 import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
