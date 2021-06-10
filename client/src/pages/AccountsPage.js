@@ -11,6 +11,7 @@ import SavedItems from '../components/SavedItems';
 import TransactionsSection from '../components/TransactionsSection';
 import { Avatar, Card, CardContent, Divider, List, ListItem, ListItemAvatar, ListItemText, ListItemIcon, ShareIcon, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ProfilePage from './ProfilePage';
 
 //How is Michael keeping tracking of whos accessing these pages?
 const useStyles = makeStyles((theme) => ({
@@ -88,7 +89,7 @@ const AccountsPage = (props) => {
     },
     settings: () => {
       setSection({ ...section, title: "Account Settings", type: "settings" });
-    }
+    },
   };
 
   const handleClick = (product) => {
