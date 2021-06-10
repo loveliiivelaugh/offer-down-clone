@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, useContext, useMemo, createContext } from "react";
 import firebase from "../utils/firebase";
-import { useUser } from "../utils/mongoDb";
+// import { useMongoDb } from "../utils/mongoDb";
 
-const loggedInUser = useUser();
+// const loggedInUser = useMongoDb();
 const authContext = createContext();
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
@@ -79,7 +79,7 @@ function useProvideAuth() {
       }
     });
 
-    loggedInUser.setLoggedInUser(user);
+    // loggedInUser.setLoggedInUser(user);
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [user]);

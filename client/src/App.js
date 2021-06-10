@@ -2,7 +2,7 @@ import React from 'react';
 import Pages from './pages/router';
 import './App.css';
 import { ProvideAuth } from "./hooks/useAuth.js";
-import { ProvideUser } from "./utils/mongoDb.js";
+import { ProvideUser } from "./hooks/mongoDb.js";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
