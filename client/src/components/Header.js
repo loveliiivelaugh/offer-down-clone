@@ -5,6 +5,7 @@ import SortIcon from '@material-ui/icons/Sort';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link as Scroll } from 'react-scroll';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -47,14 +48,6 @@ export default function Header() {
     }, []);
     return (
         <div className={classes.root} id="header">
-            <AppBar className={classes.appbar} elevation={0}>
-                <Toolbar className={classes.appbarWrapper}>
-                    <h1 className={classes.appbarTitle}>
-                        Offer<span className={classes.colorText}>Down.</span>
-                    </h1>
-                </Toolbar>
-            </AppBar>
-
             <div className={classes.container}>
                 <h1 className={classes.title}>
                     Welcome to <br />

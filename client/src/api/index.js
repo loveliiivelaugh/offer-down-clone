@@ -48,22 +48,22 @@ const Api = {
   sendMessage: async (id) => {
     return await axios.post('/api/users/' + id)
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
   deleteMessage: async (id) => {
     return await axios.delete("api/users/"+ id)
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
   submitOffer: async (id) => {
     return await axios.post('/api/users/' + id)
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
   removerOffer: async (id) => {
     return await axios.delete('/api/users/' + id)
       .then(response => response)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   },
   getNotifications: async () => {
     return 
