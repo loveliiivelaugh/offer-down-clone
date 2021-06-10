@@ -107,7 +107,7 @@ const AccountsPage = (props) => {
   //OLD WAY
   const handleDelete = async (user_id, id) => {
 
-    const deletedItem = await Api.removeLikedItem(id, user_id);
+    const deletedItem = await Api.removeLikedItem(user_id, id);
 
     console.log(deletedItem);
   };

@@ -58,17 +58,17 @@ const SellingForm = ({ handleClose }) => {
     name: '',
     description: '',
     price: '',
-    picture: '',
+    image: '',
     zip_code: '',
   });
 
-  const { name, description, price, picture, zip_code } = sellingData;
+  const { name, description, price, image, zip_code } = sellingData;
 
   //function to update form data state upon form change
   const onChange = e => {
-    if (e.target.name === "picture") {
-      setSellingData({...sellingData, picture:e.target.files[0]});
-    } else if (e.target.name !== "picture") {
+    if (e.target.name === "image") {
+      setSellingData({...sellingData, image:e.target.files[0]});
+    } else if (e.target.name !== "image") {
       setSellingData({ ...sellingData, [e.target.name]: e.target.value })
     }
   };
@@ -79,11 +79,11 @@ const SellingForm = ({ handleClose }) => {
     console.log(data, 'data getting passed in the handler');
 
     let storageRef = firebase.storage().ref();
-    let imageRef = storageRef.child('images/' + data.picture.name);
-    await imageRef.put(data.picture).then( async (snapshot) => {
+    let imageRef = storageRef.child('images/' + data.image.name);
+    await imageRef.put(data.image).then( async (snapshot) => {
       
       await snapshot.ref.getDownloadURL().then((url)=> {
-        data.picture = url;
+        data.image = url;
       })
     });
 
@@ -98,7 +98,7 @@ const SellingForm = ({ handleClose }) => {
         name: '',
         description: '',
         price: '',
-        picture: {},
+        image: {},
         zip_code: '',
       });
     };
@@ -175,9 +175,9 @@ const SellingForm = ({ handleClose }) => {
             margin="normal"
             required
             fullWidth
-            id="picture"
+            id="image"
             label="Picture"
-            name="picture"
+            name="image"
             type="file"
             onChange={onChange}
             autoFocus
