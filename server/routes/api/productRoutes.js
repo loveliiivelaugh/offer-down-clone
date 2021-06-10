@@ -14,6 +14,7 @@ const router = express.Router();
 //     })
 // })
 const User = require('../../models/User');
+const Product = require('../../models/Product');
 // const axios = require('axios');
 
 
@@ -67,30 +68,45 @@ router.get('/', async (req, res) => {
 // });
 
 // // addProduct()
-router.post('/products', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
 
     console.log(req.body, 'im in the bbackend product route')
 
-    const searchedUser = await User.find({email: req.body.user})
+    // const searchedUser = await User.find({email: req.body.user})
       
     const productObject = {
       name: req.body.product.name,
       description: req.body.product.description,
-      image: req.body.product.picture,
+      image: req.body.product.image,
       price: req.body.product.price,
       zip_code: req.body.product.zip_code,
+      user_id: req.body.user
     }
-    
+    const newProduct = await Product.create(productObject);
 
-  //   const newProduct = await Product.create(body);
+    console.log(newProduct, "created product")
 
-  //   res.status(200).json(newProduct);
-  res.end();
+    await User.findByIdAndUpdate({_id:req.body.user}, {$push: {posted_items:newProduct}});
+
+    res.status(200).json({product:newProduct._id});
   } catch (error) {
+    console.log(error, 'backside error')
     res.status(500).json({ errorMessage: error });
   }
 });
+
+router.delete('/:id/:user', async (req, res) => {
+  console.log(req.params.id, 'backend delete, id');
+  console.log(req.params.user, 'backend delete, user');
+
+ 
+  await User.findByIdAndUpdate(req.params.user, {$pull: {
+    posted_items: {_id:req.params.id}}})
+
+  const prod = await Product.findByIdAndDelete({_id:req.params.id});
+  res.status(200).json(prod);
+})
 
 // // updateProduct()
 // router.put('/products/:id', async (req, res) => {
