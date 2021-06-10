@@ -21,13 +21,3 @@ function App() {
 }
 
 export default App;
-
-// export default function App() {
-//   const classes = useStyles();
-//   return (
-//     <div className={classes.root}>
-//       <CssBaseline/>
-//       <Header/>
-//     </div>
-//   );
-// }

@@ -125,7 +125,7 @@ const AccountsPage = (props) => {
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
             {type === "saves" &&
-              <LikedItemsSection
+              <SavedItems
                 saved_items={user}
                 handleClick={handleClick}
                 handleDelete={handleDelete}
