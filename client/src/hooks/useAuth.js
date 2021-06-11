@@ -1,9 +1,12 @@
 // refer to https://usehooks.com/useAuth to learn more about this custom hook
 
-import React, { useState, useEffect, useContext, useMemo, createContext } from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import firebase from "../utils/firebase";
 // import { useMongoDb } from "./useMongoDb.js";
 import { useRouter } from "./useRouter.js";
+//spinner --> https://www.npmjs.com/package/react-spinners
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const authContext = createContext();
 // Provider component that wraps your app and makes auth object ...
@@ -99,15 +102,25 @@ function useProvideAuth() {
 
 // A Higher Order Component for requiring authentication
 // Hook (useRequireAuth.js)
-export function useRequireAuth(redirectUrl = "/home") {
-  const auth = useAuth();
-  const router = useRouter();
-  // If auth.user is false that means we're not
-  // logged in and should redirect.
-  useEffect(() => {
-    if (auth.user === false) {
-      router.push(redirectUrl);
+export const requireAuth = (Component) => {
+  return (props) => {
+    const auth = useAuth();
+    const router = useRouter();
+    // If auth.user is false that means we're not
+    // logged in and should redirect.
+    useEffect(() => {
+      if (auth.user === false) {
+        router.push('/home');
+      }
+    }, [auth, router]);
+
+    // Show loading indicator
+    // We're either loading (user is null) or we're about to redirect (user is false)
+    if (!auth.user) {
+      return <ClipLoader />;
     }
-  }, [auth, router]);
-  return auth;
+
+    // Render component now that we have user
+    return <Component {...props} />;
+  }
 }
