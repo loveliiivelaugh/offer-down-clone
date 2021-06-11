@@ -52,7 +52,6 @@ const SellingPage = () => {
       <center>
         <NotificationsIcon />
         <Typography variant="h4" gutterBottom>Start making money</Typography>
-        <Typography variant="p" gutterBottom>To post items for sale, click the button.</Typography>
         
         <Button color="primary" variant="contained" onClick={handleOpen}>
           Post an item

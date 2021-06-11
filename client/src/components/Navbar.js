@@ -258,7 +258,7 @@ const Navbar = () => {
     >
       {auth.user ? (
         <div>
-          <MenuItem onClick={() => router.push('/accounts')}>Profile</MenuItem>
+          <MenuItem onClick={() => router.push('/profile')}>Profile</MenuItem>
           <MenuItem onClick={() => router.push('/accounts')}>My account</MenuItem>
           <Button onClick={() => auth.signout()}>Signout</Button>
         </div>

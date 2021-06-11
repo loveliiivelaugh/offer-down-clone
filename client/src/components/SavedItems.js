@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 */}
 
 
-function SavedItems({ saved_items, handleClick, handleDelete }) {
+function SavedItems({ handleClick, handleDelete }) {
 
   const classes = useStyles();
   const user = {

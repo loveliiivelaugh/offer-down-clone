@@ -137,8 +137,11 @@ const useStyles = makeStyles((theme) => ({
   },
   grey: {
     backgroundColor: '#DFDCE3'
+  },
+  footer: {
+    position: 'sticky',
+    bottom: 0
   }
-
 }));
 
 function Copyright() {
@@ -173,7 +176,7 @@ const Footer = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position='sticky'>
+      <AppBar className={classes.footer}>
         <Toolbar className={classes.grey}>
           <List>
             <ListItem>
