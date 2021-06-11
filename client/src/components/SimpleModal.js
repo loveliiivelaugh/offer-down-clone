@@ -7,7 +7,7 @@ import PaymentForm from './forms/PaymentForm';
 import { Avatar, Button, Modal, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import CardSection from './CardSection';
+import CardSection from './forms/CardSection';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
