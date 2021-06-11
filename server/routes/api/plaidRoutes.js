@@ -60,18 +60,18 @@ router.post('/exchange_public_token', async (request, response) => {
     const accessToken = tokenResponse.access_token;
     const itemId = tokenResponse.item_id;
 
-    User.findOneAndUpdate({ _id: request.body.id }, { $set: { 
-      plaid_accessToken: accessToken,
-      plaid_itemId: itemId
-    }}, (err, doc, res) => {
-      if (err) throw err;
+    // User.findOneAndUpdate({ _id: request.body.id }, { $set: { 
+    //   plaid_accessToken: accessToken,
+    //   plaid_itemId: itemId
+    // }}, (err, doc, res) => {
+    //   if (err) throw err;
 
-      console.info(doc, res, err);
+    //   console.info(doc, res, err);
 
       // err 
       //   ? res.status(500).json({ error: err }) 
       //   : res.status(200).json(res);
-    });
+    // });
     
     console.log({ item: itemId, token: accessToken });
     res.status(200).json({ item: itemId, token: accessToken });
