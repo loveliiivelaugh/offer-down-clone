@@ -8,6 +8,7 @@ import { Avatar, Button, Modal, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CardSection from './forms/CardSection';
+import CheckoutForm from './forms/CheckoutForm';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -65,8 +66,6 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
             >
               Save
             </Button>
-            <hr />
-            <CardSection />
           </div>
         ) :
         <SellingForm handleClose={handleClose} setType={setType} />
