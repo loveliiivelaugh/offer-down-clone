@@ -12,7 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { useAuth } from "../../hooks/useAuth.js";
 import firebase from "../../utils/firebase";
 import "firebase/analytics";
 import "firebase/auth";
@@ -37,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SellingForm = ({ handleClose }) => {
-  const auth = useAuth();
   const classes = useStyles();
   const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
@@ -77,7 +75,7 @@ const SellingForm = ({ handleClose }) => {
     });
 
     console.log(data, 'modified data project');
-    console.log(auth);
+    console.log(user);
 
 
     Api.addProduct({ product: data, user: user.data._id });

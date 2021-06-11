@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 //useMongoDb
-import MongoContext from '../hooks/useMongoDb.js';
+import { MongoContext } from '../hooks/useMongoDb.js';
 //components
 import ProductCard from '../components/ProductCard';
 //MaterialUI
@@ -45,17 +45,17 @@ const HomePage = (props) => {
   const [products, setProducts] = useState([]); //dont need these state
   const [pending, setPending] = useState(false); //hooks with useMongoDb()
 
-  useEffect(() => {
-    setPending(true);
-    const fetchData = async () => {
-      const data = await Api.getDummyProducts();
-      console.log(data);
-      setProducts(data);
-      setPending(false);
-    };
+  // useEffect(() => {
+  //   setPending(true);
+  //   const fetchData = async () => {
+  //     const data = await Api.getDummyProducts();
+  //     console.log(data);
+  //     setProducts(data);
+  //     setPending(false);
+  //   };
     
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
 
   return (

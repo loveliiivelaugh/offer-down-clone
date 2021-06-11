@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import MongoContext from '../hooks/useMongoDb.js';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import SimpleModal from './SimpleModal';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
