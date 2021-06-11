@@ -57,6 +57,7 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
               Sign up
             </Typography>
             <PaymentForm className={classes.form} handleClose={handleClose} type={type} />
+            <CheckoutForm toggleConfetti={null} />
             <Button
               type="submit"
               fullWidth
