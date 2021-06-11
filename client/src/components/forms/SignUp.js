@@ -76,7 +76,7 @@ const SignUp = ({ handleClose, setType }) => {
 
     console.log(firebaseDetails)
 
-    const newUser = await Api.createUser(Object.assign(firebaseDetails.user, { password: password }));
+    const newUser = await Api.createUser(Object.assign(firebaseDetails.user, data));
 
     console.log(newUser)
     

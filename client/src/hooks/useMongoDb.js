@@ -17,13 +17,30 @@ const MongoContextProvider = ({ children }) => {
   console.log(auth);
 
   useEffect(() => {
-    const fetchUser = async (id) => {
+    const fetchUser = async (user) => {
       setInitialState({ ...initialState, status: "loading" });
+      
       console.log(id);
-      await Api.getUser(id)
+
+      await Api.getUser(user.uid)
         .then(response => {
-          console.info(response)
-          setInitialState({ ...initialState, status: "success", data: response.data[0] });
+          console.info(response);
+
+          // Data we want to include from auth user object
+          let finalUser = {
+            uid: user.uid,
+            email: user.email,
+            emailVerified: user.emailVerified,
+            name: user.displayName,
+            picture: user.photoURL,
+          };
+
+          setInitialState({ 
+            ...initialState, 
+            status: "success", 
+            data: response.data[0] && finalUser
+          });
+
         })
         .catch(error => {
           setInitialState({ ...initialState, status: "fail", error: error });
@@ -31,11 +48,9 @@ const MongoContextProvider = ({ children }) => {
     };
 
     if (auth.user) {
-      fetchUser(auth.user.auth.uid);
+      fetchUser(auth.user.auth);
     } 
-    // else {
-    //   setInitialState({ ...initialState, status: "idle", error: "Not logged in." });
-    // }
+
   }, [auth]);
 
   console.log(initialState);
