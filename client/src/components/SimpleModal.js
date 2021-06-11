@@ -7,7 +7,6 @@ import PaymentForm from './forms/PaymentForm';
 import { Avatar, Button, Modal, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import CardSection from './forms/CardSection';
 import CheckoutForm from './forms/CheckoutForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,20 +52,7 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
-            <PaymentForm className={classes.form} handleClose={handleClose} type={type} />
-            <CheckoutForm toggleConfetti={null} />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Save
-            </Button>
+            <CheckoutForm className={classes.form} handleClose={handleClose} type={type} />
           </div>
         ) :
         <SellingForm handleClose={handleClose} setType={setType} />
