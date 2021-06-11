@@ -40,7 +40,7 @@ const SellingPage = () => {
   //end modal
 
   const handleDelete = async (id) => {
-    const deletedItem = await Api.removeListedItem(id, user._id);
+    const deletedItem = await Api.removeListedItem(id, user.data._id);
     console.info(deletedItem);
   };
 
@@ -64,7 +64,7 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-                {/* {pending ? <ClipLoader /> :
+                {pending ? <ClipLoader /> :
                   !pending && 
                   user.data.posted_items && 
                   user.data.posted_items.map(({ name, image, price, _id }) => (
@@ -77,7 +77,7 @@ const SellingPage = () => {
                     </ListItem>
                     <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
-                ))} */}
+                ))}
               </List>
             </CardContent>
           </Card>

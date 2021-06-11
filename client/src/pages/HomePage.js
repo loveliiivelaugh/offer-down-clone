@@ -49,10 +49,11 @@ const HomePage = (props) => {
     setPending(true);
     const fetchData = async (id) => {
       const products = await Api.getProducts(id);
+      console.log(products, 'what did i get back?');
+      // const filteredProducts = products.data.filter(item => item.));
+      // console.log(filteredProducts);
 
-      const filteredProducts = !products.data.includes({ _id: id });
-
-      setProducts(filteredProducts);
+      setProducts(products.data);
       setPending(false);
     };
     
@@ -69,14 +70,14 @@ const HomePage = (props) => {
       <h1>I am Home Page!</h1>
       <hr />
       <div className={classes.container}>
-        {pending
+        {user.status === 'loading'
           ? (
             <center>
               <ClipLoader color="#00b" loading={pending} size={150} />
             </center> 
             )
-          : !pending && products.length > 0 
-          ? products.splice(0, 20).map((product, i) => (
+          : user.status === 'success' && products.length > 0
+          ? products.map((product, i) => (
               <ProductCard key={i} product={product} />
             )) 
           : "No products to load at this time..." }

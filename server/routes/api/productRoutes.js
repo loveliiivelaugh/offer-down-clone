@@ -21,23 +21,32 @@ const Product = require('../../models/Product');
 // @method -- GET
 // @api -- getProducts()
 // @descr --  Return all products posted in the database.
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
 
   console.log("getProducts()");
   
-  const totalItems = [];
+  // const totalItems = [];
 
   try {
-    const users = await User.find({});
+      const products = await Product.find({});
 
-    users.forEach(({ posted_items }) => {
-      posted_items.forEach(item => {
-        totalItems.push(item);
-      });
-    });
+      console.log(products, 'product list');
+
+      const filteredProducts = products.filter(item => item.user_id !== req.params.id);
+
+      console.log(filteredProducts, 'filtered products')
+
+
+  //   const users = await User.find({});
+
+  //   users.forEach(({ posted_items }) => {
+  //     posted_items.forEach(item => {
+  //       totalItems.push(item);
+  //     });
+  //   });
 
     // console.log(totalItems);
-    res.status(200).json(totalItems);
+    res.status(200).json(filteredProducts);
   } catch (error) {
     res.status(500).json({ error: error });
   }
