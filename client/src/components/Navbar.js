@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import MongoContext from '../hooks/useMongoDb.js';
 import SimpleModal from './SimpleModal';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -33,7 +34,6 @@ import Collapse from '@material-ui/core/Collapse';
 
 import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
-import Api from "../api";
 
 
 const messages = [
@@ -187,17 +187,9 @@ const Navbar = () => {
   const classes = useStyles();
   const auth = useAuth();
   const router = useRouter();
+  const user = useContext(MongoContext)
 
-  console.log(auth)
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    const fetchLoggedInUser = async () => {
-      const loggedInUser = await Api.getUser(await auth.user.uid);
-      setUser(loggedInUser);
-    };
-
-    fetchLoggedInUser();
-  }, []);
+  console.log(user)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -423,8 +415,10 @@ const Navbar = () => {
             Inbox
           </Typography>
           <List className={classes.list}>
-            {user && user.messages ? user.messages.map(({ id, primary, secondary, person }) => (
+            {messages.map(({ id, primary, secondary, person }) => (
               <React.Fragment key={id}>
+                {id === 1 && <ListSubheader className={classes.subheader}>Today</ListSubheader>}
+                {id === 3 && <ListSubheader className={classes.subheader}>Yesterday</ListSubheader>}
                 <ListItem button>
                   <ListItemAvatar>
                     <Avatar alt="Profile Picture" src={person} />
@@ -432,7 +426,7 @@ const Navbar = () => {
                   <ListItemText primary={primary} secondary={secondary} />
                 </ListItem>
               </React.Fragment>
-            )) : "No messages yet..." }
+            ))}
           </List>
         </Paper>
       </Collapse>

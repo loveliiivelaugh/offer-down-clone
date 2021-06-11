@@ -1,44 +1,64 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
+import { useAuth } from "./useAuth.js";
+import { useRouter } from "./useRouter.js";
 import Api from '../api';
 
 
-const userContext = createContext();
+export const MongoContext = createContext();
 
-export function ProvideUser({ children }) {
-  const user = useProvideUser();
-  return <userContext.Provider value={user}>{children}</userContext.Provider>;
-}
-
-export const useMongoDb = () => {
-  return useContext(userContext)
-}
-
-function useProvideUser(){
+const MongoContextProvider = ({ children }) => {
+  const [user, setUser] = useState({});
   const [initialState, setInitialState] = useState({
     status: "idle",
     data: null,
     error: null,
-  })
+  });
 
-  const setLoggedInUser = async (id) => {
-    setInitialState({ ...initialState, status: "loading" });
-    Api.getUser(id)
-      .then(response => {
-        setInitialState({ ...initialState, data: response });
-        setInitialState({ ...initialState, status: "success" });
-      })
-      .catch(error => {
-        setInitialState({ ...initialState, status: "fail", error: error });
-      })
-  }
+  const auth = useAuth();
+  // const router = useRouter();
+  console.log(auth.user.auth.uid);
+  const id = auth.user.auth.uid;
+  
 
   useEffect(() => {
-    return initialState;
-  }, [initialState]);
+    const fetchUser = async () => {
+      setInitialState({ ...initialState, status: "loading" });
+      await Api.getUser(id)
+        .then(response => {
+          setUser(response)
+          setInitialState({ ...initialState, status: "success", data: response.data[0] });
+        })
+        .catch(error => {
+          setInitialState({ ...initialState, status: "fail", error: error });
+        });
+    };
 
+    if (auth) {
+      fetchUser();
+    }
+  }, []);
+
+  console.log(user);
   
-  return {
-    initialState,
-    setLoggedInUser
-  };
+  return (
+    <MongoContext.Provider value={initialState}>
+      { children }
+    </MongoContext.Provider>
+    );
+}
+
+export default MongoContextProvider
+
+// Hook (use-require-auth.js)
+export function useRequireAuth(redirectUrl = "/home") {
+  const auth = useAuth();
+  const router = useRouter();
+  // If auth.user is false that means we're not
+  // logged in and should redirect.
+  useEffect(() => {
+    if (auth.user === false) {
+      router.push(redirectUrl);
+    }
+  }, [auth, router]);
+  return auth;
 }

@@ -21,8 +21,8 @@ const LandingPage = () => {
   return (
     <div className={classes.root} style={{height:'67vh'}}>
       {confettiSwitch && <Confetti /> }
-      <CssBaseline/>
-        <Header/>
+      {/* <CssBaseline/>
+        <Header/> */}
       {/* <CheckoutForm toggleConfetti={toggleConfetti} /> */}
     </div>
   )

@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, useContext, useMemo, createContext } from "react";
 import firebase from "../utils/firebase";
-// import { useMongoDb } from "../utils/mongoDb";
+// import { useMongoDb } from "./useMongoDb.js";
 
-// const loggedInUser = useMongoDb();
+
 const authContext = createContext();
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
@@ -70,6 +70,7 @@ function useProvideAuth() {
   // Because this sets state in the callback it will cause any ...
   // ... component that utilizes this hook to re-render with the ...
   // ... latest auth object.
+  // const loggedInUser = useMongoDb();
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -79,10 +80,12 @@ function useProvideAuth() {
       }
     });
 
-    // loggedInUser.setLoggedInUser(user);
+    // if (user) {
+    //   loggedInUser.setLoggedInUser(user);
+    // }
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [user]);
+  }, []);
   // Return the user object and auth methods
   return {
     user,
