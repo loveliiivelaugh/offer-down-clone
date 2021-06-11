@@ -15,6 +15,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { borders } from '@material-ui/system';
+import Box from '@material-ui/core/Box';
+
 //hooks
 import { useRouter } from '../hooks/useRouter.js';
 
@@ -38,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
-  },
+  }
 }));
 
 const ProductCard = ({ product }) => {
@@ -62,17 +65,12 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <Card className={classes.root} onClick={e => handleClick(e, product)}>
+    <Box border={2} borderColor="primary.main" borderRadius="borderRadius" borderColor="primary.main"><Card className={classes.root} onClick={e => handleClick(e, product)}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
             R
           </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
         }
         title={product && product.title}
         subheader={product && product.category}
@@ -95,12 +93,6 @@ const ProductCard = ({ product }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
       </CardActions>
         {/* 
         <IconButton
@@ -142,6 +134,7 @@ const ProductCard = ({ product }) => {
         </CardContent>
       </Collapse> */}
     </Card>
+    </Box>
   );
 }
 

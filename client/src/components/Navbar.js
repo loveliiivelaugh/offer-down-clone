@@ -187,7 +187,7 @@ const Navbar = () => {
   const classes = useStyles();
   const auth = useAuth();
   const router = useRouter();
-  const user = useContext(MongoContext)
+  const user = useContext(MongoContext);
 
   console.log(user)
 
@@ -350,7 +350,7 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {auth.user.email}!
+              Welcome {user.email}!
             </div>
           }
           <div className={classes.sectionDesktop}>

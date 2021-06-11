@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 3fr))',
     gridGap: '20px',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20
   },
   card: {
     width: 'auto', 
@@ -67,8 +69,8 @@ const HomePage = (props) => {
 
   return (
     <Container>
-      <h1>I am Home Page!</h1>
-      <hr />
+      {/* <h1>I am Home Page!</h1> */}
+      {/* <hr /> */}
       <div className={classes.container}>
         {user.status === 'loading'
           ? (
