@@ -20,7 +20,7 @@ const MongoContextProvider = ({ children }) => {
     const fetchUser = async (user) => {
       setInitialState({ ...initialState, status: "loading" });
       
-      console.log(id);
+      console.log(user.uid);
 
       await Api.getUser(user.uid)
         .then(response => {
