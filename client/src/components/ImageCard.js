@@ -37,7 +37,7 @@ export default function ImageCard({ buy, checked }) {
       <Card className={classes.root}>
         <CardMedia
           className={classes.media}
-          image={buy.imageUrl}
+          image={buy}
           title="Buy "
         />
         <CardContent>
