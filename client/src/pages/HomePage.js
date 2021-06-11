@@ -39,40 +39,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = (props) => {
-  const classes = useStyles();
   const user = useContext(MongoContext);
-  console.log(user)
+  const classes = useStyles();
+  // console.log(user)
   const [products, setProducts] = useState([]); //dont need these state
   const [pending, setPending] = useState(false); //hooks with useMongoDb()
 
-  // useEffect(() => {
-  //   setPending(true);
-  //   const fetchData = async () => {
-  //     const data = await Api.getDummyProducts();
-  //     console.log(data);
-  //     setProducts(data);
-  //     setPending(false);
-  //   };
-    
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    setPending(true);
+    const fetchData = async (id) => {
+      const products = await Api.getProducts(id);
 
+      const filteredProducts = !products.data.includes({ _id: id });
+
+      setProducts(filteredProducts);
+      setPending(false);
+    };
+    
+    if (user.status == "success") {
+      fetchData(user.data._id);
+    }
+
+  }, [user.status]);
+
+  console.log(products);
 
   return (
     <Container>
       <h1>I am Home Page!</h1>
       <hr />
       <div className={classes.container}>
-        {pending //todo --> Can we center this spinner without using the semantic html center tag?
+        {pending
           ? (
             <center>
               <ClipLoader color="#00b" loading={pending} size={150} />
             </center> 
             )
-          : products.splice(0, 20).map((product, i) => (
+          : !pending && products.length > 0 
+          ? products.splice(0, 20).map((product, i) => (
               <ProductCard key={i} product={product} />
-            )
-        )}
+            )) 
+          : "No products to load at this time..." }
       </div>
     </Container>
   )
