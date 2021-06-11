@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    minHeight: 400
+    // minHeight: 400
   },
   title: {
     fontSize: 14,
@@ -42,7 +42,7 @@ const CheckoutForm = ({ toggleConfetti }) => {
     }
     const email = event.target.email.value;
 
-    const res = await axios.post('http://localhost:8080/pay', { email: email });
+    const res = await axios.post('http://localhost:8080/api/stripe/pay', { email: email });
     console.log(res.data);
     const clientSecret = res.data.client_secret;
 
