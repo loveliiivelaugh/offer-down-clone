@@ -52,14 +52,11 @@ const HomePage = (props) => {
   useEffect(() => {
     setPending(true);
     const fetchData = async (id) => {
-      const products = await Api.getProducts(id);
-      console.log(products, 'what did i get back?');
-      // const filteredProducts = products.data.filter(item => item.));
-      // console.log(filteredProducts);
-
-      setProducts(products.data);
-      setFilteredProducts(products.data);
-      setPending(false);
+      Api.getProducts(id)
+        .then(response => {
+          setProducts(response.data);
+          setPending(false);
+        });
     };
     
     if (user.status == "success") {
