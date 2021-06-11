@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { MongoContext } from '../hooks/useMongoDb';
 import { useRouter } from '../hooks/useRouter.js';
 import { useAuth } from '../hooks/useAuth.js';
 import Api from '../api';
@@ -19,16 +20,10 @@ const SingleProductPage = () => {
   const router = useRouter();
   const auth = useAuth();
   const product = router.location.state.product;
-  const [user, setUser] = useState({});
+  const user = useContext(MongoContext);
 
-  useEffect(() => {
-    const fetchLoggedInUser = async () => {
-      const loggedInUser = await Api.getUser(await auth.user.uid);
-      setUser(loggedInUser.data[0]);
-    }
+  console.log(user);
 
-    fetchLoggedInUser();
-  }, [auth]);
   //Modal
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("ask");
