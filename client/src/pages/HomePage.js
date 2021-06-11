@@ -67,12 +67,12 @@ const HomePage = (props) => {
 
   useEffect(() => {
     if (search === '') {
-      setFilteredProducts(products)
+      setFilteredProducts(products);
     } else {
       searchForProduct();
     }
     
-  }, [search])
+  }, [search]);
 
   const handleSearchOnChange = (e) => {
     setSearch(e.target.value);
