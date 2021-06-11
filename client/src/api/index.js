@@ -93,8 +93,10 @@ const Api = {
       })
       .catch(error => console.error(error));
   },
-  getProducts: async () => {
-    return await axios.get('api/products')
+
+
+  getProducts: async (id) => {
+    return await axios.get('/api/products/' + id)
       .then(response => response)
       .catch(error => console.log(error));
   },
