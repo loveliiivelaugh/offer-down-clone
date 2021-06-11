@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
+import axios from 'axios';
 import Api from '../api';
 //components
 import AccountSettings from '../components/AccountSettings';
@@ -31,6 +32,22 @@ const AccountsPage = (props) => {
   const router = useRouter();
   const user = useContext(MongoContext);
   console.log(user);
+  //Plaid
+  const [linkToken, setLinkToken] = useState(null);
+
+  const generateToken = async (id) => {
+    console.log("Generating token.")
+    const { data } = await axios.post('/api/plaid/create_link_token', id);
+
+    console.info(data)
+    setLinkToken(data.link_token);
+  };
+
+  console.log(user)
+  useEffect(() => {
+    // generateToken(user.data.firebase_uid);
+  }, []);
+  //End Plaid
 
   const [pending, setPending] = useState(false);
   const [section, setSection] = useState({
@@ -91,7 +108,7 @@ const AccountsPage = (props) => {
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
-            {type === "banking" && <PaymentSettings user={user} />}
+            {type === "banking" && <PaymentSettings linkToken={linkToken} />}
             {type === "saves" && user &&
               <LikedItemsSection
                 user={user}

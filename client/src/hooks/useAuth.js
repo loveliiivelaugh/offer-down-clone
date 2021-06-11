@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext, useMemo, createContext } from "react";
 import firebase from "../utils/firebase";
 // import { useMongoDb } from "./useMongoDb.js";
-
+import { useRouter } from "./useRouter.js";
 
 const authContext = createContext();
 // Provider component that wraps your app and makes auth object ...
@@ -95,4 +95,19 @@ function useProvideAuth() {
     sendPasswordResetEmail,
     confirmPasswordReset,
   };
+}
+
+// A Higher Order Component for requiring authentication
+// Hook (useRequireAuth.js)
+export function useRequireAuth(redirectUrl = "/home") {
+  const auth = useAuth();
+  const router = useRouter();
+  // If auth.user is false that means we're not
+  // logged in and should redirect.
+  useEffect(() => {
+    if (auth.user === false) {
+      router.push(redirectUrl);
+    }
+  }, [auth, router]);
+  return auth;
 }

@@ -8,28 +8,28 @@ import axios from 'axios';
 import { useAuth } from '../hooks/useAuth.js';
 
 
-const Link = () => {
+const Link = ({ linkToken }) => {
   const auth = useAuth();
   const [transactions, setTransactions] = useState([]);
-  const [linkToken, setLinkToken] = useState(null);
+  // const [linkToken, setLinkToken] = useState(null);
 
-  const generateToken = async (id) => {
-    console.log("Generating token.")
-    const { data } = await axios.post('/api/plaid/create_link_token', id);
+  // const generateToken = async (id) => {
+  //   console.log("Generating token.")
+  //   const { data } = await axios.post('/api/plaid/create_link_token', id);
 
-    console.info(data)
-    setLinkToken(data.link_token);
-  };
+  //   console.info(data)
+  //   setLinkToken(data.link_token);
+  // };
 
-  console.log(auth)
-  useEffect(() => {
-    generateToken(auth.user.uid);
-  }, []);
+  // console.log(auth)
+  // useEffect(() => {
+  //   generateToken(auth.user.uid);
+  // }, []);
   
   const handleOnSuccess = async (public_token, metadata) => {
     console.log(public_token, metadata);
     //send token to client server
-    axios.post('/api/plaid/exchange_public_token', {
+    await axios.post('/api/plaid/exchange_public_token', {
       public_token: public_token,
     });
   };
@@ -46,18 +46,18 @@ const Link = () => {
     //   .then(res => setTransactions({ transactions: res }));
   };
 
-  // const config = {
-  //   token: linkToken,
-  //   onSuccess: handleOnSuccess,
-  //   onExit: handleOnExit,
-  //   onClick: handleClick
-  // };
+  const config = {
+    token: linkToken,
+    onSuccess: handleOnSuccess,
+    onExit: handleOnExit,
+    onClick: handleClick
+  };
 
-  // const { open, ready, error } = usePlaidLink(config);
+  const { open, ready, error } = usePlaidLink(config);
 
   return (
-    <Button>
-    {/* <Button onClick={() => open()} disabled={!ready}> */}
+    // <Button>
+    <Button onClick={() => open()} disabled={!ready}>
       Connect a bank account
     </Button>
   );

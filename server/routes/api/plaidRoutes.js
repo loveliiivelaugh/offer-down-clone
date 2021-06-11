@@ -59,34 +59,25 @@ router.post('/exchange_public_token', async (request, response) => {
     // Save the access_token and item_id to a persistent database
     const accessToken = tokenResponse.access_token;
     const itemId = tokenResponse.item_id;
-    console.group()
-    console.log('%cExtremely Important!: ', "color:red; font-size:20px");
-    console.warn("Once we have successfully acquired the accessToken and itemId,", {
-      accessToken: accessToken,
-      itemId: itemId
-    })
-    console.warn("We need to store these in the database to be used in later API calls.");
-    console.log("Insert your database code here --->");
-    const authenticatedPlaidUser = await User.findOneAndUpdate({ _id: request.body.id }, { $set: { 
-      accessToken: accessToken,
-      itemId: itemId
+
+    User.findOneAndUpdate({ _id: request.body.id }, { $set: { 
+      plaid_accessToken: accessToken,
+      plaid_itemId: itemId
     }}, (err, doc, res) => {
       if (err) throw err;
 
-      console.info(doc, res);
+      console.info(doc, res, err);
 
-      err 
-        ? res.status(500).json({ error: err}) 
-        : res.status(200).json(res);
-    })
-    //db.storePlaidConnectionCredentials({
-      // accessToken: accessToken,
-      // itemId: itemId
-    // })
-    console.groupEnd();
+      // err 
+      //   ? res.status(500).json({ error: err }) 
+      //   : res.status(200).json(res);
+    });
+    
+    console.log({ item: itemId, token: accessToken });
+    res.status(200).json({ item: itemId, token: accessToken });
   } catch (e) {
     // Display error on client
-    return response.send({ error: e.message });
+    return response.status(500).json({ error: e.message });
   }
 });
 

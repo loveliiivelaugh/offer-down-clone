@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function PaymentSettings(props) {
+function PaymentSettings({ linkToken }) {
     const classes = useStyles();
     //Modal
     const [open, setOpen] = useState(false);
@@ -56,7 +56,7 @@ function PaymentSettings(props) {
                             <ListItemText>
                                 Balance: ${user.balance}
                             </ListItemText>
-                            <Plaid auth={props.user} />
+                            {/* <Plaid linkToken={linkToken}/> */}
                         </ListItem>
                         <ListItem>
                             <ListItemText>
