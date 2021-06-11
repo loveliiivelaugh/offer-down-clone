@@ -33,7 +33,7 @@ const CheckoutForm = ({ toggleConfetti }) => {
     // which would refresh the page.
     event.preventDefault();
 
-    console.log("I am being submitted?")
+    console.log("I am being submitted?");
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
