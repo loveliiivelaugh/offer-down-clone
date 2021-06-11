@@ -72,22 +72,22 @@ const MongoContextProvider = ({ children }) => {
           if (initialState.data === null) return null;
 
           // Merge user data from database into finalUser object
-          Object.assign(finalUser, initialState.data);
+          return Object.assign(finalUser, initialState.data);
 
         // no default
       }
 
-      return finalUser;
+      return {finalUser, initialState};
     }, [user, initialState]);
   };
 
 
   const memoizedState = useMemoizedState(auth.user);
 
-  console.log(memoizedState)
+  console.log(initialState)
   
   return (
-    <MongoContext.Provider value={memoizedState}>
+    <MongoContext.Provider value={initialState}>
       { children }
     </MongoContext.Provider>
     );
