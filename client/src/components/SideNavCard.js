@@ -45,7 +45,6 @@ const SideNavCard = ({ handleNav }) => {
           <ListItem button>
             <Link to='/profile'><ListItemText primary="View public profile" /></Link>
             <ListItemIcon>
-              {/* <ShareIcon /> */}
             </ListItemIcon>
           </ListItem>
         </List>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { requireAuth } from '../hooks/useAuth.js';
 import Checkout from '../components/Checkout';
 
 const CheckoutPage = () => {
@@ -9,4 +10,4 @@ const CheckoutPage = () => {
   )
 }
 
-export default CheckoutPage
+export default requireAuth(CheckoutPage)

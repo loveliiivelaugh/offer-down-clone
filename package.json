@@ -31,6 +31,8 @@
     "form-data": "^4.0.0",
     "mongoose": "^5.12.12",
     "plaid": "^8.5.1",
+    "react-social-icons": "^5.4.1",
+    "react-swipeable-views": "^0.14.0",
     "stripe": "^8.150.0",
     "uuid": "^8.3.2",
     "xml-js": "^1.6.11"

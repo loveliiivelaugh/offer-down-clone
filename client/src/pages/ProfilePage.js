@@ -1,4 +1,5 @@
 import React from 'react';
+import { requireAuth } from '../hooks/useAuth.js';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -19,6 +20,7 @@ import { PromiseProvider } from 'mongoose';
 import Button from '@material-ui/core/Button';
 import ProfileCard from '../components/ProfileCard';
 import ProfileList from '../components/ProfileList';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,16 +47,15 @@ function ProfilePage(props) {
     };
 
     return (
-        <div>
-            <Typography variant="h6" className={classes.title}>
-                        Your Profile
-            </Typography>
-            <ProfileCard />
-            <ProfileList />
-        </div>
-       
+    <div>
+        <Typography variant="h6" className={classes.title}>
+            Your Profile
+        </Typography>
+        <ProfileCard />
+        <ProfileList />
+    </div>
     )
 
 }
 
-export default ProfilePage;
+export default requireAuth(ProfilePage);

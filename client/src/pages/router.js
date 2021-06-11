@@ -36,6 +36,8 @@ const router = () => {
 
         <Route exact path="/profile" component={ProfilePage} />
 
+        {/* <Route component={NotFoundPage} /> */}
+
       </Switch>
 
       <Footer />

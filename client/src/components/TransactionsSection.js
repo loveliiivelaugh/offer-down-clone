@@ -61,7 +61,7 @@ function TransactionsSection(props) {
         <Grid item xs={12} md={6}>
           <Typography variant="h6" className={classes.title}>
             Purchases
-    </Typography>
+          </Typography>
           <div className={classes.demo}>
             <List>
               <ListItem>

@@ -2,6 +2,7 @@ import React from 'react';
 import Pages from './pages/router';
 import './App.css';
 import { ProvideAuth } from "./hooks/useAuth.js";
+import MongoContextProvider from "./hooks/useMongoDb.js";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,9 +19,11 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 function App() {
   return (
     <ProvideAuth>
-      <Elements stripe={stripePromise}>
-        <Pages />
-      </Elements>
+      <MongoContextProvider>
+        <Elements stripe={stripePromise}>
+          <Pages />
+        </Elements>
+      </MongoContextProvider>
     </ProvideAuth>
   );
 }
@@ -44,13 +47,3 @@ export default function App() {
 }
 
 export default App;
-
-// export default function App() {
-//   const classes = useStyles();
-//   return (
-//     <div className={classes.root}>
-//       <CssBaseline/>
-//       <Header/>
-//     </div>
-//   );
-// }
