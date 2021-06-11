@@ -56,7 +56,9 @@ function PaymentSettings({ linkToken }) {
                             <ListItemText>
                                 Balance: ${user.balance}
                             </ListItemText>
-                            {/* <Plaid linkToken={linkToken}/> */}
+                            {linkToken &&
+                                <Plaid linkToken={linkToken}/>
+                            }
                         </ListItem>
                         <ListItem>
                             <ListItemText>

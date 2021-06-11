@@ -45,8 +45,11 @@ const AccountsPage = (props) => {
 
   console.log(user)
   useEffect(() => {
-    // generateToken(user.data.firebase_uid);
-  }, []);
+
+    if (user.status == "success") {
+      generateToken(user.data.firebase_uid);
+    }
+  }, [user.status]);
   //End Plaid
 
   const [pending, setPending] = useState(false);
