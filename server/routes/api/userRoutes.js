@@ -68,33 +68,14 @@ router.post('/likes', async ({ body }, res) => {
  * @descr Delete a saved item from the users saved_items array
  * @API removeLikedItem()
  */
-router.delete('/likes/:user/:id', async ({ params }, res) => {
-  console.log(params);
+router.delete('/likes/:user_id/:id', async (req, res) => {
+  console.log(req.params);
   
   try {
-    User.findById(params.user._id, (err, doc) => {
-      if (err) throw err;
-      
-      console.log(doc);
+    
+    const updatedUser = await User.findByIdAndUpdate(req.params.user_id, {$pull: {saved_items: {_id:req.params.id}}})
 
-      const itemToBeDeleted = doc.liked_items.forEach(item => {
-        if (item._id == params.id) {
-          return item;
-        }
-      });
-
-      console.log(itemToBeDeleted);
-
-      const index = doc.liked_items.indexOf({ _id: itemToBeDeleted.id });
-
-      const updatedLikedItems = doc.liked_items.splice(index, 1);
-
-      console.log(updatedLikedItems);
-
-      doc.save();
-
-      res.status(200).json(doc);
-    });
+      res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }

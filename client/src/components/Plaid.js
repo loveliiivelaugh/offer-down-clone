@@ -5,28 +5,31 @@ import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
+import { useAuth } from '../hooks/useAuth.js';
 
 
-const Link = ({ auth }) => {
+const Link = ({ linkToken }) => {
+  const auth = useAuth();
   const [transactions, setTransactions] = useState([]);
-  const [linkToken, setLinkToken] = useState(null);
+  // const [linkToken, setLinkToken] = useState(null);
 
-  const generateToken = async (id) => {
-    console.log("Generating token.")
-    const { data } = await axios.post('/api/plaid/create_link_token', id);
+  // const generateToken = async (id) => {
+  //   console.log("Generating token.")
+  //   const { data } = await axios.post('/api/plaid/create_link_token', id);
 
-    console.info(data)
-    setLinkToken(data.link_token);
-  };
+  //   console.info(data)
+  //   setLinkToken(data.link_token);
+  // };
 
-  useEffect(() => {
-    generateToken(auth.user.uid);
-  }, [auth.user.uid]);
+  // console.log(auth)
+  // useEffect(() => {
+  //   generateToken(auth.user.uid);
+  // }, []);
   
   const handleOnSuccess = async (public_token, metadata) => {
     console.log(public_token, metadata);
     //send token to client server
-    axios.post('/api/plaid/exchange_public_token', {
+    await axios.post('/api/plaid/exchange_public_token', {
       public_token: public_token,
     });
   };

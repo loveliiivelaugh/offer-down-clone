@@ -28,9 +28,7 @@ const LikedItemsSection = ({ user, handleClick, handleDelete }) => {
     <Card style={{height: '60vh'}}>
       <CardContent>
         <List className={classes.list}>
-          {/* {user &&
-            user?.saved_items.length > 0 ? 
-            user?.saved_items.map(({ _id, title, price, product_id }) => (
+          {user.data.saved_items ? user.data.saved_items.map(({ _id, title, price, product_id }) => (
             <React.Fragment key={_id}>
               <ListItem button onClick={() => handleClick({ _id, title, price, _id })}>
                 <ListItemAvatar>
@@ -38,11 +36,13 @@ const LikedItemsSection = ({ user, handleClick, handleDelete }) => {
                 </ListItemAvatar>
                 <ListItemText primary={title} />
               </ListItem>
-              <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
+              <Button onClick={() => {
+                console.log(user._id, _id, 'my click here')
+                handleDelete(user._id, _id)
+                }} color="secondary">Delete</Button>
             </React.Fragment>
           )) : "No items saved yet..." }
-           */}
-            "No Items yet"
+          
         </List>
       </CardContent>
     </Card>

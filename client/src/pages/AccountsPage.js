@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth.js';
+import React, { useContext, useEffect, useState } from 'react';
+import { MongoContext } from '../hooks/useMongoDb.js';
+import { requireAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
-// import { useUser, deleteItem } from '../utils/mongoDb.js';
+import axios from 'axios';
 import Api from '../api';
+//components
 import AccountSettings from '../components/AccountSettings';
 import PaymentSettings from '../components/PaymentSettings';
-//components
 import SideNavCard from '../components/SideNavCard';
-import SavedItems from '../components/SavedItems';
+import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
-import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ProfilePage from './ProfilePage';
 
 //How is Michael keeping tracking of whos accessing these pages?
+//https://usehooks.com/useRequireAuth/
 const useStyles = makeStyles((theme) => ({
   list: {
     marginBottom: theme.spacing(2),
@@ -29,9 +30,25 @@ const useStyles = makeStyles((theme) => ({
 const AccountsPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const auth = useAuth();
-  const [user, setUser] = useState({}); //OLD WAY
-  console.log(auth, user)
+  const user = useContext(MongoContext);
+  console.log(user);
+  //Plaid
+  const [linkToken, setLinkToken] = useState(null);
+
+  const generateToken = async (id) => {
+    console.log("Generating token.")
+    const { data } = await axios.post('/api/plaid/create_link_token', id);
+
+    console.info(data)
+    setLinkToken(data.link_token);
+  };
+
+  console.log(user)
+  useEffect(() => {
+    // generateToken(user.data.firebase_uid);
+  }, []);
+  //End Plaid
+
   const [pending, setPending] = useState(false);
   const [section, setSection] = useState({
     type: "purchases",
@@ -39,40 +56,6 @@ const AccountsPage = (props) => {
   });
 
   const { type, title } = section;
-
-  // //NEW WAY
-  // // Fetch user data (hook) returns data, status, and error.
-  // const {
-  //   data: user,
-  //   status: userStatus,
-  //   error: userError
-  // } = useUser(auth.user.uid); //pass in the uid from the currently logged in user
-
-  // console.log(user);
-
-  // userStatus === "loading" ||
-  // userStatus === "error"
-  //   ? setPending(true)
-  //   : setPending(false);
-
-  // OLD WAY
-  const fetchLoggedInUser = async () => {
-    const loggedInUser = await Api.getUser(await auth.user.uid);
-    console.log(loggedInUser);
-    setUser(loggedInUser.data[0]);
-    setPending(false);
-  };
-
-  useEffect(() => {
-    setPending(true);
-    fetchLoggedInUser();
-  }, [auth]);
-
-  console.log(user);
-
-  // const saved_items = !user.data ? [] : user.data[0].saved_items;
-  const saved_items = [];
-
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -101,8 +84,9 @@ const AccountsPage = (props) => {
   };
 
   //OLD WAY
-  const handleDelete = async (id) => {
-    const deletedItem = await Api.removeLikedItem(id);
+  const handleDelete = async (user_id, id) => {
+
+    const deletedItem = await Api.removeLikedItem(user_id, id);
 
     console.log(deletedItem);
   };
@@ -124,14 +108,14 @@ const AccountsPage = (props) => {
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
-            {type === "saves" &&
-              <SavedItems
-                saved_items={user}
+            {type === "banking" && <PaymentSettings linkToken={linkToken} />}
+            {type === "saves" && user &&
+              <LikedItemsSection
+                user={user}
                 handleClick={handleClick}
                 handleDelete={handleDelete}
               />
             }
-            {type === "banking" && <PaymentSettings user={user} />}
             {type === "settings" && <AccountSettings user={user} />}
           </CardContent>
         </Card>
@@ -221,4 +205,4 @@ const AccountsPage = (props) => {
   );
 }
 
-export default AccountsPage;
+export default requireAuth(AccountsPage);

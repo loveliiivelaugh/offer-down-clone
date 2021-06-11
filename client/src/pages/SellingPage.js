@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { 
   Avatar, Button, Card, CardContent, CardHeader, Container, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography 
 } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { makeStyles } from '@material-ui/core/styles';
 import SimpleModal from '../components/SimpleModal';
-import { useAuth } from '../hooks/useAuth.js';
+import { useAuth, requireAuth } from '../hooks/useAuth.js';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import Api from '../api';
 //spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
@@ -24,26 +25,11 @@ const useStyles = makeStyles((theme) => ({
 const SellingPage = () => {
   const auth = useAuth();
   const classes = useStyles();
-
-  console.log(auth)
-
-  const [user, setUser] = useState({});
   const [pending, setPending] = useState(false);
+  
+  const user = useContext(MongoContext);
 
-  useEffect(() => {
-    setPending(true);
-    const getLoggedInUser = async () => {
-      const signedInUser = await Api.getUser(await auth.user.uid);
-      setUser(signedInUser.data[0]);
-      setPending(false);
-    };
-
-    getLoggedInUser();
-
-  }, []);
-
-  console.log(user)
-  // const postedItems = user ? user.posted_items : [];
+  console.log(user);
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -54,7 +40,7 @@ const SellingPage = () => {
   //end modal
 
   const handleDelete = async (id) => {
-    const deletedItem = await Api.removeLikedItem(id);
+    const deletedItem = await Api.removeListedItem(id, user._id);
     console.info(deletedItem);
   };
 
@@ -78,18 +64,20 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-                {pending ? <ClipLoader /> :
-                  !pending && user.postedItems && user.postedItems.map(({ name, price, seller_id, product_id }) => (
-                  <React.Fragment key={product_id}>
+                {/* {pending ? <ClipLoader /> :
+                  !pending && 
+                  user.data.posted_items && 
+                  user.data.posted_items.map(({ name, image, price, _id }) => (
+                  <React.Fragment key={_id}>
                     <ListItem button>
                       <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src="" />
+                        <Avatar alt="Profile Picture" src={image} />
                       </ListItemAvatar>
                       <ListItemText primary={name} />
                     </ListItem>
-                    <Button onClick={() => handleDelete(product_id)} color="secondary">Delete</Button>
+                    <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
-                ))}
+                ))} */}
               </List>
             </CardContent>
           </Card>
@@ -106,4 +94,4 @@ const SellingPage = () => {
   )
 }
 
-export default SellingPage
+export default requireAuth(SellingPage);

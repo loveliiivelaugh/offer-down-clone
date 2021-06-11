@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 //useMongoDb
-// import { useItems, updateItem } from '../utils/mongoDb.js';
+import MongoContext from '../hooks/useMongoDb.js';
 //components
 import ProductCard from '../components/ProductCard';
 //MaterialUI
@@ -40,22 +40,11 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
+  const user = useContext(MongoContext);
+  console.log(user)
   const [products, setProducts] = useState([]); //dont need these state
   const [pending, setPending] = useState(false); //hooks with useMongoDb()
 
-  //NEW WAY
-  // const {
-  //   data: products,
-  //   status: productsStatus,
-  //   error: productsError
-  // } = useItems();
-
-  // productsStatus === "loading" ||
-  // productsStatus === "error"
-  //   ? setPending(true)
-  //   : setPending(false);
-  
-  // OLD WAY
   useEffect(() => {
     setPending(true);
     const fetchData = async () => {

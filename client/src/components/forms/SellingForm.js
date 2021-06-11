@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -19,6 +19,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import 'firebase/storage';
 import Api from '../../api';
+import { MongoContext } from '../../hooks/useMongoDb.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,37 +39,25 @@ const useStyles = makeStyles((theme) => ({
 const SellingForm = ({ handleClose }) => {
   const auth = useAuth();
   const classes = useStyles();
-  const [user, setUser] = useState({});
+  const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
-
-  useEffect(() => {
-    setPending(true);
-    const getLoggedInUser = async () => {
-      const signedInUser = await Api.getUser(auth.user.uid);
-      setUser(signedInUser.data[0]);
-      setPending(false);
-    };
-
-    getLoggedInUser();
-
-  }, []);
 
   console.log(user)
   const [sellingData, setSellingData] = useState({
     name: '',
     description: '',
     price: '',
-    picture: '',
+    image: '',
     zip_code: '',
   });
 
-  const { name, description, price, picture, zip_code } = sellingData;
+  const { name, description, price, image, zip_code } = sellingData;
 
   //function to update form data state upon form change
   const onChange = e => {
-    if (e.target.name === "picture") {
-      setSellingData({...sellingData, picture:e.target.files[0]});
-    } else if (e.target.name !== "picture") {
+    if (e.target.name === "image") {
+      setSellingData({...sellingData, image:e.target.files[0]});
+    } else if (e.target.name !== "image") {
       setSellingData({ ...sellingData, [e.target.name]: e.target.value })
     }
   };
@@ -79,11 +68,11 @@ const SellingForm = ({ handleClose }) => {
     console.log(data, 'data getting passed in the handler');
 
     let storageRef = firebase.storage().ref();
-    let imageRef = storageRef.child('images/' + data.picture.name);
-    await imageRef.put(data.picture).then( async (snapshot) => {
+    let imageRef = storageRef.child('images/' + data.image.name);
+    await imageRef.put(data.image).then( async (snapshot) => {
       
       await snapshot.ref.getDownloadURL().then((url)=> {
-        data.picture = url;
+        data.image = url;
       })
     });
 
@@ -91,18 +80,20 @@ const SellingForm = ({ handleClose }) => {
     console.log(auth);
 
 
-    Api.addProduct({product: data, user: user._id});
+    Api.addProduct({ product: data, user: user.data._id });
     
     const clearValues = () => {
       setSellingData({
         name: '',
         description: '',
         price: '',
-        picture: {},
+        image: {},
         zip_code: '',
       });
     };
     clearValues();
+
+    handleClose();
 
     setPending(false);  
   };
@@ -175,9 +166,9 @@ const SellingForm = ({ handleClose }) => {
             margin="normal"
             required
             fullWidth
-            id="picture"
+            id="image"
             label="Picture"
-            name="picture"
+            name="image"
             type="file"
             onChange={onChange}
             autoFocus
