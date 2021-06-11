@@ -28,7 +28,7 @@ const LikedItemsSection = ({ user, handleClick, handleDelete }) => {
     <Card style={{height: '60vh'}}>
       <CardContent>
         <List className={classes.list}>
-          {user.saved_items ? user.saved_items.map(({ _id, title, price, product_id }) => (
+          {user.data.saved_items ? user.data.saved_items.map(({ _id, title, price, product_id }) => (
             <React.Fragment key={_id}>
               <ListItem button onClick={() => handleClick({ _id, title, price, _id })}>
                 <ListItemAvatar>

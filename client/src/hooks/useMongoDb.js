@@ -16,8 +16,9 @@ const MongoContextProvider = ({ children }) => {
 
   const auth = useAuth();
   // const router = useRouter();
-  console.log(auth.user.auth.uid);
-  const id = auth.user.auth.uid;
+  console.log(auth);
+  // console.log(auth.user.auth.uid, auth);
+  const id = auth.user ? auth.user.auth.uid : "";
   
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const MongoContextProvider = ({ children }) => {
     if (auth) {
       fetchUser();
     }
-  }, []);
+  }, [auth]);
 
   console.log(user);
   
