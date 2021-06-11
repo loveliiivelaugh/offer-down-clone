@@ -5,7 +5,7 @@ import {
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { makeStyles } from '@material-ui/core/styles';
 import SimpleModal from '../components/SimpleModal';
-import { useAuth } from '../hooks/useAuth.js';
+import { useAuth, requireAuth } from '../hooks/useAuth.js';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import Api from '../api';
 //spinner --> https://www.npmjs.com/package/react-spinners
@@ -25,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
 const SellingPage = () => {
   const auth = useAuth();
   const classes = useStyles();
-  const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
+  
+  const user = useContext(MongoContext);
 
   console.log(user);
 
@@ -63,8 +64,10 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-                {pending ? <ClipLoader /> :
-                  !pending && user.data.posted_items && user.data.posted_items.map(({ name, image, price, _id }) => (
+                {/* {pending ? <ClipLoader /> :
+                  !pending && 
+                  user.data.posted_items && 
+                  user.data.posted_items.map(({ name, image, price, _id }) => (
                   <React.Fragment key={_id}>
                     <ListItem button>
                       <ListItemAvatar>
@@ -74,7 +77,7 @@ const SellingPage = () => {
                     </ListItem>
                     <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
-                ))}
+                ))} */}
               </List>
             </CardContent>
           </Card>
@@ -91,4 +94,4 @@ const SellingPage = () => {
   )
 }
 
-export default SellingPage
+export default requireAuth(SellingPage);

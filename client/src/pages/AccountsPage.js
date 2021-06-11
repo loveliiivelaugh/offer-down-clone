@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb.js';
-import { useAuth } from '../hooks/useAuth.js';
+import { requireAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
 import axios from 'axios';
 import Api from '../api';
@@ -205,4 +205,4 @@ const AccountsPage = (props) => {
   );
 }
 
-export default AccountsPage;
+export default requireAuth(AccountsPage);
