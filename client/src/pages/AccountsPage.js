@@ -9,7 +9,6 @@ import PaymentSettings from '../components/PaymentSettings';
 import SideNavCard from '../components/SideNavCard';
 import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
-import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 const AccountsPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const auth = useAuth();
   const user = useContext(MongoContext);
   console.log(user);
 
@@ -41,7 +39,6 @@ const AccountsPage = (props) => {
   });
 
   const { type, title } = section;
-
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -94,6 +91,7 @@ const AccountsPage = (props) => {
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
+            {type === "banking" && <PaymentSettings user={user} />}
             {type === "saves" && user &&
               <LikedItemsSection
                 user={user}
@@ -101,7 +99,6 @@ const AccountsPage = (props) => {
                 handleDelete={handleDelete}
               />
             }
-            {type === "banking" && <PaymentSettings user={user} />}
             {type === "settings" && <AccountSettings user={user} />}
           </CardContent>
         </Card>

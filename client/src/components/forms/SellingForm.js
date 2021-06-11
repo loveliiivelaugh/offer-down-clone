@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -19,6 +19,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import 'firebase/storage';
 import Api from '../../api';
+import { MongoContext } from '../../hooks/useMongoDb.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,20 +39,8 @@ const useStyles = makeStyles((theme) => ({
 const SellingForm = ({ handleClose }) => {
   const auth = useAuth();
   const classes = useStyles();
-  const [user, setUser] = useState({});
+  const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
-
-  useEffect(() => {
-    setPending(true);
-    const getLoggedInUser = async () => {
-      const signedInUser = await Api.getUser(auth.user.uid);
-      setUser(signedInUser.data[0]);
-      setPending(false);
-    };
-
-    getLoggedInUser();
-
-  }, []);
 
   console.log(user)
   const [sellingData, setSellingData] = useState({
@@ -91,7 +80,7 @@ const SellingForm = ({ handleClose }) => {
     console.log(auth);
 
 
-    Api.addProduct({product: data, user: user._id});
+    Api.addProduct({ product: data, user: user.data._id });
     
     const clearValues = () => {
       setSellingData({
@@ -103,6 +92,8 @@ const SellingForm = ({ handleClose }) => {
       });
     };
     clearValues();
+
+    handleClose();
 
     setPending(false);  
   };
