@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import CardSection from './CardSection';
+
 
 export default function PaymentForm() {
   return (
@@ -12,6 +14,8 @@ export default function PaymentForm() {
         Payment method
       </Typography>
       <Grid container spacing={3}>
+      <CardSection />
+            
         <Grid item xs={12} md={6}>
           <TextField required id="cardName" label="Name on card" fullWidth autoComplete="cc-name" />
         </Grid>
