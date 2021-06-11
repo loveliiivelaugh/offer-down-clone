@@ -3,7 +3,8 @@ import React from 'react';
 import Confetti from 'confetti-react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from '../components/Header';
+// import Header from '../components/Header';
+// import BuyandSell from '../components/BuyandSell';
 import backgroundImage from '../assets/offerdownbackground.jpeg';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,11 +19,14 @@ const useStyles = makeStyles((theme) => ({
 const LandingPage = () => {
   const classes = useStyles();
   const [confettiSwitch, toggleConfetti] = React.useState(false);
+  
+  
   return (
     <div className={classes.root} style={{height:'67vh'}}>
       {confettiSwitch && <Confetti /> }
       {/* <CssBaseline/>
-        <Header/> */}
+        <Header/>
+        <BuyandSell /> */}
       {/* <CheckoutForm toggleConfetti={toggleConfetti} /> */}
     </div>
   )
