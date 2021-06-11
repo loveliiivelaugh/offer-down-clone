@@ -48,10 +48,26 @@ export default function Header() {
     }, []);
     return (
         <div className={classes.root} id="header">
+<<<<<<< HEAD
+            <AppBar className={classes.appbar} elevation={0}>
+                <Toolbar className={classes.appbarWrapper}>
+                    <h1 className={classes.appbarTitle}>
+                        Offer<span className={classes.colorText}>Down.</span>
+                    </h1>
+                </Toolbar>
+            </AppBar>
+           
+     <Collapse
+        in={checked}
+        {...(checked ? { timeout: 1000 } : {})}
+        collapsedHeight={50}
+      >
+=======
+>>>>>>> main
             <div className={classes.container}>
                 <h1 className={classes.title}>
-                    Welcome to <br />
-                    the<span className={classes.colorText}>OfferDown Community!</span>
+                    Welcome to the <br />
+                    <span className={classes.colorText}>OfferDown Community!</span>
                 </h1>
                 <Scroll to="items-to-buy" smooth={true}>
                     <IconButton>
@@ -59,14 +75,7 @@ export default function Header() {
                     </IconButton>
                 </Scroll>
             </div>
-
-            {/* <Collapse
-            in={checked}
-            {...Collapse(checked ? { timeout: 1000} :{})}
-            collapedHeight={50}
-            >
-                
-            </Collapse> */}
-        </div>
-    );
+        </Collapse>
+    </div>
+  );
 }
