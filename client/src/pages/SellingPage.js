@@ -64,7 +64,7 @@ const SellingPage = () => {
             <CardContent>
               <List className={classes.list}>
                 {pending ? <ClipLoader /> :
-                  !pending && user.posted_items && user.posted_items.map(({ name, image, price, _id }) => (
+                  !pending && user.data.posted_items && user.data.posted_items.map(({ name, image, price, _id }) => (
                   <React.Fragment key={_id}>
                     <ListItem button>
                       <ListItemAvatar>

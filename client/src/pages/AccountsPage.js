@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { useRouter } from '../hooks/useRouter.js';
+import axios from 'axios';
 import Api from '../api';
 //components
 import AccountSettings from '../components/AccountSettings';
@@ -9,7 +10,6 @@ import PaymentSettings from '../components/PaymentSettings';
 import SideNavCard from '../components/SideNavCard';
 import LikedItemsSection from '../components/LikedItemsSection';
 import TransactionsSection from '../components/TransactionsSection';
-import BankingSection from '../components/BankingSection';
 import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,9 +30,24 @@ const useStyles = makeStyles((theme) => ({
 const AccountsPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const auth = useAuth();
   const user = useContext(MongoContext);
   console.log(user);
+  //Plaid
+  const [linkToken, setLinkToken] = useState(null);
+
+  const generateToken = async (id) => {
+    console.log("Generating token.")
+    const { data } = await axios.post('/api/plaid/create_link_token', id);
+
+    console.info(data)
+    setLinkToken(data.link_token);
+  };
+
+  console.log(user)
+  useEffect(() => {
+    // generateToken(user.data.firebase_uid);
+  }, []);
+  //End Plaid
 
   const [pending, setPending] = useState(false);
   const [section, setSection] = useState({
@@ -41,7 +56,6 @@ const AccountsPage = (props) => {
   });
 
   const { type, title } = section;
-
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -94,6 +108,7 @@ const AccountsPage = (props) => {
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
+            {type === "banking" && <PaymentSettings linkToken={linkToken} />}
             {type === "saves" && user &&
               <LikedItemsSection
                 user={user}
@@ -101,7 +116,6 @@ const AccountsPage = (props) => {
                 handleDelete={handleDelete}
               />
             }
-            {type === "banking" && <PaymentSettings user={user} />}
             {type === "settings" && <AccountSettings user={user} />}
           </CardContent>
         </Card>
