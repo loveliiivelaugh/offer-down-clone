@@ -334,23 +334,10 @@ const Navbar = () => {
           >
             OfferDown
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {auth.user.email}!
+              Welcome {user.name}!
             </div>
           }
           <div className={classes.sectionDesktop}>
