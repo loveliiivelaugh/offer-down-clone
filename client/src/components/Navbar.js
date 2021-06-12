@@ -279,12 +279,12 @@ const Navbar = () => {
             <p>Messages</p>
           </MenuItem>
           <MenuItem onClick={() => router.push('/selling')}>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
+            <IconButton aria-label="selling page" color="inherit">
+              <Badge color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <p>Notifications</p>
+            <p>Your Items</p>
           </MenuItem>
         </div>
       }
@@ -318,7 +318,7 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {user.data.email}!
+              Welcome!
             </div>
           }
           <div className={classes.sectionDesktop}>
