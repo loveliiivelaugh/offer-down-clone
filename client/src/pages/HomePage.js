@@ -8,6 +8,8 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from "@material-ui/core/styles";
 //spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 
 import Api from "../api";
 
@@ -46,17 +48,17 @@ const HomePage = (props) => {
   // console.log(user)
   const [products, setProducts] = useState([]); //dont need these state
   const [pending, setPending] = useState(false); //hooks with useMongoDb()
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     setPending(true);
     const fetchData = async (id) => {
-      const products = await Api.getProducts(id);
-      console.log(products, 'what did i get back?');
-      // const filteredProducts = products.data.filter(item => item.));
-      // console.log(filteredProducts);
-
-      setProducts(products.data);
-      setPending(false);
+      Api.getProducts(id)
+        .then(response => {
+          setProducts(response.data);
+          setPending(false);
+        });
     };
     
     if (user.status == "success") {
@@ -65,12 +67,55 @@ const HomePage = (props) => {
 
   }, [user.status]);
 
+  useEffect(() => {
+    if (search === '') {
+      setFilteredProducts(products)
+    } else {
+      searchForProduct();
+    }
+    
+  }, [search])
+
+  const handleSearchOnChange = (e) => {
+    setSearch(e.target.value);
+  }
+
+  const searchForProduct = () => {
+    const filt = filteredProducts.filter(item => {
+      return (
+        item.name.toLowerCase().includes(search) ||
+        item.description.toLowerCase().includes(search)
+      )
+    })
+    setFilteredProducts(filt);
+  }
+
   console.log(products);
 
   return (
     <Container>
+<<<<<<< HEAD
       {/* <h1>I am Home Page!</h1> */}
       {/* <hr /> */}
+=======
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          name='search'
+          onChange={handleSearchOnChange}
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </div>
+      <h1>I am Home Page!</h1>
+      <hr />
+>>>>>>> main
       <div className={classes.container}>
         {user.status === 'loading'
           ? (
@@ -78,11 +123,11 @@ const HomePage = (props) => {
               <ClipLoader color="#00b" loading={pending} size={150} />
             </center> 
             )
-          : user.status === 'success' && products.length > 0
-          ? products.map((product, i) => (
+          : user.status === 'success' && filteredProducts.length > 0
+          ? filteredProducts.map((product, i) => (
               <ProductCard key={i} product={product} />
             )) 
-          : "No products to load at this time..." }
+          : "No products found..." }
       </div>
     </Container>
   )

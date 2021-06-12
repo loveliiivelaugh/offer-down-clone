@@ -56,8 +56,9 @@ const ProductCard = ({ product }) => {
   const handleClick = (e, product) => {
     e.preventDefault();
 
+    console.log(product, 'i am the product')
     router.push({
-      pathname: "/products/" + product.id,
+      pathname: "/products/" + product._id,
       state: {
         product: product
       }
