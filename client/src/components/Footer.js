@@ -1,42 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import SimpleModal from './SimpleModal';
+import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Avatar from '@material-ui/core/Avatar';
-import AddIcon from '@material-ui/icons/Add';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import FooterGrid from './FooterGrid';
-
-import { useRouter } from '../hooks/useRouter.js';
-import { useAuth } from '../hooks/useAuth.js';
-import Api from '../api';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -121,9 +91,6 @@ const useStyles = makeStyles((theme) => ({
     top: 'auto',
     bottom: 0,
   },
-  grow: {
-    flexGrow: 1,
-  },
   fabButton: {
     position: 'absolute',
     zIndex: 1,
@@ -148,7 +115,7 @@ function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary'>
       {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
+      <Link color='inherit' to='https://material-ui.com/'>
         OfferDown
       </Link>{' '}
       {new Date().getFullYear()}
@@ -161,7 +128,7 @@ function TermsOfService() {
 
   return (
     <Typography variant='body2' color='textSecondary' className={classes.service}>
-      <Link color='inherit' href='https://material-ui.com/'>
+      <Link color='inherit' to='https://material-ui.com/'>
         Terms of Service & Privacy Policy
       </Link>
     </Typography>
@@ -171,9 +138,6 @@ function TermsOfService() {
 
 const Footer = () => {
   const classes = useStyles();
-  const auth = useAuth();
-  const router = useRouter();
-
   return (
     <div className={classes.grow}>
       <AppBar className={classes.footer}>

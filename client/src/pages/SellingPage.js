@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { 
-  Avatar, Button, Card, CardContent, CardHeader, Container, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography 
+  Avatar, Button, Card, CardContent, Container, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography 
 } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { makeStyles } from '@material-ui/core/styles';
 import SimpleModal from '../components/SimpleModal';
-import { useAuth, requireAuth } from '../hooks/useAuth.js';
+import { requireAuth } from '../hooks/useAuth.js';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import Api from '../api';
 //spinner --> https://www.npmjs.com/package/react-spinners
@@ -23,13 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SellingPage = () => {
-  const auth = useAuth();
   const classes = useStyles();
-  const [pending, setPending] = useState(false);
-  
   const user = useContext(MongoContext);
-
-  console.log(user);
+  const [pending, setPending] = useState(false);
+  console.log(user)
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -40,8 +37,7 @@ const SellingPage = () => {
   //end modal
 
   const handleDelete = async (id) => {
-    const deletedItem = await Api.removeListedItem(id, user.data._id);
-    console.info(deletedItem);
+    return await Api.removeListedItem(id, user.data._id);
   };
 
   return (
@@ -63,7 +59,7 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-                {pending ? <ClipLoader /> :
+                {/* {pending ? <ClipLoader /> :
                   !pending && 
                   user.data.posted_items && 
                   user.data.posted_items.map(({ name, image, price, _id }) => (
@@ -76,7 +72,7 @@ const SellingPage = () => {
                     </ListItem>
                     <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
-                ))}
+                ))} */}
               </List>
             </CardContent>
           </Card>
