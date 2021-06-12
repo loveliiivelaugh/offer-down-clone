@@ -19,6 +19,7 @@ const SingleProductPage = () => {
   const router = useRouter();
   const product = router.location.state.product;
   const user = useContext(MongoContext);
+  console.log(user)
 
   //Modal
   const [open, setOpen] = useState(false);

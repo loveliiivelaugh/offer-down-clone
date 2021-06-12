@@ -31,11 +31,12 @@ const MongoContextProvider = ({ children }) => {
             picture: user.photoURL,
           };
 
+
           setInitialState(prevState => {
             return ({ 
-              ...prevState, 
-              status: "success", 
-              data: response.data[0] && finalUser
+              ...prevState,
+              status: "success",
+              data: Object.assign(response.data[0], finalUser)
             });
           });
 
