@@ -8,7 +8,7 @@ import Api from '../api';
 import AccountSettings from '../components/AccountSettings';
 import PaymentSettings from '../components/PaymentSettings';
 import SideNavCard from '../components/SideNavCard';
-import LikedItemsSection from '../components/LikedItemsSection';
+import SavedItems from '../components/SavedItems';
 import TransactionsSection from '../components/TransactionsSection';
 import SettingsSection from '../components/SettingsSection';
 import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
@@ -110,7 +110,7 @@ const AccountsPage = (props) => {
             {type === "purchases" && <TransactionsSection />}
             {type === "banking" && <PaymentSettings linkToken={linkToken} />}
             {type === "saves" && user &&
-              <LikedItemsSection
+              <SavedItems
                 user={user}
                 handleClick={handleClick}
                 handleDelete={handleDelete}

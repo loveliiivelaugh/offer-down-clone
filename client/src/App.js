@@ -27,23 +27,23 @@ function App() {
     </ProvideAuth>
   );
 }
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100vh',
-    backgroundImage: `url(${process.env.PUBLIC_URL + '/assets/offerdownbackground.jpeg'})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-  },
-}));
-export default function App() {
-  const classes = useStyles();
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Header />
-      <BuyandSell />
-    </div>
-  );
-}
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     minHeight: '100vh',
+//     backgroundImage: `url(${process.env.PUBLIC_URL + '/assets/offerdownbackground.jpeg'})`,
+//     backgroundRepeat: 'no-repeat',
+//     backgroundSize: 'cover',
+//   },
+// }));
+// //function App () {
+//  // const classes = useStyles();
+//   //return (
+//     <div className={classes.root}>
+//       <CssBaseline />
+//       <Header />
+//       <BuyandSell />
+//     </div>
+//   );
+//   }
 
 export default App;
