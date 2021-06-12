@@ -45,8 +45,15 @@ const User = require('../../models/User.js');
  * @API addLikedItem()
  */
 router.post('/likes', async ({ body }, res) => {
-  console.log(body);
+  console.log(body, 'backend like body');
   
+  // const updatedUser = await User.findByIdAndUpdate(body.user._id,
+  //   {$push: {
+  //     saved_items:body.item
+  //   }},{new:true});
+
+  // console.log(updatedUser);
+
   try {
     User.findById(body.user._id, (err, doc) => {
       if (err) throw err;

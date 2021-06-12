@@ -46,7 +46,6 @@ const AccountsPage = (props) => {
     setSavedItems(user.data.saved_items);
   },[]);
 
-  console.log(savedItems);
   // end saved items
 
   const handleNav = {
