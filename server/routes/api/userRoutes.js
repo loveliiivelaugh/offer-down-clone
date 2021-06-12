@@ -73,9 +73,9 @@ router.delete('/likes/:user_id/:id', async (req, res) => {
   
   try {
     
-    const updatedUser = await User.findByIdAndUpdate(req.params.user_id, {$pull: {saved_items: {_id:req.params.id}}})
+    const updatedUser = await User.findByIdAndUpdate(req.params.user_id, {$pull: {saved_items: {_id:req.params.id}}}, {new:true});
 
-      res.status(200).json(updatedUser);
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }

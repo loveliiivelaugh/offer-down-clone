@@ -46,7 +46,6 @@ const SellingPage = () => {
    setPostedItems(user.data.posted_items)
   }, [])
 
-  console.log(postedItems, 'im posted items');
 
   return (
     <Container className="container center">
