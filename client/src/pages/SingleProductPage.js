@@ -1,19 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb';
 import { useRouter } from '../hooks/useRouter.js';
 import Api from '../api';
 //components
 import SimpleModal from '../components/SimpleModal';
 //MaterialUI
-import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Button, Card, CardActions, CardActionArea, CardContent, CardHeader, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-
 
 const SingleProductPage = () => {
   const router = useRouter();
@@ -44,52 +40,32 @@ const SingleProductPage = () => {
 
   const handleLikeButton = async (e) => {
     e.preventDefault();
+    console.log(user, product, 'liked item click');
     return await Api.addLikedItem(user, product);
   };
 
   return (
     <Container>
-      <h1>I am a single product page!</h1>
+      <h1>{product.name}</h1>
       <Grid container spacing={3}>
         <Grid item xs={12} md={9}>
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
           <hr />
-          <Grid item xs={12} md={12}>
-            Additional image thumbnails go here.
-            <Avatar variant="square">
-              N
-            </Avatar>
-            <Avatar variant="square">
-              <AssignmentIcon />
-            </Avatar>
-          </Grid>
-          <hr />
           <Typography gutterBottom variant="h4" component="h2">
             Description
           </Typography>
+          <hr />
           <Typography variant="body2" component="p">
             {product.description}
           </Typography>
           <hr />
+          <Typography gutterBottom variant="h4" component="h2">
+            Price
+          </Typography>
+          <Typography variant="body2" component="p">
+            {product.price}
+          </Typography>
           <Grid item xs={12} md={12}>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-          </Grid>
-          <Grid item xs={12} md={12}>
-            Potentially a Google Map goes here.
-          </Grid>
-          <Grid item xs={12} md={12}>
-            Thumbnails of similar items go here.
-            <Avatar variant="square">
-              N
-            </Avatar>
-            <Avatar variant="square">
-              <AssignmentIcon />
-            </Avatar>
           </Grid>
         </Grid>
         <Grid item xs={12} md={3}>
@@ -149,9 +125,6 @@ const SingleProductPage = () => {
             <CardActions>
               <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
                 <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
               </IconButton>
             </CardActions>
           </Card>

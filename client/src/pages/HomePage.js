@@ -84,7 +84,7 @@ const HomePage = (props) => {
       searchForProduct();
     }
     
-  }, [search, products, filteredProducts]);
+  }, [search, products]);
 
   const handleSearchOnChange = (e) => {
     setSearch(e.target.value);

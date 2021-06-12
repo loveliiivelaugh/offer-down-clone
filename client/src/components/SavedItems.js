@@ -19,47 +19,50 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SavedItems({ handleClick, handleDelete }) {
+function SavedItems({ user, handleClick, handleDelete }) {
+
+  console.log(user);
 
   const classes = useStyles();
-  const user = {
-      name: 'Melanie',
-      email: 'melanie@test.com',
-      location: 'Chicago, IL',
-      password: 'password123',
-      saved_items: {
-        name: 'Shirt',
-        price: 15
-      }
+  // const user = {
+  //     name: 'Melanie',
+  //     email: 'melanie@test.com',
+  //     location: 'Chicago, IL',
+  //     password: 'password123',
+  //     saved_items: {
+  //       name: 'Shirt',
+  //       price: 15
+  //     }
 
-  }
+  // }
 
   return (
     <div className={classes.root}>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                    <Typography variant="h6" className={classes.title}>
-                        Saved Items
-            </Typography>
-                    <div className={classes.demo}>
-                    {/* {saved_items.map(({ userId: _id, name, price, product_id }) => () */}
-                    <List>
-              <ListItem>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h6" className={classes.title}>
+            Saved Items
+          </Typography>
+          <div className={classes.demo}>
+            <List>
+              {user.data.saved_items.map(item => {
+                return (
+                <ListItem>
                 <Grid item xs={12} md={6}>
                   <ListItemText>
-                    {user.saved_items.name}
+                    {item.name}
                   </ListItemText>
                 </Grid>
                 <ListItemText>
-                  ${user.saved_items.price}
+                  ${item.price}
                 </ListItemText>
-
               </ListItem>
+              )})}
             </List>
-                    </div>
-                </Grid>
-            </Grid>
-        </div>
+          </div>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
 
