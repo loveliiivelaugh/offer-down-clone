@@ -1,12 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
-import Footer from './Footer';
-import ReactDOM from 'react-dom';
 import { SocialIcon } from 'react-social-icons';
 import { useRouter } from "../hooks/useRouter.js";
 

@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb';
 import { useRouter } from '../hooks/useRouter.js';
-import { useAuth } from '../hooks/useAuth.js';
 import Api from '../api';
 //components
 import SimpleModal from '../components/SimpleModal';
@@ -18,11 +17,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const SingleProductPage = () => {
   const router = useRouter();
-  const auth = useAuth();
   const product = router.location.state.product;
   const user = useContext(MongoContext);
-
-  console.log(user);
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -31,8 +27,6 @@ const SingleProductPage = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
-
-  console.log(product);
 
   const handleOfferButton = (e) => {
     e.preventDefault();
@@ -48,14 +42,8 @@ const SingleProductPage = () => {
   };
 
   const handleLikeButton = async (e) => {
-    e.preventDefault()
-    console.log("handleFavoritesButton", product);
-    //this is where the database code goes
-
-    //hit the likeItem method passing in the current users email, and the product id.
-    // db.likeItem(auth.user.email, product.id);
-    const newlyLikedItem = await Api.addLikedItem(user, product);
-    console.log(newlyLikedItem);
+    e.preventDefault();
+    return await Api.addLikedItem(user, product);
   };
 
   return (

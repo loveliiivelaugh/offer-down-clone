@@ -43,12 +43,13 @@ const useStyles = makeStyles((theme) => ({
 const HomePage = (props) => {
   const user = useContext(MongoContext);
   const classes = useStyles();
-  // console.log(user)
-  const [products, setProducts] = useState([]); //dont need these state
-  const [pending, setPending] = useState(false); //hooks with useMongoDb()
+  const [products, setProducts] = useState([]);
+  const [pending, setPending] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState('');
 
+  // Good read to understand better what is happening right here in the following useEffect() hooks..
+  //https://dennyscott.io/use-effect-dependency-array/
   useEffect(() => {
     setPending(true);
     const fetchData = async (id) => {
@@ -59,36 +60,35 @@ const HomePage = (props) => {
         });
     };
     
-    if (user.status == "success") {
+    if (user.status === "success") {
       fetchData(user.data._id);
     }
 
   }, [user.status]);
 
   useEffect(() => {
+    const searchForProduct = () => {
+      const filt = filteredProducts.filter(item => {
+        return (
+          item.name.toLowerCase().includes(search) ||
+          item.description.toLowerCase().includes(search)
+        );
+      });
+
+      setFilteredProducts(filt);
+    };
+
     if (search === '') {
       setFilteredProducts(products);
     } else {
       searchForProduct();
     }
     
-  }, [search]);
+  }, [search, products, filteredProducts]);
 
   const handleSearchOnChange = (e) => {
     setSearch(e.target.value);
-  }
-
-  const searchForProduct = () => {
-    const filt = filteredProducts.filter(item => {
-      return (
-        item.name.toLowerCase().includes(search) ||
-        item.description.toLowerCase().includes(search)
-      )
-    })
-    setFilteredProducts(filt);
-  }
-
-  console.log(products);
+  };
 
   return (
     <Container>
@@ -107,8 +107,6 @@ const HomePage = (props) => {
           inputProps={{ 'aria-label': 'search' }}
         />
       </div>
-      <h1>I am Home Page!</h1>
-      <hr />
       <div className={classes.container}>
         {user.status === 'loading'
           ? (

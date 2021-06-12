@@ -3,42 +3,22 @@ import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 import axios from 'axios';
 import CardSection from './CardSection';
 //MaterialUI
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { 
+  Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, Grid, TextField, Typography 
+} from '@material-ui/core';
+import Confetti from 'confetti-react';
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    // minHeight: 400
-  },
-  title: {
-    fontSize: 14,
-  },
-});
 
-const CheckoutForm = ({ toggleConfetti }) => {
-  const classes = useStyles();
+const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [savePayment, setSavePayment] = useState(false);
-
-  console.log(stripe)
+  const [confettiSwitch, toggleConfetti] = useState(false);
 
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
     event.preventDefault();
-
-    console.log("I am being submitted?");
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
@@ -48,39 +28,32 @@ const CheckoutForm = ({ toggleConfetti }) => {
     const email = event.target.email.value;
 
     const res = await axios.post('http://localhost:8080/api/stripe/pay', { email: email });
-    console.log(res.data);
+
     const clientSecret = res.data.client_secret;
 
-    const savedPayment = await stripe.createPaymentMethod({
+    await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement),
       billing_details: {
         name: "Test Name"
       }
-    });
+    })
+      .then(savedPayment => setSavePayment(savedPayment))
+      .catch(error => console.error(error));
 
-    if (savedPayment) {
-      console.log(savedPayment);
-      setSavePayment(savedPayment);
-    }
-
-    const confirmedPayment = await stripe.confirmCardPayment(clientSecret, {
+    
+    await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
           email: email,
         },
       }
-    });
-
-    if (confirmedPayment.error) {
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(confirmedPayment.error.message);
-    } else {
+    })
+    .then(confirmedPayment => {
       // The payment has been processed!
       if (confirmedPayment.paymentIntent.status === 'succeeded') {
         console.log(" Money in the bank! ");
-
         toggleConfetti(true);
         setTimeout(() => toggleConfetti(false), 15000);
         // Show a success message to your customer
@@ -89,7 +62,11 @@ const CheckoutForm = ({ toggleConfetti }) => {
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
       }
-    }
+    })
+    .catch(error => {
+      // Show error to your customer (e.g., insufficient funds)
+      console.log(error.message);
+    });
   };
 
   return (
@@ -100,7 +77,7 @@ const CheckoutForm = ({ toggleConfetti }) => {
           Payment method
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={3} md={12}>
+          <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <TextField required id="cardName" label="Name on card" autoComplete="cc-name" />
             </Grid>
@@ -127,6 +104,7 @@ const CheckoutForm = ({ toggleConfetti }) => {
               />
           </Grid>
         </form>
+      {confettiSwitch && <Confetti /> }
       </CardContent>
     </Card>
   </Grid>

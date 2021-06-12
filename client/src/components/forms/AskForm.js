@@ -92,6 +92,8 @@ const AskForm = ({ handleClose, setType, type }) => {
           </form>
         </div>
       )
+      default:
+        return;
   }
 };
 

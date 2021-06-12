@@ -1,6 +1,4 @@
 import React from 'react';
-// import CheckoutForm from '../components/CheckoutForm';
-import Confetti from 'confetti-react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 // import Header from '../components/Header';
@@ -18,12 +16,10 @@ const useStyles = makeStyles((theme) => ({
 
 const LandingPage = () => {
   const classes = useStyles();
-  const [confettiSwitch, toggleConfetti] = React.useState(false);
   
   
   return (
     <div className={classes.root} style={{height:'67vh'}}>
-      {confettiSwitch && <Confetti /> }
       {/* <CssBaseline/>
         <Header/>
         <BuyandSell /> */}

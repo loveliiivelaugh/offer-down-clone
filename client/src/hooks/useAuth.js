@@ -100,6 +100,7 @@ function useProvideAuth() {
   };
 }
 
+//https://usehooks.com/useRequireAuth/
 // A Higher Order Component for requiring authentication
 // Hook (useRequireAuth.js)
 export const requireAuth = (Component) => {
