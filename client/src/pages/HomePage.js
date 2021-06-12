@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 3fr))',
     gridGap: '20px',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20
   },
   card: {
     width: 'auto', 

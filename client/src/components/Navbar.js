@@ -180,6 +180,9 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
+  
+  console.log(user)
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -318,7 +321,9 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome!
+              Welcome {user.email}!
+              Welcome {user.name}!
+
             </div>
           }
           <div className={classes.sectionDesktop}>
@@ -401,5 +406,7 @@ const Navbar = () => {
 
     </div>
   );
+
 }
+
 export default Navbar

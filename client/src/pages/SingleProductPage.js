@@ -11,7 +11,28 @@ import { Button, Card, CardActions, CardActionArea, CardContent, CardHeader, Typ
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
+import ShareIcon from '@material-ui/icons/Share';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+
+const useStyles = makeStyles((theme) => ({
+  
+  productGrid: {
+    marginBottom: 50,
+    marginTop: 20
+  },
+  card: {
+    marginTop: 15
+  },
+  image: {
+    marginBottom: 15
+  }
+}));
+
+
 const SingleProductPage = () => {
+  const classes = useStyles();
   const router = useRouter();
   const product = router.location.state.product;
   const user = useContext(MongoContext);
@@ -46,18 +67,25 @@ const SingleProductPage = () => {
 
   return (
     <Container>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={9} className={classes.productGrid}>
+          <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
+
       <h1>{product.name}</h1>
       <Grid container spacing={3}>
         <Grid item xs={12} md={9}>
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
           <hr />
+
           <Typography gutterBottom variant="h4" component="h2">
             Description
           </Typography>
           <hr />
           <Typography variant="body2" component="p">
-            {product.description}
+            {product.description} 
           </Typography>
+
           <hr />
           <Typography gutterBottom variant="h4" component="h2">
             Price
@@ -67,16 +95,12 @@ const SingleProductPage = () => {
           </Typography>
           <Grid item xs={12} md={12}>
           </Grid>
+
         </Grid>
         <Grid item xs={12} md={3}>
-          <Card>
+        <Box border={1} borderColor="primary.main" borderRadius="borderRadius" borderColor="primary.main" className={classes.card}><Card className={classes.card}>
             <CardActionArea>
               <CardHeader>
-                <CardContent>
-                  <Typography gutterBottom variant="h2" component="h2">
-                    {product.title}
-                    </Typography>
-                  </CardContent>
                 <CardContent>
                   <Typography gutterBottom variant="h3" component="h2">
                     {product.price}
@@ -85,11 +109,14 @@ const SingleProductPage = () => {
               </CardHeader>
 
               <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                    {product.name}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                    ${product.price}
+                  </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Posted 2 minutes ago in San Bernardino, CA
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {product.title}
+                  Posted 2 minutes ago in {product.zip_code}
                 </Typography>
                 <Typography variant="body2" component="p">
                   {product.category}
@@ -127,7 +154,7 @@ const SingleProductPage = () => {
                 <FavoriteIcon />
               </IconButton>
             </CardActions>
-          </Card>
+          </Card></Box>
         </Grid>
       </Grid>
     </Container>
