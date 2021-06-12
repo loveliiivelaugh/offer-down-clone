@@ -337,11 +337,8 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-<<<<<<< HEAD
               Welcome {user.email}!
-=======
               Welcome {user.name}!
->>>>>>> main
             </div>
           }
           <div className={classes.sectionDesktop}>
@@ -424,5 +421,7 @@ const Navbar = () => {
 
     </div>
   );
+
 }
+
 export default Navbar

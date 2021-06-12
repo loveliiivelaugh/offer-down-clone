@@ -94,10 +94,6 @@ const HomePage = (props) => {
 
   return (
     <Container>
-<<<<<<< HEAD
-      {/* <h1>I am Home Page!</h1> */}
-      {/* <hr /> */}
-=======
       <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon />
@@ -115,7 +111,6 @@ const HomePage = (props) => {
       </div>
       <h1>I am Home Page!</h1>
       <hr />
->>>>>>> main
       <div className={classes.container}>
         {user.status === 'loading'
           ? (
