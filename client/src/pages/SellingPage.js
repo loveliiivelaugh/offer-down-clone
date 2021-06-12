@@ -59,7 +59,7 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-                {/* {pending ? <ClipLoader /> :
+                {pending ? <ClipLoader /> :
                   !pending && 
                   user.data.posted_items && 
                   user.data.posted_items.map(({ name, image, price, _id }) => (
@@ -72,7 +72,7 @@ const SellingPage = () => {
                     </ListItem>
                     <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
-                ))} */}
+                ))}
               </List>
             </CardContent>
           </Card>
