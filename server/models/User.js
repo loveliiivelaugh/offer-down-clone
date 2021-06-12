@@ -116,7 +116,7 @@ const UserSchema = new Schema({
             _id: {
                 type: String
             },
-            title: {
+            name: {
                 type: String
             },
             description: {

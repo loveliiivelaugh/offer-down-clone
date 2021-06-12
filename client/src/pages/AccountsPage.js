@@ -10,55 +10,35 @@ import PaymentSettings from '../components/PaymentSettings';
 import SideNavCard from '../components/SideNavCard';
 import SavedItems from '../components/SavedItems';
 import TransactionsSection from '../components/TransactionsSection';
-import SettingsSection from '../components/SettingsSection';
-import { Avatar, Card, CardContent, Divider, List, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import ProfilePage from './ProfilePage';
-
-//How is Michael keeping tracking of whos accessing these pages?
-//https://usehooks.com/useRequireAuth/
-const useStyles = makeStyles((theme) => ({
-  list: {
-    marginBottom: theme.spacing(2),
-  },
-  subheader: {
-    backgroundColor: theme.palette.background.paper,
-  }
-}));
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
+// import ProfilePage from './ProfilePage';
 
 
 const AccountsPage = (props) => {
-  const classes = useStyles();
-  const router = useRouter();
   const user = useContext(MongoContext);
-  console.log(user);
-  //Plaid
-  const [linkToken, setLinkToken] = useState(null);
-
-  const generateToken = async (id) => {
-    console.log("Generating token.")
-    const { data } = await axios.post('/api/plaid/create_link_token', id);
-
-    console.info(data)
-    setLinkToken(data.link_token);
-  };
-
-  console.log(user)
-  useEffect(() => {
-
-    if (user.status == "success") {
-      generateToken(user.data.firebase_uid);
-    }
-  }, [user.status]);
-  //End Plaid
-
-  const [pending, setPending] = useState(false);
+  const router = useRouter();
   const [section, setSection] = useState({
     type: "purchases",
     title: "Purchases & Sales",
   });
 
   const { type, title } = section;
+
+  //Plaid
+  const [linkToken, setLinkToken] = useState(null);
+
+  const generateToken = async (id) => {
+    const { data } = await axios.post('/api/plaid/create_link_token', id);
+    setLinkToken(data.link_token);
+  };
+
+  useEffect(() => {
+    if (user.status === "success") {
+      generateToken(user.data.firebase_uid);
+    }
+  }, [user.status]);
+  //End Plaid
+
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -86,12 +66,8 @@ const AccountsPage = (props) => {
     });
   };
 
-  //OLD WAY
   const handleDelete = async (user_id, id) => {
-
-    const deletedItem = await Api.removeLikedItem(user_id, id);
-
-    console.log(deletedItem);
+    return await Api.removeLikedItem(user_id, id);
   };
 
   return (
@@ -102,12 +78,9 @@ const AccountsPage = (props) => {
       </Grid>
 
       <Grid item xs={12} md={9}>
-
         <Typography component="h1" variant="h4" align="left">
           {title}
         </Typography>
-
-        
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
@@ -122,90 +95,11 @@ const AccountsPage = (props) => {
             {type === "settings" && <AccountSettings user={user} />}
           </CardContent>
         </Card>
-{/* 
-        <Card style={{height: '60vh'}}>
-          <CardContent>
-            <AccountSettings user={user} pizza='pizza'/>
-          </CardContent>
-        </Card>
-
-        <Card style={{height: '60vh'}}>
-          <CardContent>
-            <PaymentSettings user={user} />
-          </CardContent>
-        </Card>
- */}
-
-        {/* 
-  Move this Card into its own component.
-  Call it TransactionsSection.js 
-*/}
-        {/* 
-        <Card style={{height: '60vh'}}>
-          <Tabs
-            value={props.activeKey}
-            indicatorColor="primary"
-            textColor="primary"
-            centered={false}
-          >
-            <Tab
-              label="Accounts"
-              value="general"
-              // component={Link}
-              // to="/settings/general"
-            ></Tab>
-
-            <Tab
-              label="Transactions"
-              value="password"
-              // component={Link}
-              // to="/settings/password"
-            ></Tab>
-
-          </Tabs>
-          <Divider />
-          <FormControl component="fieldset">
-            <TextField type="text" name="balance" label="Balance" variant="outlined" />
-            <TextField type="text" name="balance" label="$0.00" variant="outlined" />
-          </FormControl>
-          {auth &&
-            <Plaid auth={auth} /> 
-          }
-          <ImageLoader />
-          <CardSection />
-        </Card> 
-        */}
-
-        {/* 
-  Move this Card into its own component.
-  Call it SavedItems.js
-  
-  !!! Also this component needs to be fixed up. Styling needs to be adjusted. Positioning of delete button adjusted.
-  !!! clickHandler() is not passing in the correct data nor data structure. After investigating a little, for whatever
-  !!! reason the data is not being passed correctly further up the tree. Needs to be fixed. handleDelete() is connected
-  !!! to the server but the server route is broken.
-*/}
-        {/* <Card style={{height: '60vh'}}>
-          <CardContent>
-            <List className={classes.list}>
-              {saved_items.map(({ userId: _id, name, price, product_id }) => (
-                <React.Fragment key={product_id}>
-                  <ListItem button onClick={() => handleClick({ _id, name, price, product_id })}>
-                    <ListItemAvatar>
-                      <Avatar alt="Profile Picture" src="" />
-                    </ListItemAvatar>
-                    <ListItemText primary={name} />
-                  </ListItem>
-                  <Button onClick={() => handleDelete(product_id)} color="secondary">Delete</Button>
-                </React.Fragment>
-              ))}
-            </List>
-          </CardContent>
-        </Card> */}
-
       </Grid>
+
     </Grid>
   );
 }
 
+//https://usehooks.com/useRequireAuth/
 export default requireAuth(AccountsPage);

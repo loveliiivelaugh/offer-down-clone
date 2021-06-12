@@ -1,14 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import React, { useContext, useState } from 'react';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlinedIcon';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,6 +12,7 @@ import "firebase/firestore";
 import 'firebase/storage';
 import Api from '../../api';
 import { MongoContext } from '../../hooks/useMongoDb.js';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,12 +29,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SellingForm = ({ handleClose }) => {
+const SellingForm = ({setPostedItems, handleClose }) => {
   const classes = useStyles();
   const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
 
-  console.log(user)
   const [sellingData, setSellingData] = useState({
     name: '',
     description: '',
@@ -63,8 +56,6 @@ const SellingForm = ({ handleClose }) => {
   const handleSubmit = async (data) => {
     setPending(true);
 
-    console.log(data, 'data getting passed in the handler');
-
     let storageRef = firebase.storage().ref();
     let imageRef = storageRef.child('images/' + data.image.name);
     await imageRef.put(data.image).then( async (snapshot) => {
@@ -74,11 +65,9 @@ const SellingForm = ({ handleClose }) => {
       })
     });
 
-    console.log(data, 'modified data project');
-    console.log(user);
+    const addedProduct = await Api.addProduct({ product: data, user: user.data._id });
 
-
-    Api.addProduct({ product: data, user: user.data._id });
+    setPostedItems(addedProduct.data.posted_items);
     
     const clearValues = () => {
       setSellingData({
@@ -93,7 +82,9 @@ const SellingForm = ({ handleClose }) => {
 
     handleClose();
 
-    setPending(false);  
+    setPending(false);
+
+    return addedProduct;
   };
 
   return (
@@ -182,15 +173,17 @@ const SellingForm = ({ handleClose }) => {
             value={sellingData ? zip_code : "zip_code"}
             onChange={onChange}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Post
-          </Button>
+          {pending ? <ClipLoader loading={pending} /> :
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Post
+            </Button>
+          }
         </form>
       </div>
     </Container>

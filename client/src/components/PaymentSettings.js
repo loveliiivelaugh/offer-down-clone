@@ -26,7 +26,7 @@ function PaymentSettings({ linkToken }) {
     const classes = useStyles();
     //Modal
     const [open, setOpen] = useState(false);
-    const [type, setType] = useState("signin");
+    // const [type, setType] = useState("signin");
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -42,9 +42,7 @@ function PaymentSettings({ linkToken }) {
             name: 'Hat',
             price: 4.25
         }
-
-    }
-
+    };
 
     return (
         <Grid container spacing={2}>

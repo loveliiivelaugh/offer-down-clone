@@ -4,7 +4,7 @@ import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import AccountsPage from './AccountsPage';
 import SellingPage from './SellingPage';
-import OfferPage from './OfferPage';
+// import OfferPage from './OfferPage';
 import SingleProductPage from './SingleProductPage';
 import CheckoutPage from './CheckoutPage';
 import ProfilePage from './ProfilePage';
@@ -28,7 +28,7 @@ const router = () => {
 
         <Route exact path="/selling" component={SellingPage} />
 
-        <Route exact path="/offer" component={OfferPage} />
+        {/* <Route exact path="/offer" component={OfferPage} /> */}
 
         <Route exact path="/products/:id" component={SingleProductPage} />
 

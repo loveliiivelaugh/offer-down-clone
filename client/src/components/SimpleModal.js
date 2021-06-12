@@ -3,8 +3,7 @@ import SignIn from './forms/SignIn';
 import SignUp from './forms/SignUp';
 import AskForm from './forms/AskForm';
 import SellingForm from './forms/SellingForm';
-import PaymentForm from './forms/PaymentForm';
-import { Avatar, Button, Modal, Typography } from '@material-ui/core';
+import { Avatar, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CheckoutForm from './forms/CheckoutForm';
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleModal = ({ open, handleClose, type, setType }) => {
+const SimpleModal = ({ open, handleClose, type, setType, setPostedItems }) => {
   const classes = useStyles();
 
   return (
@@ -41,12 +40,13 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
+      <div>
       {
         type === "signin" ? <SignIn setType={setType} handleClose={handleClose} /> :
         type === "signup" ? <SignUp setType={setType} handleClose={handleClose} /> :
         type === "ask" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
         type === "message" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
-        type === "sell" ? <SellingForm handleClose={handleClose} setType={setType} type={type} /> :
+        type === "sell" ? <SellingForm setPostedItems={setPostedItems} handleClose={handleClose} setType={setType} type={type} /> :
         type === "payment" ? ( 
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
@@ -55,8 +55,9 @@ const SimpleModal = ({ open, handleClose, type, setType }) => {
             <CheckoutForm className={classes.form} handleClose={handleClose} type={type} />
           </div>
         ) :
-        <SellingForm handleClose={handleClose} setType={setType} />
+        <SellingForm setPostedItems={setPostedItems} handleClose={handleClose} setType={setType} />
       }
+      </div>
     </Modal>
   );
 }

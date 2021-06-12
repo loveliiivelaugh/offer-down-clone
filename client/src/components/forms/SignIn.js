@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../hooks/useAuth.js";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import Api from '../../api';
 
@@ -64,7 +65,6 @@ const SignIn = ({ setType, handleClose }) => {
     const { email, password } = data;
 
     const firebaseDetails = await auth.signin(email, password);
-    console.log(firebaseDetails)
 
     const signedInUser = await Api.getUser(firebaseDetails.user.uid);
     setUser(signedInUser);
@@ -130,16 +130,17 @@ const SignIn = ({ setType, handleClose }) => {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-      
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
+          {pending ? <ClipLoader /> :
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+          }
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
