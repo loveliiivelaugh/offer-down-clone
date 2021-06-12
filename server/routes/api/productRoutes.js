@@ -96,9 +96,9 @@ router.post('/', async (req, res) => {
 
     console.log(newProduct, "created product")
 
-    await User.findByIdAndUpdate({_id:req.body.user}, {$push: {posted_items:newProduct}});
+    const updatedUser = await User.findByIdAndUpdate({_id:req.body.user}, {$push: {posted_items:newProduct}}, {new: true});
 
-    res.status(200).json({product:newProduct._id});
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error, 'backside error')
     res.status(500).json({ errorMessage: error });
@@ -110,11 +110,11 @@ router.delete('/:id/:user', async (req, res) => {
   console.log(req.params.user, 'backend delete, user');
 
  
-  await User.findByIdAndUpdate(req.params.user, {$pull: {
-    posted_items: {_id:req.params.id}}})
+  const updatedUser = await User.findByIdAndUpdate(req.params.user, {$pull: {
+    posted_items: {_id:req.params.id}}},{new:true});
 
-  const prod = await Product.findByIdAndDelete({_id:req.params.id});
-  res.status(200).json(prod);
+  await Product.findByIdAndDelete({_id:req.params.id});
+  res.status(200).json(updatedUser);
 })
 
 // // updateProduct()

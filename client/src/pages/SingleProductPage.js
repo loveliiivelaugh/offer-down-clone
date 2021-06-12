@@ -44,6 +44,7 @@ const SingleProductPage = () => {
 
   const handleLikeButton = async (e) => {
     e.preventDefault();
+    console.log(user, product, 'liked item click');
     return await Api.addLikedItem(user, product);
   };
 
