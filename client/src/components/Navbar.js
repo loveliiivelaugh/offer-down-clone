@@ -92,10 +92,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+    display: 'block',
   },
   search: {
     position: 'relative',
@@ -309,14 +306,6 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography 
             className={classes.title} 
             variant="h6" 
@@ -329,7 +318,7 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {user.name}!
+              Welcome {user.data.email}!
             </div>
           }
           <div className={classes.sectionDesktop}>
