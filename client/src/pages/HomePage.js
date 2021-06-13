@@ -56,11 +56,9 @@ const HomePage = (props) => {
   useEffect(() => {
     setPending(true);
     const fetchData = async (id) => {
-      Api.getProducts(id)
-        .then(response => {
-          setProducts(response.data);
-          setPending(false);
-        });
+      const prod = await Api.getProducts(id)
+      setProducts(prod.data);
+      setPending(false);
     };
     
     if (user.status === "success") {
@@ -87,7 +85,7 @@ const HomePage = (props) => {
       searchForProduct();
     }
     
-  }, [search]);
+  }, [search, products]);
 
   const handleSearchOnChange = (e) => {
     setSearch(e.target.value);
