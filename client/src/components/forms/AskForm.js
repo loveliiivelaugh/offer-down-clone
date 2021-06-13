@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Grid, Typography, TextareaAutosize } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Api from '../../api';
+import { MongoContext } from '../../hooks/useMongoDb.js';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -14,8 +17,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AskForm = ({ handleClose, setType, type }) => {
+const AskForm = ({ handleClose, setType, type, product }) => {
   const classes = useStyles();
+  const user = useContext(MongoContext);
+
+  const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setPending(true);
+
+    console.log(message)
+
+    const newMessage = await Api.sendMessage({ 
+      sender: user, 
+      recepient: product, 
+      message: message 
+    });
+
+    console.log(newMessage);
+
+    setMessage("");
+    handleClose();
+    setPending(false);
+
+    return newMessage;
+  };
+
+  const onChange = e => {
+      setMessage({ ...message, [e.target.name]: e.target.value });
+    };
 
   switch (type) {
     case "message":
@@ -24,9 +56,11 @@ const AskForm = ({ handleClose, setType, type }) => {
           <Typography variant="h6" gutterBottom>
             Send a Message
           </Typography>
-          <Button onClick={() => handleClose()}>Cancel</Button>
           <Grid container spacing={3}>
-            <form>
+            <form onSubmit={e => {
+              e.preventDefault()
+              handleSubmit(message)
+            }}>
               <Grid item xs={12} sm={12}>
                 <label htmlFor="askMessage">New message</label>
               </Grid>
@@ -38,12 +72,16 @@ const AskForm = ({ handleClose, setType, type }) => {
                   required
                   id="askMessage"
                   name="message"
+                  onChange={onChange}
                   fullWidth
                   autoComplete="given-name"
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <Button variant="outlined" color="secondary" onClick={() => {}}>Send</Button>
+              {pending ? <ClipLoader loading={pending} /> : 
+                <Button variant="outlined" color="primary" onClick={handleSubmit}>Send</Button>
+              }
+                <Button color="secondary" onClick={handleClose}>Cancel</Button>
               </Grid>
             </form>
           </Grid>

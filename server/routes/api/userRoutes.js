@@ -88,6 +88,42 @@ router.delete('/likes/:user_id/:id', async (req, res) => {
   }
 });
 
+/**
+ * @method POST /api/users/messages
+ * @descr Post a message to another user's inbox
+ * @API sendMessage()
+ */
+router.post('/message', async ({ body }, res) => {
+  const { sender, recepient, message } = body;
+  console.log(sender, recepient, message);
+  try {
+    const userToUpdate = await User.findById(recepient.user_id);
+    // const updatedUser = await User.findByIdAndUpdate(recepient.user_id, {$push: {messages: {
+    //   type: "message",
+    //   content: message,
+    //   recepient_id: recepient.user_id,
+    //   sender_id: sender.data._id
+    // }}}, (err, res) => {
+    //   console.log(res);
+    // });
+    //come back to this
+    userToUpdate.messages.push({
+      type: "message",
+      content: message.message,
+      recipient_id: recepient.user_id,
+      sender_id: sender.data._id
+    });
+
+    userToUpdate.save();
+
+    console.log("User to update: ", userToUpdate);
+    // console.log("Updated user: ", updatedUser);
+    res.status(200).json(userToUpdate);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
+
 // // updateUser()
 // router.put('/:id', async (req, res) => {
 //   console.log(req.body);

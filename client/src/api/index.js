@@ -51,8 +51,8 @@ const Api = {
 
 
   ///
-  sendMessage: async (id) => {
-    return await axios.post('/api/users/' + id)
+  sendMessage: async (body) => {
+    return await axios.post('/api/users/message', body)
       .then(response => response)
       .catch(error => console.error(error));
   },

@@ -109,13 +109,13 @@ router.delete('/:id/:user', async (req, res) => {
   console.log(req.params.id, 'backend delete, id');
   console.log(req.params.user, 'backend delete, user');
 
- 
+
   const updatedUser = await User.findByIdAndUpdate(req.params.user, {$pull: {
     posted_items: {_id:req.params.id}}},{new:true});
 
   await Product.findByIdAndDelete({_id:req.params.id});
   res.status(200).json(updatedUser);
-})
+});
 
 // // updateProduct()
 // router.put('/products/:id', async (req, res) => {
