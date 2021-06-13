@@ -8,7 +8,7 @@ const User = require('../../models/User.js');
  * @API submitOffer()
  */
 router.post('/offer', async ({ body }, res) => {
-  console.log(body);
+
   try {
     User.findById(body.recepient.user_id, (err, doc) => {
       if (err) throw err;
@@ -21,8 +21,6 @@ router.post('/offer', async ({ body }, res) => {
       });
 
       doc.save();
-
-      console.log(doc);
 
       res.status(200).json(doc);
     });
@@ -38,14 +36,6 @@ router.post('/offer', async ({ body }, res) => {
  * @API addLikedItem()
  */
 router.post('/likes', async ({ body }, res) => {
-  console.log(body, 'backend like body');
-  
-  // const updatedUser = await User.findByIdAndUpdate(body.user._id,
-  //   {$push: {
-  //     saved_items:body.item
-  //   }},{new:true});
-
-  // console.log(updatedUser);
 
   try {
     User.findById(body.user._id, (err, doc) => {
@@ -53,8 +43,6 @@ router.post('/likes', async ({ body }, res) => {
       doc.saved_items.push(body.item);
 
       doc.save();
-
-      console.log(doc);
 
       res.status(200).json(doc);
     });
@@ -69,7 +57,6 @@ router.post('/likes', async ({ body }, res) => {
  * @API removeLikedItem()
  */
 router.delete('/likes/:user_id/:id', async (req, res) => {
-  console.log(req.params);
   
   try {
     
@@ -88,7 +75,6 @@ router.delete('/likes/:user_id/:id', async (req, res) => {
  */
 router.post('/message', async ({ body }, res) => {
   const { sender, recepient, message } = body;
-  console.log(sender, recepient, message);
   try {
     const userToUpdate = await User.findById(recepient.user_id);
     // const updatedUser = await User.findByIdAndUpdate(recepient.user_id, {$push: {messages: {
@@ -109,8 +95,6 @@ router.post('/message', async ({ body }, res) => {
 
     userToUpdate.save();
 
-    console.log("User to update: ", userToUpdate);
-    // console.log("Updated user: ", updatedUser);
     res.status(200).json(userToUpdate);
   } catch (error) {
     res.status(500).json({ errorMessage: error });
@@ -119,7 +103,6 @@ router.post('/message', async ({ body }, res) => {
 
 // // updateUser()
 // router.put('/:id', async (req, res) => {
-//   console.log(req.body);
 //   try {
 //     const userData = await User.updateOne({ id: req.params.id }, req.body); // talk with team
 
@@ -150,16 +133,14 @@ router.post('/message', async ({ body }, res) => {
 // @API getUser()
 router.get('/:id', async ({ params }, res) => {
 
-  console.log(params.id);
   //get your users from your User model
   // User.find({ _id: params.id })
   User.find({})
     .then(response => {
-      console.log("User from User model.", response);
       
       const user = response.filter(user => user._id == params.id);
 
-      console.log(user);
+
 
       if (user) {
         //return a response code and json object.
@@ -176,14 +157,11 @@ router.get('/:id', async ({ params }, res) => {
 router.get('/user/:query', async (req, res) => {
   const { query } = req.params;
 
-  console.log(query)
 
   try {
     const userData = await User.find({});
 
     const user = userData.filter(user => user.firebase_uid == query);
-
-    console.log(user, userData[0].email);
 
     res.status(200).json(user);
   } catch (error) {
@@ -211,8 +189,6 @@ router.get('/user/:query', async (req, res) => {
 router.post('/', async ({ body }, res) => {
   const { first, last, email, providerData, uid, lastLoginAt, createdAt } = body;
 
-  console.log(body, 'creating a user here')
-
   try {
     const newUser = await User.create({ 
       first_name: first,
@@ -224,7 +200,6 @@ router.post('/', async ({ body }, res) => {
 
     const appendedAuthObject = Object.assign(newUser, body);
 
-    console.log(appendedAuthObject, 'what have i created?')
 
     newUser 
       ? res.status(200).json(appendedAuthObject) 

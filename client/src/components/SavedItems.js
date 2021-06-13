@@ -25,19 +25,6 @@ const useStyles = makeStyles((theme) => ({
 function SavedItems({ user, savedItems, handleClick, handleDelete }) {
   // const user = useContext(MongoContext);
   const classes = useStyles();
-  // const user = {
-  //     name: 'Melanie',
-  //     email: 'melanie@test.com',
-  //     location: 'Chicago, IL',
-  //     password: 'password123',
-  //     saved_items: {
-  //       name: 'Shirt',
-  //       price: 15
-  //     }
-
-  // }
-  console.log(user, savedItems, 'in the saved items')
-
 
   return (
     <div className={classes.root}>

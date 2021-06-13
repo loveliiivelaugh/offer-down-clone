@@ -28,15 +28,11 @@ const AskForm = ({ handleClose, setType, type, product }) => {
     event.preventDefault();
     setPending(true);
 
-    console.log(message)
-
     const newMessage = await Api.sendMessage({ 
       sender: user, 
       recepient: product, 
       message: message 
     });
-
-    console.log(newMessage);
 
     setMessage("");
     handleClose();

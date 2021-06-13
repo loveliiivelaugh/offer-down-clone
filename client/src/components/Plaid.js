@@ -11,7 +11,6 @@ const Link = ({ linkToken }) => {
   // const [transactions, setTransactions] = useState([]);
 
   const handleOnSuccess = async (public_token, metadata) => {
-    console.log(public_token, metadata);
     //send token to client server
     await axios.post('/api/plaid/exchange_public_token', {
       public_token: public_token,
@@ -21,8 +20,6 @@ const Link = ({ linkToken }) => {
   const handleOnExit = () => {
     //handle the case when your user exits Link
   };
-
-  console.log(linkToken)
 
   const handleClick = response => {
     // axios

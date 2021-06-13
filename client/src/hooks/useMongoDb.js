@@ -16,10 +16,8 @@ const MongoContextProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async (user) => {
-      console.log(user)
 
       if (!user) {
-        console.log(user)
         return user;
       }
 
@@ -29,12 +27,11 @@ const MongoContextProvider = ({ children }) => {
 
       //for whatever reason the auth object is alternating up and down one level for sign in or sign up. This conditional checks which one it is and sets the user to the variable accordingly
       const dynamicUser = user.auth ? user.auth : user;
-      console.log(dynamicUser)
+
 
       await Api.getUser(dynamicUser.uid)
         .then(response => {
 
-          console.log(user, response);
           // Data we want to include from auth user object
           let finalUser = {
             uid: dynamicUser.uid,
@@ -82,18 +79,18 @@ const MongoContextProvider = ({ children }) => {
     };
 
     if (auth.user) {
-      console.log("Since you ARE logged in, fetchUser()", auth.user);
+
       fetchUser(auth.user);
     }
-    console.log(auth)
+
     if (!auth.user) {
-      console.log("Since youre not logged in...");
+
       setInitialState({ status: "idle", data: null, error: null });
     }
 
   }, [auth]);
 
-  console.log("useMongo")
+
   return (
     <MongoContext.Provider value={initialState}>
       { children }

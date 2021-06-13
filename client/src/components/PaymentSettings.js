@@ -50,8 +50,6 @@ function PaymentSettings({ linkToken }) {
     // };
 
     const user = useContext(MongoContext);
-  
-    console.log(user);
 
     return (
         <Grid container spacing={2}>

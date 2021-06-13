@@ -1,18 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// //fakestoreapi -- GET dummyProducts route 
-// router.get('/products', (req, res) => {
-//   axios.get('https://fakestoreapi.com/products')
-//     .then(data => {
-//       console.log(data.data);
-//       res.json(data.data);
-//     })
-//     .catch(error => {
-//       console.error(error);
-//       res.json({ error: error });
-//     })
-// })
+
 const User = require('../../models/User');
 const Product = require('../../models/Product');
 // const axios = require('axios');
@@ -30,57 +19,18 @@ router.get('/:id', async (req, res) => {
   try {
       const products = await Product.find({});
 
-  
-
       const filteredProducts = products.filter(item => item.user_id !== req.params.id);
 
-
-
-  //   const users = await User.find({});
-
-  //   users.forEach(({ posted_items }) => {
-  //     posted_items.forEach(item => {
-  //       totalItems.push(item);
-  //     });
-  //   });
-
-    // console.log(totalItems);
     res.status(200).json(filteredProducts);
   } catch (error) {
     res.status(500).json({ error: error });
   }
 });
 
-// // getProduct()
-// router.get('/products/:id', async (req, res) => {
-//   try {
-//     const productData = await Product.findOne({ id: req.params.id });
-
-//     res.status(200).json(productData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-
-// });
-
-// // getProducts()
-// router.get('/products', async (req, res) => {
-//   try {
-//     const productData = await Product.findAll({});
-
-//     res.status(200).json(productData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-
-// });
 
 // // addProduct()
 router.post('/', async (req, res) => {
   try {
-
-
-    // const searchedUser = await User.find({email: req.body.user})
       
     const productObject = {
       name: req.body.product.name,
@@ -97,15 +47,12 @@ router.post('/', async (req, res) => {
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log(error, 'backside error')
+
     res.status(500).json({ errorMessage: error });
   }
 });
 
 router.delete('/:id/:user', async (req, res) => {
-  console.log(req.params.id, 'backend delete, id');
-  console.log(req.params.user, 'backend delete, user');
-
 
   const updatedUser = await User.findByIdAndUpdate(req.params.user, {$pull: {
     posted_items: {_id:req.params.id}}},{new:true});
@@ -118,13 +65,14 @@ router.delete('/:id/:user', async (req, res) => {
 router.get('/usersaved/:id', async (req, res) => {
 
   const user = await User.findById(req.params.id);
-  console.log(user, 'backend 124')
+
 
   res.status(200).json(user.saved_items);
-})
+});
+
 // // updateProduct()
 // router.put('/products/:id', async (req, res) => {
-//   console.log(req.body);
+//  
 //   try {
 //     const productData = await Product.updateOne({ id: req.params.id }, req.body); // talk with team
 
@@ -170,7 +118,6 @@ router.get('/usersaved/:id', async (req, res) => {
 // router.post('/', async (req, res) => {
 
 //   const product = req.body;
-//   console.log(product);
 
 //   const newProduct = await Product.create(product); //this is definitely not right..
 
@@ -184,7 +131,6 @@ router.get('/usersaved/:id', async (req, res) => {
 //   }, (success, error) => {
 //     if (error) throw error;
 
-//     console.log(success)
 //     res.json(success);
 //   })
 

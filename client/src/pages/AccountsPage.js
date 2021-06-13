@@ -82,7 +82,6 @@ const AccountsPage = (props) => {
 
   const handleDelete = async (user_id, id) => {
     const update = await Api.removeLikedItem(user_id, id);
-    console.log(update, 'what am i here?');
     setSavedItems(update.data.saved_items);
     return;
   };

@@ -129,7 +129,6 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-  console.log(user);
 
   const [inboxType, toggleInboxType] = useState("messages")
   const handleChange = (event) => {
@@ -269,8 +268,6 @@ const Navbar = () => {
       </MenuItem>
     </Menu>
   );
-
-    console.log(user);
 
     function emailGreeting() {
       return <div>Welcome {user?.data?.email}!</div>

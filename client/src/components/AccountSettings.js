@@ -24,11 +24,10 @@ const useStyles = makeStyles((theme) => ({
 function AccountSettings(props) {
     
     const classes = useStyles();
-    console.log(props);
+
 
     const user = useContext(MongoContext);
-  
-    console.log(user);
+
 
 function clickHandler() {
     // come back

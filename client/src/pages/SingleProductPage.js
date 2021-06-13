@@ -33,7 +33,6 @@ const SingleProductPage = () => {
   const router = useRouter();
   const product = router.location.state.product;
   const user = useContext(MongoContext);
-  console.log(user)
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -56,7 +55,6 @@ const SingleProductPage = () => {
 
   const handleLikeButton = async (e) => {
     e.preventDefault();
-    console.log(user, product, 'liked item click');
     return await Api.addLikedItem(user, product);
   };
 
@@ -72,7 +70,6 @@ const SingleProductPage = () => {
 
           <Grid item xs={12} md={9}>
 
-        
             <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
 
             <hr />
