@@ -16,6 +16,12 @@ const Api = {
       .then(response => response)
       .catch(error => console.error(error));
   },
+
+  getUserSavedProd: async (id) => {
+    return await axios.get('/api/products/usersaved/' +id)
+      .then(response => response)
+      .catch(error => console.error(error));
+  },
   // getUsers: async () => {
   //   return await axios.get('/api/users')
   //     .then(response => {
