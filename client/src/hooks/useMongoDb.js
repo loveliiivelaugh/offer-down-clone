@@ -31,14 +31,19 @@ const MongoContextProvider = ({ children }) => {
             picture: user.photoURL,
           };
 
+          console.log(auth);
 
-          setInitialState(prevState => {
-            return ({ 
-              ...prevState,
-              status: "success",
-              data: Object.assign(response.data[0], finalUser)
+          if (!auth.user.auth) {
+            return response;
+          } else {
+            setInitialState(prevState => {
+              return ({ 
+                ...prevState,
+                status: "success",
+                data: response ? Object.assign(response.data[0], finalUser) : finalUser
+              });
             });
-          });
+          }
 
         })
         .catch(error => {

@@ -5,6 +5,7 @@ import { MongoContext } from '../hooks/useMongoDb.js';
 import ProductCard from '../components/ProductCard';
 //MaterialUI
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from "@material-ui/core/styles";
 //spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
@@ -84,7 +85,7 @@ const HomePage = (props) => {
       searchForProduct();
     }
     
-  }, [search, products, filteredProducts]);
+  }, [search, setFilteredProducts]);
 
   const handleSearchOnChange = (e) => {
     setSearch(e.target.value);
@@ -96,16 +97,18 @@ const HomePage = (props) => {
         <div className={classes.searchIcon}>
           <SearchIcon />
         </div>
-        <InputBase
-          placeholder="Search…"
-          name='search'
-          onChange={handleSearchOnChange}
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ 'aria-label': 'search' }}
-        />
+        <Grid item md={12}>
+          <InputBase
+            placeholder="Search…"
+            name='search'
+            onChange={handleSearchOnChange}
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </Grid>
       </div>
       <div className={classes.container}>
         {user.status === 'loading'

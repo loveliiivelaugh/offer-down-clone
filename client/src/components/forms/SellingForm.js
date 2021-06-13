@@ -62,11 +62,13 @@ const SellingForm = ({ handleClose }) => {
       
       await snapshot.ref.getDownloadURL().then((url)=> {
         data.image = url;
-      })
+      });
     });
 
-    const addedProduct = Api.addProduct({ product: data, user: user.data._id });
-    
+    const addedProduct = await Api.addProduct({ product: data, user: user.data._id });
+
+    console.log(addedProduct, user);
+
     const clearValues = () => {
       setSellingData({
         name: '',

@@ -31,10 +31,8 @@ const SingleProductPage = () => {
 
   const handleOfferButton = (e) => {
     e.preventDefault();
-
-    router.push('/checkout', {
-      state: product
-    });
+    setType("offer");
+    handleOpen();
   };
 
   const handleAskButton = (e) => {
@@ -143,7 +141,8 @@ const SingleProductPage = () => {
                 open={open} 
                 handleClose={handleClose} 
                 type={type} 
-                setType={setType} 
+                setType={setType}
+                product={product}
               />
             </CardActions>
             <CardActions>

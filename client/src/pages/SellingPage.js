@@ -26,7 +26,6 @@ const SellingPage = () => {
   const classes = useStyles();
   const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
-  console.log(user)
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -59,7 +58,7 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-                {/* {pending ? <ClipLoader /> :
+                {pending ? <ClipLoader /> :
                   !pending && 
                   user.data.posted_items && 
                   user.data.posted_items.map(({ name, image, price, _id }) => (
@@ -72,7 +71,7 @@ const SellingPage = () => {
                     </ListItem>
                     <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
-                ))} */}
+                ))}
               </List>
             </CardContent>
           </Card>
@@ -80,7 +79,7 @@ const SellingPage = () => {
       </Grid>
       
       <SimpleModal 
-        open={open} 
+        open={open}
         handleClose={handleClose}
         type={type} 
         setType={setType}
