@@ -19,7 +19,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Avatar from '@material-ui/core/Avatar';
-import MenuIcon from '@material-ui/icons/Menu';
 import MailIcon from '@material-ui/icons/Mail';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -36,6 +35,7 @@ import { useAuth } from "../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
 import FullMenu from './FullMenu';
 import MobileMenu from './MobileMenu';
+
 
 // // Structure of messages popover modal message data
 // const messages = [
@@ -144,16 +144,17 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-  
+
   console.log(user);
+
 
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
   //Modal
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("signin");
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
@@ -201,6 +202,93 @@ const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      {auth.user ? (
+        <div>
+          <MenuItem onClick={() => router.push('/profile')}>Profile</MenuItem>
+          <MenuItem onClick={() => router.push('/accounts')}>My account</MenuItem>
+          <Button onClick={() => auth.signout()}>Signout</Button>
+        </div>
+        ) : (
+      <MenuItem onClick={handleOpen}>Login</MenuItem>
+        )}
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      {auth.user &&
+        <div>
+          <MenuItem>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <p>Messages</p>
+          </MenuItem>
+          <MenuItem onClick={() => router.push('/selling')}>
+            <IconButton aria-label="selling page" color="inherit">
+              <Badge color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>Your Items</p>
+          </MenuItem>
+        </div>
+      }
+      <MenuItem onClick={() => router.push('/accounts')}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+    console.log(user);
+
+    function emailGreeting() {
+      return <div>Welcome {user?.data?.email}!</div>
+    }
+
+    function nameGreeting() {
+      return <div>Welcome {user?.data?.name}!</div>
+    }
+
+    function Greeting() {
+     if (!user?.data?.name) {
+       return <emailGreeting />
+     } else {
+       return <nameGreeting />
+     }
+    } 
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -230,8 +318,9 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {user.email}!
-              Welcome {user.name}!
+              <Greeting />
+              {/* Welcome {user?.data?.email}! */}
+              {/* Welcome {user.data.name}! */}
 
             </div>
           }

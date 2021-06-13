@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
   app: {
     marginTop: 15,
     marginLeft: 105
-},
+  },
   row1: {
     marginTop: 20,
     marginLeft: 115
-},
-row2: {
-  marginLeft: 115
+  },
+  row2: {
+    marginLeft: 115
 
-}
+  }
 }));
 
 function FooterGrid() {
@@ -40,65 +40,47 @@ function FooterGrid() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-
         <Grid item xs className={classes.pink}>
           <h4>Shop</h4>
           <p><Link color="inherit" href="#">
-            How it works
-      </Link></p>
+            How it works</Link></p>
           <p onClick={() => router.push('/home')}
           ><Link color="inherit" href="#">
-              Explore
-      </Link></p>
+              Explore</Link></p>
           <p><Link color="inherit" href="#">
-            Trust & safety
-      </Link></p>
+            Trust & safety</Link></p>
           <p><Link color="inherit" href="#">
-            Safe trade spots
-      </Link></p>
+            Safe trade spots</Link></p>
         </Grid>
         <Grid item xs className={classes.pink}>
           <h4>Sell</h4>
           <p onClick={() => router.push('/selling')}><Link color="inherit" href="#">
-            Post an item
-      </Link></p>
+            Post an item</Link></p>
           <p><Link color="inherit" href="#">
-            Auto dealerships
-      </Link></p>
+            Auto dealerships</Link></p>
         </Grid>
         <Grid item xs className={classes.pink}>
           <h4>About</h4>
           <p><Link color="inherit" href="#">
-            Our story
-      </Link></p>
+            Our story</Link></p>
           <p><Link color="inherit" href="#">
-            Careers
-      </Link></p>
+            Careers</Link></p>
           <p><Link color="inherit" href="#">
-            Press
-      </Link></p>
+            Press</Link></p>
         </Grid>
         <Grid item xs className={classes.pink}>
           <h4>Help</h4>
           <p><Link color="inherit" href="#">
-            Help center
-      </Link></p>
+            Help center</Link></p>
           <p><Link color="inherit" href="#">
-            Community
-      </Link></p>
+            Community</Link></p>
           <p><Link color="inherit" href="#">
-            Blog
-      </Link></p>
+            Blog</Link></p>
         </Grid>
-
-
-
-
         <Grid item xs={3}>
-          <Grid> 
+          <Grid>
             <Button variant="outlined" color='secondary' href="#outlined-buttons" className={classes.app}>
-              Get the app
-</Button>
+              Get the app</Button>
           </Grid>
           <Grid className={classes.row1}>
             <SocialIcon url="https://twitter.com/" />
@@ -109,14 +91,6 @@ function FooterGrid() {
             <SocialIcon url="https://linkedin.com/" />
           </Grid>
         </Grid>
-
-
-
-
-
-
-
-
       </Grid>
 
     </div>

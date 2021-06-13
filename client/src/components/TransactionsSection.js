@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, Grid, Typography } from '@material-ui/core';
 
@@ -17,21 +18,25 @@ const useStyles = makeStyles((theme) => ({
 
 function TransactionsSection(props) {
   const classes = useStyles();
-  const user = {
-    name: 'Melanie',
-    email: 'melanie@test.com',
-    location: 'Chicago, IL',
-    password: 'password123',
-    balance: 10.75,
-    purchased_items: {
-      name: 'Hat',
-      price: 4.25
-    },
-    sold_items: {
-      name: 'Nintendo Switch',
-      price: 150
-    }
-  };
+  // const user = {
+  //   name: 'Melanie',
+  //   email: 'melanie@test.com',
+  //   location: 'Chicago, IL',
+  //   password: 'password123',
+  //   balance: 10.75,
+  //   purchased_items: {
+  //     name: 'Hat',
+  //     price: 4.25
+  //   },
+  //   sold_items: {
+  //     name: 'Nintendo Switch',
+  //     price: 150
+  //   }
+  // };
+
+  const user = useContext(MongoContext);
+  
+    console.log(user);
 
   return (
     <div>
@@ -45,11 +50,12 @@ function TransactionsSection(props) {
               <ListItem>
                 <Grid item xs={12} md={6}>
                   <ListItemText>
-                    {user.purchased_items.name}
+                    {/* if no purchases items, 'you have not purchased any items' */}
+                    {/* {user.purchased_items.name} */}
                   </ListItemText>
                 </Grid>
                 <ListItemText>
-                  - ${user.purchased_items.price}
+                  {/* - ${user.purchased_items.price} */}
                 </ListItemText>
 
               </ListItem>
@@ -63,11 +69,11 @@ function TransactionsSection(props) {
               <ListItem>
                 <Grid item xs={12} md={6}>
                   <ListItemText>
-                    {user.sold_items.name}
+                    {/* {user.sold_items.name} */}
                   </ListItemText>
                 </Grid>
                 <ListItemText>
-                  + ${user.sold_items.price}
+                  {/* + ${user.sold_items.price} */}
                 </ListItemText>
 
               </ListItem>
