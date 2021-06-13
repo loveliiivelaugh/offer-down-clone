@@ -33,8 +33,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
-import FullMenu from './FullMenu';
-import MobileMenu from './MobileMenu';
+
 
 
 // // Structure of messages popover modal message data
@@ -203,6 +202,7 @@ const Navbar = () => {
   };
 
 
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -241,7 +241,7 @@ const Navbar = () => {
         <div>
           <MenuItem>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={user?.data?.messages?.length || 0} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
@@ -347,7 +347,7 @@ const Navbar = () => {
             <IconButton
               edge="end"
               aria-label="account of current user"
-              aria-controls='primary-search-account-menu'
+              aria-controls={menuId}
               aria-haspopup="true"
               onClick={auth.user ? handleProfileMenuOpen : handleOpen}
               color="inherit"
@@ -358,7 +358,7 @@ const Navbar = () => {
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
-              aria-controls='primary-search-account-menu-mobile'
+              aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
@@ -376,9 +376,8 @@ const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
-
-      <MobileMenu />
-      <Menu />
+      {renderMobileMenu}
+      {renderMenu}
       
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CssBaseline />
@@ -402,12 +401,14 @@ const Navbar = () => {
                 </ListItem>
               </React.Fragment>
             )) : "You must log in to view your messages." }
-           
+            
           </List>
         </Paper>
       </Collapse>
+
     </div>
   );
+
 }
 
 export default Navbar

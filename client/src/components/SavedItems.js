@@ -22,9 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-  const user = useContext(MongoContext);
 function SavedItems({ user, savedItems, handleClick, handleDelete }) {
-
+  // const user = useContext(MongoContext);
   const classes = useStyles();
   // const user = {
   //     name: 'Melanie',
