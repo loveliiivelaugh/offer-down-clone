@@ -44,9 +44,8 @@ const AccountsPage = (props) => {
 
   useEffect(() => {
     const fetch = async (id) => {
-      console.log(id, 'in the fetch');
       const saved = await Api.getUserSavedProd(id);
-      console.log(saved);
+
       setSavedItems(saved.data);
     }
     // setSavedItems(user.data.saved_items);
