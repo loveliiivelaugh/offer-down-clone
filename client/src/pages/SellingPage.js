@@ -51,8 +51,6 @@ const SellingPage = () => {
 
   return (
     <Container className="container center">
-      
-      <Typography variant="h3" gutterBottom>Selling</Typography>
   
       <center>
         <NotificationsIcon />
