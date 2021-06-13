@@ -23,18 +23,17 @@ const Product = require('../../models/Product');
 // @descr --  Return all products posted in the database.
 router.get('/:id', async (req, res) => {
 
-  console.log("getProducts()");
+ 
   
   // const totalItems = [];
 
   try {
       const products = await Product.find({});
 
-      console.log(products, 'product list');
+  
 
       const filteredProducts = products.filter(item => item.user_id !== req.params.id);
 
-      console.log(filteredProducts, 'filtered products')
 
 
   //   const users = await User.find({});
@@ -80,7 +79,6 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
 
-    console.log(req.body, 'im in the bbackend product route')
 
     // const searchedUser = await User.find({email: req.body.user})
       
@@ -94,7 +92,6 @@ router.post('/', async (req, res) => {
     }
     const newProduct = await Product.create(productObject);
 
-    console.log(newProduct, "created product")
 
     const updatedUser = await User.findByIdAndUpdate({_id:req.body.user}, {$push: {posted_items:newProduct}}, {new: true});
 
@@ -117,6 +114,14 @@ router.delete('/:id/:user', async (req, res) => {
   res.status(200).json(updatedUser);
 });
 
+
+router.get('/usersaved/:id', async (req, res) => {
+
+  const user = await User.findById(req.params.id);
+  console.log(user, 'backend 124')
+
+  res.status(200).json(user.saved_items);
+})
 // // updateProduct()
 // router.put('/products/:id', async (req, res) => {
 //   console.log(req.body);
