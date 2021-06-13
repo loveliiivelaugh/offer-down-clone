@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 import axios from 'axios';
 import CardSection from './CardSection';
-//MaterialUI
-import { 
-  Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, Grid, TextField, Typography 
-} from '@material-ui/core';
+import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, Grid, TextField, Typography } from '@material-ui/core';
 import Confetti from 'confetti-react';
 
 

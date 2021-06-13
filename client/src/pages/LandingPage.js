@@ -1,8 +1,5 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-// import Header from '../components/Header';
-// import BuyandSell from '../components/BuyandSell';
 import backgroundImage from '../assets/offerdownbackground.jpeg';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,12 +16,7 @@ const LandingPage = () => {
   
   
   return (
-    <div className={classes.root} style={{height:'67vh'}}>
-      {/* <CssBaseline/>
-        <Header/>
-        <BuyandSell /> */}
-      {/* <CheckoutForm toggleConfetti={toggleConfetti} /> */}
-    </div>
+    <div className={classes.root} style={{height:'67vh'}} />
   )
 }
 

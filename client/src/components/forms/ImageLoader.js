@@ -30,7 +30,7 @@ const ImageLoader = () => {
         </form>
       </Grid>
     </React.Fragment>
-  )
+  );
 }
 
-export default ImageLoader
+export default ImageLoader;

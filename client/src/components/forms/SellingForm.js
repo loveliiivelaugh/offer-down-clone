@@ -14,7 +14,6 @@ import Api from '../../api';
 import { MongoContext } from '../../hooks/useMongoDb.js';
 import ClipLoader from "react-spinners/ClipLoader";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -44,7 +43,6 @@ const SellingForm = ({setPostedItems, handleClose }) => {
 
   const { name, description, price, image, zip_code } = sellingData;
 
-  //function to update form data state upon form change
   const onChange = e => {
     if (e.target.name === "image") {
       setSellingData({...sellingData, image:e.target.files[0]});
@@ -189,7 +187,7 @@ const SellingForm = ({setPostedItems, handleClose }) => {
         </form>
       </div>
     </Container>
-  )
+  );
 }
 
 export default SellingForm;

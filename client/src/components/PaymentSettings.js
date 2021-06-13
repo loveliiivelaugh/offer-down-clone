@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import SimpleModal from './SimpleModal';
 import Plaid from './Plaid';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(4, 0, 2),
     },
+    text: {
+        color: 'white'
+    }
 }));
 
 function PaymentSettings({ linkToken }) {
@@ -32,17 +37,21 @@ function PaymentSettings({ linkToken }) {
     const handleClose = () => setOpen(false);
     //end modal
 
-    const user = {
-        name: 'Melanie',
-        email: 'melanie@test.com',
-        location: 'Chicago, IL',
-        password: 'password123',
-        balance: 10.75,
-        purchased_items: {
-            name: 'Hat',
-            price: 4.25
-        }
-    };
+    // const user = {
+    //     name: 'Melanie',
+    //     email: 'melanie@test.com',
+    //     location: 'Chicago, IL',
+    //     password: 'password123',
+    //     balance: 10.75,
+    //     purchased_items: {
+    //         name: 'Hat',
+    //         price: 4.25
+    //     }
+    // };
+
+    const user = useContext(MongoContext);
+  
+    console.log(user);
 
     return (
         <Grid container spacing={2}>
@@ -52,11 +61,18 @@ function PaymentSettings({ linkToken }) {
                     <List>
                         <ListItem>
                             <ListItemText>
+                                {/* if no balance, $0 */}
                                 Balance: ${user.balance}
                             </ListItemText>
+                            <Button variant="contained" color="primary" className={classes.text}>
                             {linkToken &&
-                                <Plaid linkToken={linkToken}/>
+                                <Plaid linkToken={linkToken} />
+
                             }
+                            </Button>
+                            {/* {linkToken &&
+                                <Plaid linkToken={linkToken}/>
+                            } */}
                         </ListItem>
                         <ListItem>
                             <ListItemText>

@@ -6,13 +6,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { borders } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 
 //hooks
@@ -61,7 +56,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <Box border={2} borderColor="primary.main" borderRadius="borderRadius" borderColor="primary.main"><Card className={classes.root} onClick={e => handleClick(e, product)}>
+    <Box border={2} borderRadius="borderRadius" borderColor="primary.main"><Card className={classes.root} onClick={e => handleClick(e, product)}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>

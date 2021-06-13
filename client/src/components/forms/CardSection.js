@@ -1,7 +1,6 @@
 import React from 'react';
 import {CardElement} from '@stripe/react-stripe-js';
 
-
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
@@ -25,7 +24,7 @@ const CardSection = () => {
     <label>
       <CardElement options={CARD_ELEMENT_OPTIONS} />
     </label>
-  )
+  );
 }
 
-export default CardSection
+export default CardSection;
