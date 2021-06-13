@@ -45,10 +45,8 @@ const SingleProductPage = () => {
 
   const handleOfferButton = (e) => {
     e.preventDefault();
-
-    router.push('/checkout', {
-      state: product
-    });
+    setType("offer");
+    handleOpen();
   };
 
   const handleAskButton = (e) => {
@@ -66,35 +64,42 @@ const SingleProductPage = () => {
     <Container>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={9} className={classes.productGrid}>
+
+        {/* <Grid item xs={12} md={9} className={classes.productGrid}>
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
 
-      <h1>{product.name}</h1>
-        <Grid item xs={12} md={9}>
-          {/* <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} /> */}
-          <hr />
+          <h1>{product.name}</h1>
 
-          <Typography gutterBottom variant="h4" component="h2">
-            Description
-          </Typography>
-          <hr />
-          <Typography variant="body2" component="p">
-            {product.description} 
-          </Typography>
+          <Grid item xs={12} md={9}>
+            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
 
-          {/* <hr />
-          <Typography gutterBottom variant="h4" component="h2">
-            Price
-          </Typography> */}
-          {/* <Typography variant="body2" component="p">
-            {product.price}
-          </Typography> */}
-          <Grid item xs={12} md={12}>
+        
+            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
+
+            <hr />
+
+            <Typography gutterBottom variant="h4" component="h2">
+              Description
+            </Typography>
+            <hr />
+            <Typography variant="body2" component="p">
+              {product.description} 
+            </Typography>
+
+            <hr />
+            <Typography gutterBottom variant="h4" component="h2">
+              Price
+            </Typography>
+            <Typography variant="body2" component="p">
+              {product.price}
+
+            </Typography>
           </Grid>
+        </Grid> */}
 
-        </Grid>
         <Grid item xs={12} md={3}>
-        <Box border={1} borderRadius="borderRadius" borderColor="primary.main" className={classes.card}><Card className={classes.card}>
+        <Box border={1} borderRadius="borderRadius" borderColor="primary.main" className={classes.card}>
+          <Card className={classes.card}>
             <CardActionArea>
               <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
@@ -109,7 +114,7 @@ const SingleProductPage = () => {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button 
+              <Button
                 variant="contained" 
                 fullWidth 
                 color="primary" 
@@ -131,7 +136,8 @@ const SingleProductPage = () => {
                 open={open} 
                 handleClose={handleClose} 
                 type={type} 
-                setType={setType} 
+                setType={setType}
+                product={product}
               />
             </CardActions>
             <CardActions>
@@ -139,8 +145,10 @@ const SingleProductPage = () => {
                 <FavoriteIcon />
               </IconButton>
             </CardActions>
-          </Card></Box>
-        </Grid>
+
+          </Card>
+          
+          </Box>
         </Grid>
       </Grid>
     </Container>

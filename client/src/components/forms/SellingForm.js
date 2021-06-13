@@ -60,10 +60,12 @@ const SellingForm = ({setPostedItems, handleClose }) => {
       
       await snapshot.ref.getDownloadURL().then((url)=> {
         data.image = url;
-      })
+      });
     });
 
     const addedProduct = await Api.addProduct({ product: data, user: user.data._id });
+
+    console.log(addedProduct, user);
 
     setPostedItems(addedProduct.data.posted_items);
     

@@ -2,6 +2,7 @@ import React from 'react';
 import SignIn from './forms/SignIn';
 import SignUp from './forms/SignUp';
 import AskForm from './forms/AskForm';
+import OfferForm from './forms/OfferForm';
 import SellingForm from './forms/SellingForm';
 import { Avatar, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleModal = ({ open, handleClose, type, setType, setPostedItems }) => {
+
+const SimpleModal = ({ open, handleClose, type, setType, setPostedItems, product }) => {
   const classes = useStyles();
 
   return (
@@ -42,17 +44,55 @@ const SimpleModal = ({ open, handleClose, type, setType, setPostedItems }) => {
     >
       <div>
       {
-        type === "signin" ? <SignIn setType={setType} handleClose={handleClose} /> :
-        type === "signup" ? <SignUp setType={setType} handleClose={handleClose} /> :
-        type === "ask" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
-        type === "message" ? <AskForm handleClose={handleClose} setType={setType} type={type} /> :
-        type === "sell" ? <SellingForm setPostedItems={setPostedItems} handleClose={handleClose} setType={setType} type={type} /> :
+        type === "signin" ?
+          <SignIn 
+            setType={setType} 
+            handleClose={handleClose} 
+          /> :
+        type === "signup" ?
+          <SignUp 
+            setType={setType} 
+            handleClose={handleClose} 
+          /> :
+        type === "ask" ? 
+          <AskForm 
+            handleClose={handleClose} 
+            setType={setType} 
+            type={type} 
+            product={product} 
+          /> :
+        type === "offer" ? 
+          <OfferForm 
+            handleClose={handleClose} 
+            setType={setType} 
+            type={type} 
+            product={product} 
+          /> : 
+        type === "message" ? 
+          <AskForm 
+            handleClose={handleClose} 
+            setType={setType} 
+            type={type} 
+            product={product} 
+          /> :
+        type === "sell" ? (
+          <SellingForm 
+            handleClose={handleClose} 
+            setType={setType} 
+            type={type}
+            setPostedItems={setPostedItems}
+          />
+        ) :
         type === "payment" ? ( 
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <CheckoutForm className={classes.form} handleClose={handleClose} type={type} />
+            <CheckoutForm 
+              className={classes.form} 
+              handleClose={handleClose} 
+              type={type} 
+            />
           </div>
         ) :
         <SellingForm setPostedItems={setPostedItems} handleClose={handleClose} setType={setType} />
