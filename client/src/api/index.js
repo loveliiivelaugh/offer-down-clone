@@ -14,6 +14,11 @@ const Api = {
       .then(response => response)
       .catch(error => console.error(error));
   },
+  getUserSavedProd: async (id) => {
+    return await axios.get('/api/products/usersaved/' +id)
+      .then(response => response)
+      .catch(error => console.error(error));
+  },
   updateUser: async (id, updates) => {
     return await axios.put('/api/users/' + id, updates)
       .then(response => response)
