@@ -2,23 +2,10 @@ import React, { useContext, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import SimpleModal from './SimpleModal';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import { 
+  AppBar, Collapse, InputBase, Toolbar, IconButton, Typography, Button, Badge, MenuItem, Menu, CssBaseline, Paper, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, Avatar, Tabs, Tab 
+} from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Avatar from '@material-ui/core/Avatar';
 import MailIcon from '@material-ui/icons/Mail';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -27,14 +14,12 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 // import Fab from '@material-ui/core/Fab';
 // import AddIcon from '@material-ui/icons/Add';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
-import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
-import FullMenu from './FullMenu';
-import MobileMenu from './MobileMenu';
+import { AiOutlineShop } from 'react-icons/ai';
+
 
 
 // // Structure of messages popover modal message data
@@ -144,11 +129,13 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-
   console.log(user);
 
-
-
+  const [inboxType, toggleInboxType] = useState("messages")
+  const handleChange = (event) => {
+    const newValue = inboxType === "messages" ? "notifications" : "messages";
+    toggleInboxType(newValue);
+  };
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -202,6 +189,18 @@ const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleAccept = (data) => {
+    router.push({
+      pathname: '/checkout',
+      state: data
+    })
+  }
+
+  const handleDecline = () => {
+
+  }
+
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -241,7 +240,7 @@ const Navbar = () => {
         <div>
           <MenuItem>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={user?.data?.messages?.length || 0} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
@@ -333,13 +332,17 @@ const Navbar = () => {
                 </Badge>
               </IconButton>
               <IconButton id="messages" aria-label="show 4 new mails" color="inherit" onClick={handleExpandClick}>
-                <Badge badgeContent={user?.data?.messages?.length || 0} color="secondary">
+                <Badge badgeContent={
+                  user?.data?.messages?.length +
+                  user?.data?.notifications?.length || 0
+                  } color="secondary"
+                >
                   <MailIcon />
                 </Badge>
               </IconButton>
               <IconButton id="notifications" aria-label="show 17 new notifications" color="inherit" onClick={() => router.push('/selling')}>
-                <Badge badgeContent={user?.data?.notifications?.length || 0} color="secondary">
-                  <NotificationsIcon />
+                <Badge badgeContent={0} color="secondary">
+                  <AiOutlineShop />
                 </Badge>
               </IconButton>
             </div>
@@ -347,7 +350,7 @@ const Navbar = () => {
             <IconButton
               edge="end"
               aria-label="account of current user"
-              aria-controls='primary-search-account-menu'
+              aria-controls={menuId}
               aria-haspopup="true"
               onClick={auth.user ? handleProfileMenuOpen : handleOpen}
               color="inherit"
@@ -358,7 +361,7 @@ const Navbar = () => {
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
-              aria-controls='primary-search-account-menu-mobile'
+              aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
@@ -376,34 +379,106 @@ const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
-
-      <MobileMenu />
-      <Menu />
+      {renderMobileMenu}
+      {renderMenu}
       
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CssBaseline />
         <Paper square className={classes.paper}>
-          <Typography className={classes.text} variant="h5" gutterBottom>
-            Inbox
-          </Typography>
-          <List className={classes.list}>
-            {user.status === "loading" ? <ClipLoader loading={true} /> : 
-              user.status === "success" &&
-              user.data != null ? 
-              user.data.messages.map(({ id, content, secondary, person }) => (
-              <React.Fragment key={id}>
-                {id === 1 && <ListSubheader className={classes.subheader}>Today</ListSubheader>}
-                {id === 3 && <ListSubheader className={classes.subheader}>Yesterday</ListSubheader>}
-                <ListItem button>
-                  <ListItemAvatar>
-                    <Avatar alt="Profile Picture" src={person} />
-                  </ListItemAvatar>
-                  <ListItemText primary={content} secondary={content} />
-                </ListItem>
-              </React.Fragment>
-            )) : "You must log in to view your messages." }
-           
-          </List>
+        <AppBar position="static">
+          <Tabs
+            value={inboxType}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleChange}
+            aria-label="disabled tabs example"
+          >
+            <Tab label="Messages"></Tab>
+            <Tab label="Notifications"></Tab>
+          </Tabs>
+        </AppBar>
+
+          {inboxType === "messages" ? (
+            <>
+            <Typography className={classes.text} variant="h5" gutterBottom>
+              Messages
+            </Typography>
+            <List className={classes.list}>
+              {user.status === "loading" ? <ClipLoader loading={true} /> : 
+                user.status === "success" &&
+                user.data != null ? 
+                user.data.messages.map(({ id, content, secondary, person }) => (
+                <React.Fragment key={id}>
+                  {id === 1 && <ListSubheader className={classes.subheader}>Today</ListSubheader>}
+                  <ListSubheader className={classes.subheader}>Today</ListSubheader>
+                  {id === 3 && <ListSubheader className={classes.subheader}>Yesterday</ListSubheader>}
+                  <ListItem button>
+                    <ListItemAvatar>
+                      <Avatar alt="Profile Picture" src={person} />
+                    </ListItemAvatar>
+                    <ListItemText primary={content} secondary={content} />
+                  </ListItem>
+                </React.Fragment>
+              )) : "You must log in to view your messages." }
+              
+            </List>
+            </>
+          ) : 
+          inboxType === "notifications" && (
+            <>
+            <Typography className={classes.text} variant="h5" gutterBottom>
+              Notifications
+            </Typography>
+            <List className={classes.list}>
+              {user.status === "loading" ? <ClipLoader loading={true} /> : 
+                user.status === "success" &&
+                user.data != null ? 
+                user.data.notifications.map(({ _id, amount, sender_id, recepient_id, type }) => (
+                <React.Fragment key={_id}>
+                  <ListItem button>
+                    <ListItemAvatar>
+                      <Avatar alt="Profile Picture" src="" />
+                    </ListItemAvatar>
+                    <ListItemText 
+                      primary={
+                        sender_id + " wants to offer you $" + amount + " for your item " + _id + "." 
+                      } 
+                      secondary={amount} 
+                    />
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                      size="small"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleAccept({
+                          _id,
+                          sender_id,
+                          recepient_id
+                        })
+                        setExpanded(false);
+                      }}
+                    >
+                      Accept
+                    </Button>
+                    <Button 
+                      variant="outlined" 
+                      color="secondary" 
+                      size="small"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleDecline();
+                      }}
+                    >
+                      Decline
+                    </Button>
+                  </ListItem>
+                </React.Fragment>
+              )) : "You must log in to view your notifications." }
+            </List>
+            </>
+          )
+        }
         </Paper>
       </Collapse>
     </div>

@@ -49,7 +49,7 @@ const AccountsPage = (props) => {
       setSavedItems(saved.data);
     }
     // setSavedItems(user.data.saved_items);
-    fetch(user.data._id);
+    fetch(user._id);
   },[]);
 
   // end saved items

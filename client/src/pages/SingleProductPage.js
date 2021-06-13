@@ -64,44 +64,42 @@ const SingleProductPage = () => {
     <Container>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={9} className={classes.productGrid}>
+
+        {/* <Grid item xs={12} md={9} className={classes.productGrid}>
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
 
-      <h1>{product.name}</h1>
+          <h1>{product.name}</h1>
 
-        <Grid item xs={12} md={9}>
-          {/* <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} /> */}
+          <Grid item xs={12} md={9}>
+            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
 
-      
-          <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
+        
+            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
 
-          <hr />
+            <hr />
 
-          <Typography gutterBottom variant="h4" component="h2">
-            Description
-          </Typography>
-          <hr />
-          <Typography variant="body2" component="p">
-            {product.description} 
-          </Typography>
+            <Typography gutterBottom variant="h4" component="h2">
+              Description
+            </Typography>
+            <hr />
+            <Typography variant="body2" component="p">
+              {product.description} 
+            </Typography>
 
-          {/* <hr />
-          <Typography gutterBottom variant="h4" component="h2">
-            Price
-          </Typography> */}
-          {/* <Typography variant="body2" component="p">
-            {product.price}
+            <hr />
+            <Typography gutterBottom variant="h4" component="h2">
+              Price
+            </Typography>
+            <Typography variant="body2" component="p">
+              {product.price}
 
-          </Typography> */}
-          <Grid item xs={12} md={12}>
+            </Typography>
           </Grid>
+        </Grid> */}
 
-        </Grid>
         <Grid item xs={12} md={3}>
-        <Box border={1} borderRadius="borderRadius" borderColor="primary.main" className={classes.card}><Card className={classes.card}>
-
+        <Box border={1} borderRadius="borderRadius" borderColor="primary.main" className={classes.card}>
           <Card className={classes.card}>
-
             <CardActionArea>
               <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
@@ -148,10 +146,10 @@ const SingleProductPage = () => {
               </IconButton>
             </CardActions>
 
-          </Card></Box>
+          </Card>
+          
+          </Box>
         </Grid>
-        </Grid>
-
       </Grid>
     </Container>
   );
