@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,13 +25,10 @@ function AccountSettings(props) {
     
     const classes = useStyles();
     console.log(props);
-    const user = {
-        name: 'Melanie',
-        email: 'melanie@test.com',
-        location: 'Chicago, IL',
-        password: 'password123'
 
-    }
+    const user = useContext(MongoContext);
+  
+    console.log(user);
 
 function clickHandler() {
     // come back
@@ -47,7 +45,8 @@ function clickHandler() {
                         <List>
                             <ListItem>
                                 <ListItemText
-                                    primary={user.name}
+                                // If no name, 'add a name'
+                                    primary={user.data.name}
                                 />
                                 <Button variant="contained" color="primary" onClick={clickHandler}>
                                     EDIT
@@ -55,7 +54,7 @@ function clickHandler() {
                             </ListItem>
                             <ListItem>
                                 <ListItemText
-                                    primary={user.email}
+                                    primary={user.data.email}
                                 />
                                 <Button variant="contained" color="primary" onClick={clickHandler}> 
                                     EDIT
@@ -63,7 +62,7 @@ function clickHandler() {
                             </ListItem>
                             <ListItem>
                                 <ListItemText
-                                    primary={user.location}
+                                    primary={user.data.password}
                                 />
                                 <Button variant="contained" color="primary" onClick={clickHandler}>
                                     EDIT
@@ -71,7 +70,7 @@ function clickHandler() {
                             </ListItem>
                             <ListItem>
                                 <ListItemText
-                                    primary={user.password}
+                                    primary={user.data.zip_code}
                                 />
                                 <Button variant="contained" color="primary" onClick={clickHandler}>
                                     EDIT

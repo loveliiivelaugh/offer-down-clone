@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckoutForm from './CheckoutForm';
 
-export default function PaymentForm() {
+function PaymentForm() {
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -39,3 +39,5 @@ export default function PaymentForm() {
     </>
   );
 }
+
+export default PaymentForm;
