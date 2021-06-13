@@ -46,7 +46,16 @@ function clickHandler() {
                             <ListItem>
                                 <ListItemText
                                 // If no name, 'add a name'
-                                    primary={user.data.name}
+                                    primary={user.data.first_name}
+                                />
+                                <Button variant="contained" color="primary" onClick={clickHandler}>
+                                    EDIT
+                                </Button>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText
+                                // If no name, 'add a name'
+                                    primary={user.data.last_name}
                                 />
                                 <Button variant="contained" color="primary" onClick={clickHandler}>
                                     EDIT

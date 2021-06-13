@@ -277,7 +277,7 @@ const Navbar = () => {
     }
 
     function nameGreeting() {
-      return <div>Welcome {user?.data?.name}!</div>
+      return <div>Welcome {user?.data?.first_name}!</div>
     }
 
     function Greeting() {
@@ -319,7 +319,7 @@ const Navbar = () => {
             <div>
               <Greeting />
               {/* Welcome {user?.data?.email}! */}
-              {/* Welcome {user.data.name}! */}
+              Welcome {user?.data?.first_name}!
 
             </div>
           }

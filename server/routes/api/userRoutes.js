@@ -209,16 +209,22 @@ router.get('/user/:query', async (req, res) => {
  * @route POST /api/users
  */
 router.post('/', async ({ body }, res) => {
-  const { email, providerData, uid, lastLoginAt, createdAt } = body;
+  const { first, last, email, providerData, uid, lastLoginAt, createdAt } = body;
+
+  console.log(body, 'creating a user here')
 
   try {
     const newUser = await User.create({ 
+      first_name: first,
+      last_name: last,
       email: email, 
       password: providerData[0].providerId,
       firebase_uid: uid 
     });
 
     const appendedAuthObject = Object.assign(newUser, body);
+
+    console.log(appendedAuthObject, 'what have i created?')
 
     newUser 
       ? res.status(200).json(appendedAuthObject) 
