@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#DFDCE3'
   },
   footer: {
-    position: 'sticky',
+    position: 'static',
     bottom: 0
   }
 }));

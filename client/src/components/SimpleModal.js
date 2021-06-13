@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleModal = ({ open, handleClose, type, setType, product }) => {
+
+const SimpleModal = ({ open, handleClose, type, setType, setPostedItems, product }) => {
   const classes = useStyles();
 
   return (
@@ -78,7 +79,8 @@ const SimpleModal = ({ open, handleClose, type, setType, product }) => {
           <SellingForm 
             handleClose={handleClose} 
             setType={setType} 
-            type={type} 
+            type={type}
+            setPostedItems={setPostedItems}
           />
         ) :
         type === "payment" ? ( 
@@ -93,10 +95,7 @@ const SimpleModal = ({ open, handleClose, type, setType, product }) => {
             />
           </div>
         ) :
-        <SellingForm 
-          handleClose={handleClose} 
-          setType={setType} 
-        />
+        <SellingForm setPostedItems={setPostedItems} handleClose={handleClose} setType={setType} />
       }
       </div>
     </Modal>

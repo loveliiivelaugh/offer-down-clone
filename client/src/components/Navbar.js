@@ -54,10 +54,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+    display: 'block',
   },
   search: {
     position: 'relative',
@@ -145,7 +142,9 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-  console.log(user)
+  
+  console.log(user);
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -245,12 +244,12 @@ const Navbar = () => {
             <p>Messages</p>
           </MenuItem>
           <MenuItem onClick={() => router.push('/selling')}>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
+            <IconButton aria-label="selling page" color="inherit">
+              <Badge color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <p>Notifications</p>
+            <p>Your Items</p>
           </MenuItem>
         </div>
       }
@@ -272,14 +271,6 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography 
             className={classes.title} 
             variant="h6" 
@@ -292,7 +283,9 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
+              Welcome {user.email}!
               Welcome {user.name}!
+
             </div>
           }
           <div className={classes.sectionDesktop}>
@@ -376,5 +369,7 @@ const Navbar = () => {
 
     </div>
   );
+
 }
+
 export default Navbar

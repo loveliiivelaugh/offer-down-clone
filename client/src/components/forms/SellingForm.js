@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SellingForm = ({ handleClose }) => {
+const SellingForm = ({setPostedItems, handleClose }) => {
   const classes = useStyles();
   const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
@@ -69,6 +69,8 @@ const SellingForm = ({ handleClose }) => {
 
     console.log(addedProduct, user);
 
+    setPostedItems(addedProduct.data.posted_items);
+    
     const clearValues = () => {
       setSellingData({
         name: '',

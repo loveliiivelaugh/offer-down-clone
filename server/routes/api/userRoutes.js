@@ -45,8 +45,15 @@ const User = require('../../models/User.js');
  * @API addLikedItem()
  */
 router.post('/likes', async ({ body }, res) => {
-  console.log(body);
+  console.log(body, 'backend like body');
   
+  // const updatedUser = await User.findByIdAndUpdate(body.user._id,
+  //   {$push: {
+  //     saved_items:body.item
+  //   }},{new:true});
+
+  // console.log(updatedUser);
+
   try {
     User.findById(body.user._id, (err, doc) => {
       if (err) throw err;
@@ -73,9 +80,9 @@ router.delete('/likes/:user_id/:id', async (req, res) => {
   
   try {
     
-    const updatedUser = await User.findByIdAndUpdate(req.params.user_id, {$pull: {saved_items: {_id:req.params.id}}})
+    const updatedUser = await User.findByIdAndUpdate(req.params.user_id, {$pull: {saved_items: {_id:req.params.id}}}, {new:true});
 
-      res.status(200).json(updatedUser);
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }

@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { 
-  Avatar, Button, Card, CardContent, Container, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography 
+  Avatar, Button, Card, CardContent, Container, Grid, List, ListSubheader, ListItem, ListItemAvatar, ListItemText, Typography 
 } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +26,7 @@ const SellingPage = () => {
   const classes = useStyles();
   const user = useContext(MongoContext);
   const [pending, setPending] = useState(false);
+  const [postedItems, setPostedItems] = useState([]);
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -36,8 +37,15 @@ const SellingPage = () => {
   //end modal
 
   const handleDelete = async (id) => {
-    return await Api.removeListedItem(id, user.data._id);
+    const update = await Api.removeListedItem(id, user.data._id);
+    setPostedItems(update.data.posted_items);
+    return;
   };
+
+  useEffect(() => {
+    setPostedItems(user.data.posted_items);
+  }, []);
+
 
   return (
     <Container className="container center">
@@ -58,18 +66,23 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
+              <ListItem>
+                <ListItemText primary={`Product`} />
+              </ListItem>
                 {pending ? <ClipLoader /> :
                   !pending && 
-                  user.data.posted_items && 
-                  user.data.posted_items.map(({ name, image, price, _id }) => (
+                  postedItems && 
+                  postedItems.map(({ name, description, image, price, _id }) => (
                   <React.Fragment key={_id}>
                     <ListItem button>
                       <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src={image} />
+                        <Avatar alt="Product Picture" src={image} />
                       </ListItemAvatar>
                       <ListItemText primary={name} />
+                      <ListItemText primary={description} />
+                      <ListItemText primary={`$${price}`} />
+                      <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                     </ListItem>
-                    <Button onClick={() => handleDelete(_id)} color="secondary">Delete</Button>
                   </React.Fragment>
                 ))}
               </List>
@@ -80,6 +93,7 @@ const SellingPage = () => {
       
       <SimpleModal 
         open={open}
+        setPostedItems={setPostedItems}
         handleClose={handleClose}
         type={type} 
         setType={setType}
