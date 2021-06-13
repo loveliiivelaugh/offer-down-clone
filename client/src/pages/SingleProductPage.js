@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb';
 import { useRouter } from '../hooks/useRouter.js';
 import Api from '../api';
@@ -7,12 +7,9 @@ import SimpleModal from '../components/SimpleModal';
 //MaterialUI
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { Button, Card, CardActions, CardActionArea, CardContent, CardHeader, Typography } from '@material-ui/core';
+import { Button, Card, CardActions, CardActionArea, CardContent, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-
-import ShareIcon from '@material-ui/icons/Share';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 
@@ -73,9 +70,8 @@ const SingleProductPage = () => {
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
 
       <h1>{product.name}</h1>
-      <Grid container spacing={3}>
         <Grid item xs={12} md={9}>
-          <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
+          {/* <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} /> */}
           <hr />
 
           <Typography gutterBottom variant="h4" component="h2">
@@ -86,28 +82,20 @@ const SingleProductPage = () => {
             {product.description} 
           </Typography>
 
-          <hr />
+          {/* <hr />
           <Typography gutterBottom variant="h4" component="h2">
             Price
-          </Typography>
-          <Typography variant="body2" component="p">
+          </Typography> */}
+          {/* <Typography variant="body2" component="p">
             {product.price}
-          </Typography>
+          </Typography> */}
           <Grid item xs={12} md={12}>
           </Grid>
 
         </Grid>
         <Grid item xs={12} md={3}>
-        <Box border={1} borderColor="primary.main" borderRadius="borderRadius" borderColor="primary.main" className={classes.card}><Card className={classes.card}>
+        <Box border={1} borderRadius="borderRadius" borderColor="primary.main" className={classes.card}><Card className={classes.card}>
             <CardActionArea>
-              <CardHeader>
-                <CardContent>
-                  <Typography gutterBottom variant="h3" component="h2">
-                    {product.price}
-                  </Typography>
-                </CardContent>
-              </CardHeader>
-
               <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                     {product.name}
@@ -116,10 +104,7 @@ const SingleProductPage = () => {
                     ${product.price}
                   </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Posted 2 minutes ago in {product.zip_code}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {product.category}
+                  Posted from {product.zip_code}
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -156,9 +141,10 @@ const SingleProductPage = () => {
             </CardActions>
           </Card></Box>
         </Grid>
+        </Grid>
       </Grid>
     </Container>
-  )
+  );
 }
 
 export default SingleProductPage

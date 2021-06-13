@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlinedIcon';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
@@ -14,10 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
-
 import Api from '../../api';
-
-
 
 function Copyright() {
   return (
@@ -159,7 +155,7 @@ const SignIn = ({ setType, handleClose }) => {
         <Copyright />
       </Box>
     </Container>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;

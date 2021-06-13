@@ -24,14 +24,14 @@ const UserSchema = new Schema({
         type: String
     },
     state: {
-        type: String // Or from a list of options?
+        type: String 
     },
     zip_code: {
         type: Number,
         // validate: [({ length }) => length != 5, 'Please enter a valid zip code']
     },
     username: {
-        type: String // Or from a list of options?
+        type: String 
     },
     password: {
         type: String,

@@ -19,7 +19,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Avatar from '@material-ui/core/Avatar';
-import MenuIcon from '@material-ui/icons/Menu';
 import MailIcon from '@material-ui/icons/Mail';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -32,6 +31,7 @@ import Collapse from '@material-ui/core/Collapse';
 
 import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
+// import { render } from '../../../server.js';
 
 
 const messages = [
@@ -180,16 +180,13 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-  
-  console.log(user)
-
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
   //Modal
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("signin");
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
@@ -305,6 +302,24 @@ const Navbar = () => {
     </Menu>
   );
 
+    console.log(user);
+
+    function emailGreeting() {
+      return <div>Welcome {user?.data?.email}!</div>
+    }
+
+    function nameGreeting() {
+      return <div>Welcome {user?.data?.name}!</div>
+    }
+
+    function Greeting() {
+     if (!user?.data?.name) {
+       return <emailGreeting />
+     } else {
+       return <nameGreeting />
+     }
+    } 
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -321,8 +336,9 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {user.email}!
-              Welcome {user.name}!
+              <Greeting />
+              {/* Welcome {user?.data?.email}! */}
+              {/* Welcome {user.data.name}! */}
 
             </div>
           }

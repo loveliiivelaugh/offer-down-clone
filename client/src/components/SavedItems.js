@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -19,22 +20,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SavedItems({ user, handleClick, handleDelete }) {
-
-  console.log(user);
+function SavedItems({ handleClick, handleDelete }) {
 
   const classes = useStyles();
-  // const user = {
-  //     name: 'Melanie',
-  //     email: 'melanie@test.com',
-  //     location: 'Chicago, IL',
-  //     password: 'password123',
-  //     saved_items: {
-  //       name: 'Shirt',
-  //       price: 15
-  //     }
-
-  // }
+  const user = useContext(MongoContext);
 
   return (
     <div className={classes.root}>

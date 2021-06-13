@@ -14,7 +14,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useAuth } from "../../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
-
 import Api from '../../api';
 
 function Copyright() {
