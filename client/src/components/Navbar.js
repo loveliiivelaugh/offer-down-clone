@@ -34,8 +34,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
-import FullMenu from './FullMenu';
-import MobileMenu from './MobileMenu';
+
 
 // // Structure of messages popover modal message data
 // const messages = [
@@ -201,6 +200,74 @@ const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      {auth.user ? (
+        <div>
+          <MenuItem onClick={() => router.push('/profile')}>Profile</MenuItem>
+          <MenuItem onClick={() => router.push('/accounts')}>My account</MenuItem>
+          <Button onClick={() => auth.signout()}>Signout</Button>
+        </div>
+        ) : (
+      <MenuItem onClick={handleOpen}>Login</MenuItem>
+        )}
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      {auth.user &&
+        <div>
+          <MenuItem>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={user?.data?.messages?.length || 0} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <p>Messages</p>
+          </MenuItem>
+          <MenuItem onClick={() => router.push('/selling')}>
+            <IconButton aria-label="selling page" color="inherit">
+              <Badge color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>Your Items</p>
+          </MenuItem>
+        </div>
+      }
+      <MenuItem onClick={() => router.push('/accounts')}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -258,7 +325,7 @@ const Navbar = () => {
             <IconButton
               edge="end"
               aria-label="account of current user"
-              aria-controls='primary-search-account-menu'
+              aria-controls={menuId}
               aria-haspopup="true"
               onClick={auth.user ? handleProfileMenuOpen : handleOpen}
               color="inherit"
@@ -269,7 +336,7 @@ const Navbar = () => {
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
-              aria-controls='primary-search-account-menu-mobile'
+              aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
@@ -287,9 +354,8 @@ const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
-
-      <MobileMenu />
-      <Menu />
+      {renderMobileMenu}
+      {renderMenu}
       
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CssBaseline />
@@ -313,12 +379,14 @@ const Navbar = () => {
                 </ListItem>
               </React.Fragment>
             )) : "You must log in to view your messages." }
-           
+            
           </List>
         </Paper>
       </Collapse>
+
     </div>
   );
+
 }
 
 export default Navbar
