@@ -1,42 +1,35 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/User.js');
-// const Product = require('../../models/product.js');
 
+/**
+ * @method POST /api/users/offers
+ * @descr Send an offer from one user to another user
+ * @API submitOffer()
+ */
+router.post('/offer', async ({ body }, res) => {
+  console.log(body);
+  try {
+    User.findById(body.recepient.user_id, (err, doc) => {
+      if (err) throw err;
 
-// // getUser()
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const userData = await User.findOne({ id: req.params.id });
+      doc.notifications.push({
+        type: "offer",
+        amount: body.offer.amount,
+        recipient_id: body.recepient.user_id,
+        sender_id: body.sender.data.uid
+      });
 
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
+      doc.save();
 
-// });
+      console.log(doc);
 
-// // getUsers()
-// router.get('/', async (req, res) => {
-//   try {
-//     const userData = await User.findAll({});
-
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-// });
-
-// // createUser()
-// router.post('/', async ({ body }, res) => {
-//   try {
-//     const newUser = await User.create(body);
-
-//     res.status(200).json(newUser);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
-// });
+      res.status(200).json(doc);
+    });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
 
 /**
@@ -216,11 +209,7 @@ router.get('/user/:query', async (req, res) => {
  * @route POST /api/users
  */
 router.post('/', async ({ body }, res) => {
-
   const { email, providerData, uid, lastLoginAt, createdAt } = body;
-
-  console.log(body);
-
 
   try {
     const newUser = await User.create({ 
@@ -229,10 +218,7 @@ router.post('/', async ({ body }, res) => {
       firebase_uid: uid 
     });
 
-    // console.log(newUser);
     const appendedAuthObject = Object.assign(newUser, body);
-    
-    console.log(appendedAuthObject);
 
     newUser 
       ? res.status(200).json(appendedAuthObject) 
@@ -240,7 +226,6 @@ router.post('/', async ({ body }, res) => {
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }
-
 });
 
 // router.delete('/:id', async (req, res) => { 

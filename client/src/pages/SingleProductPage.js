@@ -120,7 +120,7 @@ const SingleProductPage = () => {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button 
+              <Button
                 variant="contained" 
                 fullWidth 
                 color="primary" 

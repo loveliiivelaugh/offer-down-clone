@@ -22,7 +22,9 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
   const user = useContext(MongoContext);
 
   const [pending, setPending] = useState(false);
-  const [offer, setOffer] = useState(0);
+  const [offer, setOffer] = useState({
+    amount: 0
+  });
 
   console.log(product);
 
@@ -31,12 +33,12 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setPending(true);
 
     console.log(offer);
 
-    const sentOffer = await Api.sendOffer({ 
+    const sentOffer = await Api.submitOffer({ 
       sender: user, 
       recepient: product, 
       offer: offer 
@@ -72,9 +74,11 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
             <TextField 
               required 
               id="offer" 
-              label="Make an Offer" 
+              label="Make an Offer"
+              name="amount"
               fullWidth 
-              value={offer}
+              // value={offer}
+              placeholder={offer}
               onChange={onChange}
             />
           </Grid>
