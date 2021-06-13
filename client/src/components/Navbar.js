@@ -301,7 +301,7 @@ const Navbar = () => {
           >
             OfferDown
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -313,7 +313,7 @@ const Navbar = () => {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           <div className={classes.grow} />
           {auth.user &&
             <div>
