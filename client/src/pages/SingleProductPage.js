@@ -71,8 +71,7 @@ const SingleProductPage = () => {
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
 
       <h1>{product.name}</h1>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={9}>
+      
           <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
           <hr />
 
@@ -91,12 +90,11 @@ const SingleProductPage = () => {
           <Typography variant="body2" component="p">
             {product.price}
           </Typography>
-          <Grid item xs={12} md={12}>
-          </Grid>
 
         </Grid>
         <Grid item xs={12} md={3}>
-        <Box border={1} borderColor="primary.main" borderRadius="borderRadius" borderColor="primary.main" className={classes.card}><Card className={classes.card}>
+        <Box border={1} borderColor="primary.main" borderRadius="borderRadius" borderColor="primary.main" className={classes.card}>
+          <Card className={classes.card}>
             <CardActionArea>
               <CardHeader>
                 <CardContent>
@@ -153,8 +151,9 @@ const SingleProductPage = () => {
                 <FavoriteIcon />
               </IconButton>
             </CardActions>
-          </Card></Box>
-        </Grid>
+          </Card>
+        </Box>
+      </Grid>
       </Grid>
     </Container>
   )
