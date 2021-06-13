@@ -315,9 +315,9 @@ const Navbar = () => {
     function Greeting() {
      if (!user?.data?.name) {
        return <emailGreeting />
-     } else {
+     } 
        return <nameGreeting />
-     }
+     
     } 
 
   return (
