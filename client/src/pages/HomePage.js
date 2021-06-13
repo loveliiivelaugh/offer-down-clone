@@ -6,7 +6,8 @@ import ProductCard from '../components/ProductCard';
 //MaterialUI
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from '@material-ui/core/Toolbar';
+import { fade, makeStyles } from "@material-ui/core/styles";
 //spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
 import InputBase from '@material-ui/core/InputBase';
@@ -40,7 +41,31 @@ const useStyles = makeStyles((theme) => ({
     zIndex:'60',
     boxShadow:"2px 10px 10px rgba(0, 0, 0, 0.4)",
     cursor:'pointer'
-  }
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 const HomePage = (props) => {
@@ -56,9 +81,16 @@ const HomePage = (props) => {
   useEffect(() => {
     setPending(true);
     const fetchData = async (id) => {
-      const prod = await Api.getProducts(id)
-      setProducts(prod.data);
-      setPending(false);
+      Api.getProducts(id)
+        .then(response => {
+          console.log(response)
+          setProducts(response.data);
+          setPending(false);
+        });
+
+      // const prod = await Api.getProducts(id)
+      // setProducts(prod.data);
+      // setPending(false);
     };
     
     if (user.status === "success") {
@@ -93,24 +125,30 @@ const HomePage = (props) => {
 
   return (
     <Container>
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <Grid item md={12}>
-          <InputBase
-            placeholder="Search…"
-            name='search'
-            onChange={handleSearchOnChange}
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </Grid>
-      </div>
-      <div className={classes.container}>
+      <Grid container fullWidth>
+        <Toolbar>
+          <Grid item md={4}>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+              </div>
+          </Grid>
+          <Grid item md={8}>
+            <InputBase
+              placeholder="Search…"
+              name='search'
+              onChange={handleSearchOnChange}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Grid>
+        </Toolbar>
+      </Grid>
+      <Container className={classes.container}>
         {user.status === 'loading'
           ? (
             <center>
@@ -122,7 +160,7 @@ const HomePage = (props) => {
               <ProductCard key={i} product={product} />
             )) 
           : "No products found..." }
-      </div>
+      </Container>
     </Container>
   )
 }

@@ -43,7 +43,9 @@ const SellingPage = () => {
   };
 
   useEffect(() => {
-    setPostedItems(user.data.posted_items);
+    if (user.data) {
+      setPostedItems(user.data.posted_items);
+    };
   }, []);
 
 

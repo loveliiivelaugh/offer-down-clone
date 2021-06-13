@@ -1,11 +1,14 @@
 // refer to https://usehooks.com/useAuth to learn more about this custom hook
-
 import React, { useState, useEffect, useContext, createContext } from "react";
 import firebase from "../utils/firebase";
 // import { useMongoDb } from "./useMongoDb.js";
 import { useRouter } from "./useRouter.js";
 //spinner --> https://www.npmjs.com/package/react-spinners
 import ClipLoader from "react-spinners/ClipLoader";
+import Api from '../api';
+
+// Whether to send email verification on signup
+const EMAIL_VERIFICATION = false;
 
 
 const authContext = createContext();
@@ -24,25 +27,42 @@ export const useAuth = () => {
 function useProvideAuth() {
   const [user, setUser] = useState(null);
 
+
+  // Handle response from authentication functions
+  const handleAuth = async (response) => {
+    const { user, additionalUserInfo } = response;
+
+    // Ensure Firebase is actually ready before we continue
+    await waitForFirebase();
+
+    // Create the user in the database if they are new
+    if (additionalUserInfo.isNewUser) {
+      await Api.createUser(user.uid, { email: user.email });
+
+      // Send email verification if enabled
+      if (EMAIL_VERIFICATION) {
+        firebase.auth().currentUser.sendEmailVerification();
+      }
+    }
+
+    // Update user in state
+    setUser(user);
+    return user;
+  };
+
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
   const signin = (email, password) => {
     return firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
-        setUser(response);
-        return response;
-      });
+      .then(handleAuth)
   };
   const signup = (email, password) => {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-        setUser(response);
-        return response;
-      });
+      .then(handleAuth);
   };
   const signout = () => {
     return firebase
@@ -82,13 +102,10 @@ function useProvideAuth() {
         setUser(false);
       }
     });
-
-    // if (user) {
-    //   loggedInUser.setLoggedInUser(user);
-    // }
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
+
   // Return the user object and auth methods
   return {
     user,
@@ -124,4 +141,17 @@ export const requireAuth = (Component) => {
     // Render component now that we have user
     return <Component {...props} />;
   }
-}
+};
+
+// Waits on Firebase user to be initialized before resolving promise
+// This is used to ensure auth is ready before any writing to the db can happen
+const waitForFirebase = () => {
+  return new Promise((resolve) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        resolve(user); // Resolve promise when we have a user
+        unsubscribe(); // Prevent from firing again
+      }
+    });
+  });
+};
