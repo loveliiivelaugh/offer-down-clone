@@ -39,6 +39,21 @@ const AccountsPage = (props) => {
   }, [user.status]);
   //End Plaid
 
+  //Saved Items stuff
+  const [savedItems, setSavedItems] = useState([]);
+
+  useEffect(() => {
+    const fetch = async (id) => {
+      console.log(id, 'in the fetch');
+      const saved = await Api.getUserSavedProd(id);
+      console.log(saved);
+      setSavedItems(saved.data);
+    }
+    // setSavedItems(user.data.saved_items);
+    fetch(user.data._id);
+  },[]);
+
+  // end saved items
 
   const handleNav = {
     //use these function to change the components being rendered in the accounts section dynamically
@@ -67,7 +82,10 @@ const AccountsPage = (props) => {
   };
 
   const handleDelete = async (user_id, id) => {
-    return await Api.removeLikedItem(user_id, id);
+    const update = await Api.removeLikedItem(user_id, id);
+    console.log(update, 'what am i here?');
+    setSavedItems(update.data.saved_items);
+    return;
   };
 
   return (
@@ -88,6 +106,7 @@ const AccountsPage = (props) => {
             {type === "saves" &&
               <SavedItems
                 user={user}
+                savedItems={savedItems}
                 handleClick={handleClick}
                 handleDelete={handleDelete}
               />

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import {Button} from '@material-ui/core/';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -20,37 +21,48 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SavedItems({ handleClick, handleDelete }) {
+
+  const user = useContext(MongoContext);
+function SavedItems({ user, savedItems, handleClick, handleDelete }) {
 
   const classes = useStyles();
-  const user = useContext(MongoContext);
+  // const user = {
+  //     name: 'Melanie',
+  //     email: 'melanie@test.com',
+  //     location: 'Chicago, IL',
+  //     password: 'password123',
+  //     saved_items: {
+  //       name: 'Shirt',
+  //       price: 15
+  //     }
+
+  // }
+  console.log(user, savedItems, 'in the saved items')
+
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+      {/* <Grid container spacing={2}>
+        <Grid item xs={12} md={6}> */}
           <Typography variant="h6" className={classes.title}>
             Saved Items
           </Typography>
           <div className={classes.demo}>
             <List>
-              {user.data.saved_items.map(item => {
-                return (
-                <ListItem>
-                <Grid item xs={12} md={6}>
-                  <ListItemText>
-                    {item.name}
-                  </ListItemText>
-                </Grid>
-                <ListItemText>
-                  ${item.price}
-                </ListItemText>
-              </ListItem>
-              )})}
+              {savedItems.length > 0 && savedItems.map(item => (
+                <React.Fragment key={item._id}>
+                  <ListItem>
+                    <ListItemText primary={item.name} />
+                    <ListItemText primary={item.description} />
+                    <ListItemText primary={`$${item.price}`} />
+                    <Button onClick={() => handleDelete(user.data._id, item._id)} color='secondary'>Remove</Button>
+                  </ListItem>
+                </React.Fragment>
+              ))}
             </List>
           </div>
-        </Grid>
-      </Grid>
+        {/* </Grid>
+      </Grid> */}
     </div>
   );
 }
