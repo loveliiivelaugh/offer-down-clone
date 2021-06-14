@@ -129,7 +129,6 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-  console.log(user);
 
   const [inboxType, toggleInboxType] = useState("messages")
   const handleChange = (event) => {
@@ -270,14 +269,12 @@ const Navbar = () => {
     </Menu>
   );
 
-    console.log(user);
-
     function emailGreeting() {
       return <div>Welcome {user?.data?.email}!</div>
     }
 
     function nameGreeting() {
-      return <div>Welcome {user?.data?.name}!</div>
+      return <div>Welcome {user?.data?.first_name}!</div>
     }
 
     function Greeting() {
@@ -301,7 +298,7 @@ const Navbar = () => {
           >
             OfferDown
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -313,13 +310,13 @@ const Navbar = () => {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           <div className={classes.grow} />
           {auth.user &&
             <div>
               <Greeting />
               {/* Welcome {user?.data?.email}! */}
-              {/* Welcome {user.data.name}! */}
+              Welcome {user?.data?.first_name}!
 
             </div>
           }

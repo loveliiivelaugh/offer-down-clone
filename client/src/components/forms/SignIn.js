@@ -61,7 +61,6 @@ const SignIn = ({ setType, handleClose }) => {
     const { email, password } = data;
 
     const firebaseDetails = await auth.signin(email, password);
-    console.log(firebaseDetails)
 
     const signedInUser = await Api.getUser(firebaseDetails.uid);
     setUser(signedInUser);
