@@ -26,6 +26,7 @@ function SavedItems({ user, savedItems, handleClick, handleDelete }) {
   // const user = useContext(MongoContext);
   const classes = useStyles();
 
+
   console.log(user, savedItems, 'in the saved items')
 
 

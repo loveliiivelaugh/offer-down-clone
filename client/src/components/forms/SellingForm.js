@@ -65,8 +65,6 @@ const SellingForm = ({setPostedItems, handleClose }) => {
 
     const addedProduct = await Api.addProduct({ product: data, user: user.data._id });
 
-    console.log(addedProduct, user);
-
     setPostedItems(addedProduct.data.posted_items);
     
     const clearValues = () => {

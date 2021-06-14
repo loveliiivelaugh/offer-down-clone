@@ -9,7 +9,6 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');//default t
 router.post('/pay', async (req, res) => {
   // Set your secret key. Remember to switch to your live secret key in production.
   // See your keys here: https://dashboard.stripe.com/apikeys
-  console.log(req.body);
   const { email } = req.body;
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 1099,//todo --> Need to update this to grab the price from the db within the server to maintain security.
@@ -19,7 +18,6 @@ router.post('/pay', async (req, res) => {
     receipt_email: email
   });
 
-  console.log(paymentIntent.client_secret);
   res.json({ client_secret: paymentIntent.client_secret });
 });
 

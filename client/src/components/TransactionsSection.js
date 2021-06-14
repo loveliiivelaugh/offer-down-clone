@@ -21,8 +21,6 @@ function TransactionsSection(props) {
 
   const user = useContext(MongoContext);
   
-    console.log(user);
-
   return (
     <div>
       <Grid container spacing={2}>

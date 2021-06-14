@@ -3,7 +3,6 @@ const router = express.Router();
 const client = require('../../controller/plaid.js');
 const User = require('../../models/User.js');
 
-
 // We store the access_token in memory - in production, store it in a secure
 // persistent data store
 let ACCESS_TOKEN = null;
@@ -24,7 +23,7 @@ router.post('/api/info', (request, response, next) => {
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
 router.post('/create_link_token', (request, response, next) => {
-  console.log("This token route is being tapped.")
+
   const configs = {
     'user': {
       // This should correspond to a unique id for the current user.
@@ -42,7 +41,6 @@ router.post('/create_link_token', (request, response, next) => {
   
   client.createLinkToken(configs, (error, createTokenResponse) => {
       if (error != null) {
-        console.log(error);
         return response.json({
           error: error,
         });
@@ -73,7 +71,7 @@ router.post('/exchange_public_token', async (request, response) => {
     //     : res.status(200).json(res);
     // });
     
-    console.log({ itemId: itemId, token: accessToken });
+
     res.status(200).json({ token: accessToken });
   } catch (e) {
     // Display error on client
@@ -341,7 +339,6 @@ router.get('/api/item', function(request, response, next) {
     client.getInstitutionById(itemResponse.item.institution_id, function(err, instRes) {
       if (err != null) {
         const msg = 'Unable to pull institution information from the Plaid API.';
-        console.log(msg + '\n' + JSON.stringify(error));
         return response.json({
           error: msg
         });

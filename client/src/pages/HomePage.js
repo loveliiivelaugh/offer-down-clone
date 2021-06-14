@@ -83,7 +83,6 @@ const HomePage = (props) => {
     const fetchData = async (id) => {
       Api.getProducts(id)
         .then(response => {
-          console.log(response)
           setProducts(response.data);
           setPending(false);
         });
