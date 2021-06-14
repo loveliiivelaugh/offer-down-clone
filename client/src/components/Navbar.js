@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import SimpleModal from './SimpleModal';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -19,6 +19,7 @@ import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
 import { AiOutlineShop } from 'react-icons/ai';
+import Api from '../api/index';
 
 
 
@@ -150,6 +151,7 @@ const Navbar = () => {
   //Modal
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("signin");
+  const [noficiationState, setNotificationState] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
@@ -204,9 +206,21 @@ const Navbar = () => {
     })
   }
 
-  const handleDecline = () => {
-
+  const handleDecline = async (id, user) => {
+      const updated = await Api.removeOffer(id, user);
+      setNotificationState(updated.notifications);
   }
+
+  // useEffect(() => {
+  //   const fetch = async (id) => {
+  //     const saved = await Api.getUserNotification(id)
+
+  //     setNotificationState(saved);
+  //   }
+
+  //   fetch(user.data.uid);
+    
+  // }, [user])
 
 
 
@@ -450,7 +464,7 @@ const Navbar = () => {
                       size="small"
                       onClick={e => {
                         e.preventDefault();
-                        handleDecline();
+                        handleDecline(_id, user.data._id);
                       }}
                     >
                       Decline

@@ -33,6 +33,22 @@ router.post('/offer', async ({ body }, res) => {
   }
 });
 
+router.delete('/offer/:id/:user', async (req, res) => {
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.user,
+      {$pull: {notifications: {_id:req.params.id}}}, {new:true});
+
+    res.status(200).json(updatedUser);
+
+})
+
+router.get('/notifications/:id'), async (req,res) => {
+
+  const user = await User.find({firebase_uid:req.params._id});
+
+  res.status(200).json(user.notifications);
+}
+
 /**
  * @method POST /api/likes
  * @descr Return the current logged in users saved items -- On the front end, we also send the id of the current user along with this post request

@@ -64,14 +64,16 @@ const Api = {
       .catch(error => console.error(error));
   },
 
-  removerOffer: async (id) => {
-    return await axios.delete('/api/users/' + id)
+  removeOffer: async (id, user) => {
+    return await axios.delete(`/api/users/offer/${id}/${user}`)
       .then(response => response)
       .catch(error => console.error(error));
   },
 
-  getNotifications: async () => {
-    return null
+  getUserNotification: async (id) => {
+    return await axios.get('/api/users/notifications')
+      .then(response => response)
+      .catch(error => console.log(error));
   },
 
   handleNotifications: async () => {
