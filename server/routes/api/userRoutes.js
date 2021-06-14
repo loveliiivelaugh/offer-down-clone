@@ -45,12 +45,17 @@ router.post('/likes', async ({ body }, res) => {
     User.findById(body.user._id, (err, doc) => {
       if (err) throw err;
 
-      doc.saved_items.push(body.item);
+      if (!doc.saved_items.includes(body.item)) {
+        doc.saved_items.push(body.item);
 
-      doc.save();
+        doc.save();
 
-      res.status(200).json(doc);
+        res.status(200).json(doc);
 
+      } else {
+
+        res.status(200).end();
+      }
     });
   } catch (error) {
 
@@ -229,7 +234,7 @@ router.post('/', async ({ body }, res) => {
   } catch (error) {
 
     res.status(500).json({ errorMessage: error });
-    
+
   }
 });
 
