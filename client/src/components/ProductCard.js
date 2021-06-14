@@ -57,9 +57,6 @@ const ProductCard = ({ product }) => {
 
   return (
 
-    <Box border={2} borderRadius="borderRadius" borderColor="primary.main">
-      <Card className={classes.root} onClick={e => handleClick(e, product)}>
-
     <Card className={classes.root} onClick={e => handleClick(e, product)}>
       <Box border={2} borderRadius="borderRadius" borderColor="primary.main">
 

@@ -278,9 +278,6 @@ const Navbar = () => {
     </Menu>
   );
 
-    console.log(user);
-
-
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -310,7 +307,7 @@ const Navbar = () => {
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              Welcome {user?.data?.name ? user.data.name : user?.data?.email}!
+              Welcome {user?.data?.first_name ? user.data.first_name : user?.data?.email}!
 
             </div>
           }
