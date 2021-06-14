@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         margin: theme.spacing(4, 0, 2),
-    },
+    }
 }));
 
 
@@ -32,11 +32,9 @@ function SavedItems({ user, savedItems, handleClick, handleDelete }) {
 
   return (
     <div className={classes.root}>
-      {/* <Grid container spacing={2}>
-        <Grid item xs={12} md={6}> */}
-          <Typography variant="h6" className={classes.title}>
+          {/* <Typography variant="h6" className={classes.title}>
             Saved Items
-          </Typography>
+          </Typography> */}
           <div className={classes.demo}>
             <List>
               {savedItems.length > 0 && savedItems.map(item => (

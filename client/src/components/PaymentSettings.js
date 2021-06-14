@@ -55,9 +55,6 @@ function PaymentSettings({ linkToken }) {
 
                             }
                             </Button>
-                            {/* {linkToken &&
-                                <Plaid linkToken={linkToken}/>
-                            } */}
                         </ListItem>
                         <ListItem>
                             <ListItemText>
