@@ -182,14 +182,7 @@ router.get('/:id', async ({ params }, res) => {
       const user = response.filter(user => user._id == params.id);
 
       if (user) {
-        //return a response code and json object.
-<<<<<<< HEAD
-        // res.status(200).json(response);
         res.status(200).json(user);
-=======
-        res.status(200).json(response);
-
->>>>>>> main
       }
     })
     .catch(error => res.status(500).json({ error: error }));
