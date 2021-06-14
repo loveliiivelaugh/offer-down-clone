@@ -190,6 +190,7 @@ const Navbar = () => {
   };
 
   const handleAccept = (data) => {
+    console.log(data)
     router.push({
       pathname: '/checkout',
       state: data
@@ -433,7 +434,7 @@ const Navbar = () => {
               {user.status === "loading" ? <ClipLoader loading={true} /> : 
                 user.status === "success" &&
                 user.data != null ? 
-                user.data.notifications.map(({ _id, amount, sender_id, recepient_id, type }) => (
+                user.data.notifications.map(({ _id, amount, sender_id, recipient_id, type }) => (
                 <React.Fragment key={_id}>
                   <ListItem button>
                     <ListItemAvatar>
@@ -452,9 +453,9 @@ const Navbar = () => {
                       onClick={e => {
                         e.preventDefault();
                         handleAccept({
-                          _id,
+                          product: { _id, amount, type },
                           sender_id,
-                          recepient_id
+                          recipient: user
                         })
                         setExpanded(false);
                       }}

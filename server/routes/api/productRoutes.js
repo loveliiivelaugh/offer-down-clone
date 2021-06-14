@@ -1,87 +1,46 @@
 const express = require('express');
 const router = express.Router();
-
-// //fakestoreapi -- GET dummyProducts route 
-// router.get('/products', (req, res) => {
-//   axios.get('https://fakestoreapi.com/products')
-//     .then(data => {
-//       console.log(data.data);
-//       res.json(data.data);
-//     })
-//     .catch(error => {
-//       console.error(error);
-//       res.json({ error: error });
-//     })
-// })
 const User = require('../../models/User');
 const Product = require('../../models/Product');
-// const axios = require('axios');
-
-
-// @method -- GET
-// @api -- getProducts()
-// @descr --  Return all products posted in the database.
-router.get('/:id', async (req, res) => {
-
- 
-  
-  // const totalItems = [];
-
+/**
+ * @method GET
+ * @api getProducts()
+ * @descr  Return all products posted in the database.
+ */
+router.get('/', async (req, res) => {
   try {
       const products = await Product.find({});
 
-  
-
       const filteredProducts = products.filter(item => item.user_id !== req.params.id);
 
-
-
-  //   const users = await User.find({});
-
-  //   users.forEach(({ posted_items }) => {
-  //     posted_items.forEach(item => {
-  //       totalItems.push(item);
-  //     });
-  //   });
-
-    // console.log(totalItems);
     res.status(200).json(filteredProducts);
   } catch (error) {
     res.status(500).json({ error: error });
   }
 });
 
-// // getProduct()
-// router.get('/products/:id', async (req, res) => {
-//   try {
-//     const productData = await Product.findOne({ id: req.params.id });
 
-//     res.status(200).json(productData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
+/**
+ * @method GET /api/products/:id
+ * @api getProduct()
+ * @descr Return one product by id.
+ */
+router.get('/:id', async (req, res) => {
+  console.log(req.params.id)
+  try {
+    const productData = await Product.findById(req.params.id);
 
-// });
+    console.log(productData);
 
-// // getProducts()
-// router.get('/products', async (req, res) => {
-//   try {
-//     const productData = await Product.findAll({});
+    res.status(200).json(productData);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error });
+  }
+});
 
-//     res.status(200).json(productData);
-//   } catch (error) {
-//     res.status(500).json({ errorMessage: error });
-//   }
 
-// });
-
-// // addProduct()
 router.post('/', async (req, res) => {
   try {
-
-
-    // const searchedUser = await User.find({email: req.body.user})
-      
     const productObject = {
       name: req.body.product.name,
       description: req.body.product.description,

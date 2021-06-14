@@ -22,14 +22,12 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
   const user = useContext(MongoContext);
 
   const [pending, setPending] = useState(false);
-  const [offer, setOffer] = useState({
-    amount: 0
-  });
+  const [offer, setOffer] = useState({});
 
   console.log(product);
 
   useEffect(() => {
-    setOffer(product.price);
+    setOffer(product);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -40,7 +38,7 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
 
     const sentOffer = await Api.submitOffer({ 
       sender: user, 
-      recepient: product, 
+      recipient: product, 
       offer: offer 
     });
 

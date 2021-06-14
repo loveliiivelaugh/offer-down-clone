@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './forms/AddressForm';
 import PaymentForm from './forms/PaymentForm';
 import Review from './Review';
+import Confetti from 'confetti-react';
+
 
 function Copyright() {
   return (
@@ -66,41 +68,65 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step) {
+function getStepContent(step, data, checkoutData, setCheckoutData) {
+  console.log(checkoutData)
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return (
+        <AddressForm 
+          data={data} 
+          checkoutData={checkoutData} 
+          setCheckoutData={setCheckoutData}
+        /> 
+      );
     case 1:
-      return <PaymentForm />;
+      return (
+        <PaymentForm 
+          data={data} 
+          checkoutData={checkoutData} 
+          setCheckoutData={setCheckoutData}
+        /> 
+      );
     case 2:
-      return <Review />;
+      return (
+        <Review 
+          data={data} 
+          checkoutData={checkoutData} 
+          setCheckoutData={setCheckoutData}
+        /> 
+    );
     default:
       throw new Error('Unknown step');
   }
 }
 
-export default function Checkout() {
+export default function Checkout({ data, checkoutData, setCheckoutData }) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [confettiSwitch, toggleConfetti] = useState(false);
+
+  const SAVE_FOR_FUTURE = false;
 
   const handleNext = () => {
+    console.log(activeStep, "handleNext()")
     setActiveStep(activeStep + 1);
+    if (activeStep === 2) {
+      toggleConfetti(true);
+      setTimeout(() => toggleConfetti(false), 15000);
+    }
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
+  const submitOrder = () => {
+    console.log(data, checkoutData);
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
@@ -115,18 +141,20 @@ export default function Checkout() {
           </Stepper>
           <React.Fragment>
             {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
-                </Typography>
-              </React.Fragment>
+                <React.Fragment>
+                  {confettiSwitch && <Confetti /> }
+
+                  <Typography variant="h5" gutterBottom>
+                    Thank you for your order.
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Your order number is #2001539. We have emailed your order confirmation, and will
+                    send you an update when your order has shipped.
+                  </Typography>
+                </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep, data, checkoutData, setCheckoutData )}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
@@ -137,6 +165,7 @@ export default function Checkout() {
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
+                    // onClick={activeStep - 1 ? submitOrder : handleNext}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Place order' : 'Next'}

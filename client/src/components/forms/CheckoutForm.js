@@ -6,11 +6,16 @@ import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, Gri
 import Confetti from 'confetti-react';
 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ data, checkoutData, setCheckoutData }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [savePayment, setSavePayment] = useState(false);
   const [confettiSwitch, toggleConfetti] = useState(false);
+
+  const handleChange = e => {
+    setCheckoutData({ ...checkoutData, [e.target.name]: e.target.value })
+  }
+
 
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
@@ -76,17 +81,36 @@ const CheckoutForm = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <TextField required id="cardName" label="Name on card" autoComplete="cc-name" />
+              <TextField 
+                required 
+                id="cardName" 
+                label="Name on card" 
+                autoComplete="cc-name"
+                onChange={handleChange} 
+                name="cardName"
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl component="fieldset">
-                <TextField type="number" name="zip" label="Zip code" />
+                <TextField 
+                  type="number" 
+                  name="zip" 
+                  label="Zip code" 
+                  onChange={handleChange}
+                  name="cardZip"
+                />
               </FormControl>
             </Grid>
           </Grid>
           <Grid item xs={12} md={6}>
             <FormControl component="fieldset">
-              <TextField type="email" name="email" label="Enter your email" />
+              <TextField 
+                type="email" 
+                name="email" 
+                label="Enter your email" 
+                onChange={handleChange} 
+                name="cardEmail"
+              />
             </FormControl>
           </Grid>
           
@@ -101,7 +125,6 @@ const CheckoutForm = () => {
               />
           </Grid>
         </form>
-      {confettiSwitch && <Confetti /> }
       </CardContent>
     </Card>
   </Grid>

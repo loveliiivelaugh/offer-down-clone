@@ -145,9 +145,11 @@ router.post('/message', async ({ body }, res) => {
 //   res.json({ message: "Success" });
 // })
 
-// @method: GET /api/users/:id
-// @descr: Return select user by id
-// @API getUser()
+/**
+ * @method GET /api/users/:id
+ * @descr Return select user by id
+ * @API getUser()
+ */
 router.get('/:id', async ({ params }, res) => {
 
   console.log(params.id);
@@ -163,7 +165,8 @@ router.get('/:id', async ({ params }, res) => {
 
       if (user) {
         //return a response code and json object.
-        res.status(200).json(response);
+        // res.status(200).json(response);
+        res.status(200).json(user);
       }
     })
     .catch(error => res.status(500).json({ error: error }));

@@ -74,14 +74,12 @@ const Api = {
       .catch(error => console.error(error));
   },
   getProduct: async (id) => {
-    return await axios.get('api/product/' + id)
-      .then(response => {
-        return response;
-      })
+    return await axios.get('api/products/' + id)
+      .then(response => response)
       .catch(error => console.error(error));
   },
-  getProducts: async (id) => {
-    return await axios.get('/api/products/' + id)
+  getProducts: async () => {
+    return await axios.get('/api/products')
       .then(response => response)
       .catch(error => console.log(error));
   },
