@@ -37,18 +37,6 @@ function PaymentSettings({ linkToken }) {
     const handleClose = () => setOpen(false);
     //end modal
 
-    // const user = {
-    //     name: 'Melanie',
-    //     email: 'melanie@test.com',
-    //     location: 'Chicago, IL',
-    //     password: 'password123',
-    //     balance: 10.75,
-    //     purchased_items: {
-    //         name: 'Hat',
-    //         price: 4.25
-    //     }
-    // };
-
     const user = useContext(MongoContext);
 
     return (
@@ -59,10 +47,9 @@ function PaymentSettings({ linkToken }) {
                     <List>
                         <ListItem>
                             <ListItemText>
-                                {/* if no balance, $0 */}
-                                Balance: ${user.balance}
+                                Balance: ${user?.data?.balance ? user.data.balance : 0}
                             </ListItemText>
-                            <Button variant="contained" color="primary" className={classes.text}>
+                            <Button variant="outlined" color="primary" className={classes.text}>
                             {linkToken &&
                                 <Plaid linkToken={linkToken} />
 

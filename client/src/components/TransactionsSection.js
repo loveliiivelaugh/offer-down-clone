@@ -18,21 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 function TransactionsSection(props) {
   const classes = useStyles();
-  // const user = {
-  //   name: 'Melanie',
-  //   email: 'melanie@test.com',
-  //   location: 'Chicago, IL',
-  //   password: 'password123',
-  //   balance: 10.75,
-  //   purchased_items: {
-  //     name: 'Hat',
-  //     price: 4.25
-  //   },
-  //   sold_items: {
-  //     name: 'Nintendo Switch',
-  //     price: 150
-  //   }
-  // };
 
   const user = useContext(MongoContext);
   
@@ -48,12 +33,11 @@ function TransactionsSection(props) {
               <ListItem>
                 <Grid item xs={12} md={6}>
                   <ListItemText>
-                    {/* if no purchases items, 'you have not purchased any items' */}
-                    {/* {user.purchased_items.name} */}
+                    {user?.data?.purchased_items.name ? user.data.purchased_items.name : 'No purchased items to show'}
                   </ListItemText>
                 </Grid>
                 <ListItemText>
-                  {/* - ${user.purchased_items.price} */}
+                {user?.data?.purchased_items.price ? user.data.purchased_items.price : ''}
                 </ListItemText>
 
               </ListItem>
@@ -67,11 +51,11 @@ function TransactionsSection(props) {
               <ListItem>
                 <Grid item xs={12} md={6}>
                   <ListItemText>
-                    {/* {user.sold_items.name} */}
+                  {user?.data?.sold_items.name ? user.data.sold_items.name : 'You have not sold any items yet!'}
                   </ListItemText>
                 </Grid>
                 <ListItemText>
-                  {/* + ${user.sold_items.price} */}
+                {user?.data?.sold_items.price ? user.data.sold_items.price : ''}
                 </ListItemText>
 
               </ListItem>

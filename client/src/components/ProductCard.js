@@ -15,7 +15,7 @@ import { useRouter } from '../hooks/useRouter.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 345
   },
   media: {
     height: 0,
@@ -56,8 +56,13 @@ const ProductCard = ({ product }) => {
   };
 
   return (
+
+    <Box border={2} borderRadius="borderRadius" borderColor="primary.main">
+      <Card className={classes.root} onClick={e => handleClick(e, product)}>
+
     <Card className={classes.root} onClick={e => handleClick(e, product)}>
       <Box border={2} borderRadius="borderRadius" borderColor="primary.main">
+
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
