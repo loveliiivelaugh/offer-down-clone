@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MongoContext } from '../hooks/useMongoDb.js';
 import SimpleModal from './SimpleModal';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -19,6 +19,7 @@ import { useRouter } from "../hooks/useRouter.js";
 import { useAuth } from "../hooks/useAuth.js";
 import ClipLoader from "react-spinners/ClipLoader";
 import { AiOutlineShop } from 'react-icons/ai';
+import Api from '../api/index';
 
 
 
@@ -121,6 +122,15 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     margin: '0 auto',
   },
+  pink: {
+    backgroundColor: '#EB6E80'
+  },
+  white: {
+    color: 'white'
+  },
+  offer: {
+    paddingRight: 30
+  }
 }));
 
 
@@ -129,7 +139,6 @@ const Navbar = () => {
   const auth = useAuth();
   const router = useRouter();
   const user = useContext(MongoContext);
-  console.log(user);
 
   const [inboxType, toggleInboxType] = useState("messages")
   const handleChange = (event) => {
@@ -142,6 +151,7 @@ const Navbar = () => {
   //Modal
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("signin");
+  const [noficiationState, setNotificationState] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //end modal
@@ -197,9 +207,21 @@ const Navbar = () => {
     })
   }
 
-  const handleDecline = () => {
-
+  const handleDecline = async (id, user) => {
+      const updated = await Api.removeOffer(id, user);
+      setNotificationState(updated.notifications);
   }
+
+  // useEffect(() => {
+  //   const fetch = async (id) => {
+  //     const saved = await Api.getUserNotification(id)
+
+  //     setNotificationState(saved);
+  //   }
+
+  //   fetch(user.data.uid);
+    
+  // }, [user])
 
 
 
@@ -271,24 +293,6 @@ const Navbar = () => {
     </Menu>
   );
 
-    console.log(user);
-
-    function emailGreeting() {
-      return <div>Welcome {user?.data?.email}!</div>
-    }
-
-    function nameGreeting() {
-      return <div>Welcome {user?.data?.name}!</div>
-    }
-
-    function Greeting() {
-     if (!user?.data?.name) {
-       return <emailGreeting />
-     } else {
-       return <nameGreeting />
-     }
-    } 
-
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -302,7 +306,7 @@ const Navbar = () => {
           >
             OfferDown
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -314,13 +318,11 @@ const Navbar = () => {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           <div className={classes.grow} />
           {auth.user &&
             <div>
-              <Greeting />
-              {/* Welcome {user?.data?.email}! */}
-              {/* Welcome {user.data.name}! */}
+              Welcome {user?.data?.first_name ? user.data.first_name : user?.data?.email}!
 
             </div>
           }
@@ -386,7 +388,7 @@ const Navbar = () => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CssBaseline />
         <Paper square className={classes.paper}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.pink}>
           <Tabs
             value={inboxType}
             indicatorColor="primary"
@@ -394,16 +396,13 @@ const Navbar = () => {
             onChange={handleChange}
             aria-label="disabled tabs example"
           >
-            <Tab label="Messages"></Tab>
-            <Tab label="Notifications"></Tab>
+            <Tab className={classes.white} label="Messages"></Tab>
+            <Tab className={classes.white} label="Notifications"></Tab>
           </Tabs>
         </AppBar>
 
           {inboxType === "messages" ? (
             <>
-            <Typography className={classes.text} variant="h5" gutterBottom>
-              Messages
-            </Typography>
             <List className={classes.list}>
               {user.status === "loading" ? <ClipLoader loading={true} /> : 
                 user.status === "success" &&
@@ -427,9 +426,6 @@ const Navbar = () => {
           ) : 
           inboxType === "notifications" && (
             <>
-            <Typography className={classes.text} variant="h5" gutterBottom>
-              Notifications
-            </Typography>
             <List className={classes.list}>
               {user.status === "loading" ? <ClipLoader loading={true} /> : 
                 user.status === "success" &&
@@ -441,13 +437,14 @@ const Navbar = () => {
                       <Avatar alt="Profile Picture" src="" />
                     </ListItemAvatar>
                     <ListItemText 
+                    className={classes.offer}
                       primary={
                         sender_id + " wants to offer you $" + amount + " for your item " + _id + "." 
                       } 
-                      secondary={amount} 
+                      secondary={'$' + amount} 
                     />
                     <Button 
-                      variant="contained" 
+                      variant="outlined" 
                       color="primary" 
                       size="small"
                       onClick={e => {
@@ -468,7 +465,7 @@ const Navbar = () => {
                       size="small"
                       onClick={e => {
                         e.preventDefault();
-                        handleDecline();
+                        handleDecline(_id, user.data._id);
                       }}
                     >
                       Decline

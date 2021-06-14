@@ -24,8 +24,6 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
   const [pending, setPending] = useState(false);
   const [offer, setOffer] = useState({});
 
-  console.log(product);
-
   useEffect(() => {
     setOffer(product);
   }, []);
@@ -34,15 +32,11 @@ const OfferForm = ({ handleClose, setType, type, product }) => {
     // event.preventDefault();
     setPending(true);
 
-    console.log(offer);
-
     const sentOffer = await Api.submitOffer({ 
       sender: user, 
       recipient: product, 
       offer: offer 
     });
-
-    console.log(sentOffer);
 
     setOffer(0);
     handleClose();

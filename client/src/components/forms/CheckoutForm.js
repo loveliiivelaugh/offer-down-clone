@@ -55,7 +55,6 @@ const CheckoutForm = ({ data, checkoutData, setCheckoutData }) => {
     .then(confirmedPayment => {
       // The payment has been processed!
       if (confirmedPayment.paymentIntent.status === 'succeeded') {
-        console.log(" Money in the bank! ");
         toggleConfetti(true);
         setTimeout(() => toggleConfetti(false), 15000);
         // Show a success message to your customer

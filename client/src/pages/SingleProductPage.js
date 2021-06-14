@@ -33,7 +33,6 @@ const SingleProductPage = () => {
   const router = useRouter();
   const product = router.location.state.product;
   const user = useContext(MongoContext);
-  console.log(user)
 
   //Modal
   const [open, setOpen] = useState(false);
@@ -56,7 +55,6 @@ const SingleProductPage = () => {
 
   const handleLikeButton = async (e) => {
     e.preventDefault();
-    console.log(user, product, 'liked item click');
     return await Api.addLikedItem(user, product);
   };
 
@@ -65,20 +63,15 @@ const SingleProductPage = () => {
 
       <Grid container spacing={3}>
 
-        {/* <Grid item xs={12} md={9} className={classes.productGrid}>
-          <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
+        <Grid item xs={12} md={9} className={classes.productGrid}>
 
           <h1>{product.name}</h1>
 
           <Grid item xs={12} md={9}>
-            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
+            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
+          
+            <Typography gutterBottom variant="h6" component="h2">
 
-        
-            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} />
-
-            <hr />
-
-            <Typography gutterBottom variant="h4" component="h2">
               Description
             </Typography>
             <hr />
@@ -86,16 +79,9 @@ const SingleProductPage = () => {
               {product.description} 
             </Typography>
 
-            <hr />
-            <Typography gutterBottom variant="h4" component="h2">
-              Price
-            </Typography>
-            <Typography variant="body2" component="p">
-              {product.price}
-
-            </Typography>
           </Grid>
-        </Grid> */}
+        </Grid> 
+
 
         <Grid item xs={12} md={3}>
         <Box border={1} borderRadius="borderRadius" borderColor="primary.main" className={classes.card}>

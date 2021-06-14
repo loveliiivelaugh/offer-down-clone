@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
 const Product = require('../../models/Product');
+
 /**
  * @method GET
  * @api getProducts()
@@ -13,9 +14,22 @@ router.get('/', async (req, res) => {
 
       const filteredProducts = products.filter(item => item.user_id !== req.params.id);
 
+// @method -- GET
+// @api -- getProducts()
+// @descr --  Return all products posted in the database.
+router.get('/', async (req, res) => {
+
+  try {
+
+    const products = await Product.find({});
+    const filteredProducts = products.filter(item => item.user_id !== req.params.id);
+
     res.status(200).json(filteredProducts);
+
   } catch (error) {
+
     res.status(500).json({ error: error });
+
   }
 });
 
@@ -39,6 +53,8 @@ router.get('/:id', async (req, res) => {
 });
 
 
+
+// // addProduct()
 router.post('/', async (req, res) => {
   try {
     const productObject = {
@@ -49,41 +65,42 @@ router.post('/', async (req, res) => {
       zip_code: req.body.product.zip_code,
       user_id: req.body.user
     }
-    const newProduct = await Product.create(productObject);
 
+    const newProduct = await Product.create(productObject);
 
     const updatedUser = await User.findByIdAndUpdate({_id:req.body.user}, {$push: {posted_items:newProduct}}, {new: true});
 
     res.status(200).json(updatedUser);
+
   } catch (error) {
-    console.log(error, 'backside error')
+
     res.status(500).json({ errorMessage: error });
+
   }
 });
 
 router.delete('/:id/:user', async (req, res) => {
-  console.log(req.params.id, 'backend delete, id');
-  console.log(req.params.user, 'backend delete, user');
 
-
-  const updatedUser = await User.findByIdAndUpdate(req.params.user, {$pull: {
-    posted_items: {_id:req.params.id}}},{new:true});
+  const updatedUser = await User.findByIdAndUpdate(req.params.user, 
+    {$pull: {posted_items: {_id:req.params.id}}},{new:true});
 
   await Product.findByIdAndDelete({_id:req.params.id});
-  res.status(200).json(updatedUser);
-});
 
+  res.status(200).json(updatedUser);
+
+});
 
 router.get('/usersaved/:id', async (req, res) => {
 
   const user = await User.findById(req.params.id);
-  console.log(user, 'backend 124')
-
+  
   res.status(200).json(user.saved_items);
-})
+  
+});
+
 // // updateProduct()
 // router.put('/products/:id', async (req, res) => {
-//   console.log(req.body);
+//  
 //   try {
 //     const productData = await Product.updateOne({ id: req.params.id }, req.body); // talk with team
 
@@ -129,7 +146,6 @@ router.get('/usersaved/:id', async (req, res) => {
 // router.post('/', async (req, res) => {
 
 //   const product = req.body;
-//   console.log(product);
 
 //   const newProduct = await Product.create(product); //this is definitely not right..
 
@@ -143,7 +159,6 @@ router.get('/usersaved/:id', async (req, res) => {
 //   }, (success, error) => {
 //     if (error) throw error;
 
-//     console.log(success)
 //     res.json(success);
 //   })
 
