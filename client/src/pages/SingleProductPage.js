@@ -65,13 +65,10 @@ const SingleProductPage = () => {
 
         <Grid item xs={12} md={9} className={classes.productGrid}>
 
-          <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
-
-
           <h1>{product.name}</h1>
 
           <Grid item xs={12} md={9}>
-
+            <img src={product.image} alt={product.title} style={{maxWidth: '100%'}} className={classes.image}/>
           
             <Typography gutterBottom variant="h6" component="h2">
 
@@ -82,18 +79,6 @@ const SingleProductPage = () => {
               {product.description} 
             </Typography>
 
-
-            <hr />
-            <Typography gutterBottom variant="h6" component="h2">
-              Price
-            </Typography>
-            <hr />
-            <Typography variant="body2" component="p">
-              ${product.price}
-
-            </Typography>
-            
-            <hr />
           </Grid>
         </Grid> 
 
