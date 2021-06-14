@@ -1,141 +1,25 @@
-## OfferDown Clone
+# OfferDown
 
 ## Description
+This online store application allows the user to list items for sale as well as buy items posted by other users. In addition, the user is able to create an account, log in/out, save items, make offers on items, receive messages and notifications, and view their account information as well as profile page. 
 
-## Flow Chart
+## Installation
 
-[flow Chart](https://drive.google.com/file/d/1683BrVxaI6uHemdDVSbw6J9EM_R28fI-/view?usp=sharing)
+npm install 
 
+## Usage
 
-## Installing
+Our deployed application can be accessed [here](http://offer-down.herokuapp.com/).
 
-In terminal...
+## Contributors
+[Michael Woodward](https://github.com/loveliiivelaugh),
+[Tom Siemion](https://github.com/rotosti),
+[Karina Ayala](https://github.com/Karina1023),
+[Melanie Uhrich](https://github.com/melanieuhrich)
 
-* `git clone https://github.com/loveliiivelaugh/offer-down-clone.git`
+## License 
+This project uses the following license: [None]().
 
-* `cd` into the project.
+## Screenshot
 
-* `npm install`
-
-* `npm run dev`
-
-* Open your browser at **https://localhost:3000**.
-
-## Initial Setup
-
-In the terminal.
-
-* `npx create-react-app <name-of-project>`
-
-* `cd <name-of-project>`
-
-* `git init && git add . && git commit -m "Initial commit."`
-
-* `git [add project or whatever].git`
-
-* `git push origin main`
-
-* Settings > Branches > Branch protection rule > Add rule > Require pull request reviews before merging
-
-#### Next Steps...
-
-* Deploy to Heroku using continuous deployment linking to the GitHub repository
-
-* Add collaborators of project to have access in Heroku
-
-* Add basic setup to enable Firebase Authentication
-
-*Refer to [Firebase Walkthrough 1](/walkthrough-pt1.md) and [Firebase Walkthrough 2](/walkthrough-pt2.md) for a written guide*
-
-
-## Technologies
-
-* ![Material-UI](https://material-ui.com/)
-
-* ![Firebase](https://firebase.google.com/)
-
-* ![MySQL](https://www.mysql.com)
-
-* ![Stripe](https://stripe.com/)
-
-* ![Mockaroo](https://mockaroo.com/)
-
-## Collaborators
-
-Karina Ayala 
-Melanie Uhrich 
-Tom Siemon 
-Michael Woodward
-
-## Additional setup info
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![screenshot](offerdown.png)
