@@ -26,6 +26,7 @@ const AccountsPage = (props) => {
 
   //Plaid
   const [linkToken, setLinkToken] = useState(null);
+  const [accountBalance, setAccountBalance] = useState(0);
 
   const generateToken = async (id) => {
     const { data } = await axios.post('/api/plaid/create_link_token', id);
@@ -50,7 +51,7 @@ const AccountsPage = (props) => {
     }
     // setSavedItems(user.data.saved_items)
     fetch(user.data._id);
-  },[]);
+  }, []);
 
   // end saved items
 
@@ -100,7 +101,13 @@ const AccountsPage = (props) => {
         <Card style={{ height: '60vh' }}>
           <CardContent>
             {type === "purchases" && <TransactionsSection />}
-            {type === "banking" && <PaymentSettings linkToken={linkToken} />}
+            {type === "banking" && (
+                <PaymentSettings 
+                  linkToken={linkToken}
+                  accountBalance={accountBalance}
+                  setAccountBalance={setAccountBalance}
+                />
+              )}
             {type === "saves" &&
               <SavedItems
                 user={user}

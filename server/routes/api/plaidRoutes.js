@@ -50,8 +50,9 @@ router.post('/create_link_token', (request, response, next) => {
 });
 
 router.post('/exchange_public_token', async (request, response) => {
-  try {
+    console.log(request.body)
     const publicToken = request.body.public_token;
+    console.log(publicToken);
     // Exchange the client-side public_token for a server access_token
     const tokenResponse = await client.exchangePublicToken(publicToken);
     // Save the access_token and item_id to a persistent database
@@ -70,9 +71,11 @@ router.post('/exchange_public_token', async (request, response) => {
     //     ? res.status(500).json({ error: err }) 
     //     : res.status(200).json(res);
     // });
+  try {
+
     
 
-    res.status(200).json({ token: accessToken });
+    response.status(200).json({ token: accessToken });
   } catch (e) {
     // Display error on client
     return response.status(500).json({ error: e.message });
@@ -152,15 +155,18 @@ router.post('/api/create_link_token_for_payment', function(request, response, ne
 
 // Retrieve an Item's accounts
 // https://plaid.com/docs/#accounts
-router.get('/api/plaid/accounts', function(request, response, next) {
-  client.getAccounts(ACCESS_TOKEN, function(error, accountsResponse) {
+router.get('/accounts/:token', async (request, response, next) => {
+  console.log("GET Plaid Accounts: ");
+  ACCESS_TOKEN = request.params.token;
+
+  client.getAccounts(ACCESS_TOKEN, (error, accountsResponse) => {
     if (error != null) {
-      prettyPrintResponse(error);
+      console.error(error);
       return response.json({
         error: error,
       });
     }
-    prettyPrintResponse(accountsResponse);
+    console.log(accountsResponse);
     response.json(accountsResponse);
   });
 });

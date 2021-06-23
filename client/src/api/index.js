@@ -75,11 +75,6 @@ const Api = {
       .then(response => response)
       .catch(error => console.log(error));
   },
-
-  handleNotifications: async () => {
-    //idk yet...
-  },
-
   //...Product API functions go here....
   getDummyProducts: async () => {
     return await axios.get('/api/products')

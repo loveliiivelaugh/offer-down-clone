@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function PaymentSettings({ linkToken }) {
+function PaymentSettings({ linkToken, accountBalance, setAccountBalance }) {
     const classes = useStyles();
     //Modal
     const [open, setOpen] = useState(false);
@@ -47,11 +47,14 @@ function PaymentSettings({ linkToken }) {
                     <List>
                         <ListItem>
                             <ListItemText>
-                                Balance: ${user?.data?.balance ? user.data.balance : 0}
+                                Balance: ${accountBalance}
                             </ListItemText>
                             <Button variant="outlined" color="primary" className={classes.text}>
                             {linkToken &&
-                                <Plaid linkToken={linkToken} />
+                                <Plaid 
+                                    linkToken={linkToken}
+                                    setAccountBalance={setAccountBalance}
+                                />
 
                             }
                             </Button>

@@ -41,6 +41,7 @@ const MongoContextProvider = ({ children }) => {
             picture: dynamicUser.photoURL,
           };
           
+          console.log(response)
           setInitialState(prevState => {
             return ({ 
               ...prevState,
@@ -78,15 +79,9 @@ const MongoContextProvider = ({ children }) => {
         });
     };
 
-    if (auth.user) {
+    if (auth.user) fetchUser(auth.user);
 
-      fetchUser(auth.user);
-    }
-
-    if (!auth.user) {
-
-      setInitialState({ status: "idle", data: null, error: null });
-    }
+    if (!auth.user) setInitialState({ status: "idle", data: null, error: null });
 
   }, [auth]);
 

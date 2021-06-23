@@ -1,20 +1,27 @@
-// APP COMPONENT
-// Upon rendering of App component, make a request to create and
-// obtain a link token to be used in the Link component
+import React, { useContext } from 'react';
 import { Button } from '@material-ui/core';
-import React from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
+import { MongoContext } from '../hooks/useMongoDb.js';
 
 
-const Link = ({ linkToken }) => {
-  // const [transactions, setTransactions] = useState([]);
+
+const Link = ({ linkToken, setAccountBalance }) => {
+  const user = useContext(MongoContext);
+  console.log(user);
 
   const handleOnSuccess = async (public_token, metadata) => {
     //send token to client server
-    await axios.post('/api/plaid/exchange_public_token', {
+    const { data } = await axios.post('/api/plaid/exchange_public_token', {
       public_token: public_token,
     });
+
+    user.data.plaid_accessToken = data.token;
+    console.log(user);
+    const accountsData = await axios.get('/api/plaid/accounts/' + data.token);
+    console.log(accountsData);
+
+    setAccountBalance(accountsData.data.accounts[0].balances.available);
   };
 
   const handleOnExit = () => {
@@ -38,7 +45,10 @@ const Link = ({ linkToken }) => {
 
   return (
     <Button onClick={() => open()} disabled={!ready}>
-      Connect a bank account
+      {user.data.plaid_accessToken 
+        ? "Disconnect your bank" 
+        : "Connect a bank account"
+      }
     </Button>
   );
 }
