@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { MongoContext } from '../hooks/useMongoDb.js';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -6,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,16 +24,9 @@ const useStyles = makeStyles((theme) => ({
 
 function ProfileList(props) {
     const classes = useStyles();
-    const user = {
-        name: 'Melanie',
-        email: 'melanie@test.com',
-        location: 'Chicago, IL',
-        password: 'password123',
-        posted_items: {
-            title: 'Blanket',
-            price: '12'
-        }
-    };
+    const user = useContext(MongoContext);
+
+    console.log(user)
     return (
         <div className={classes.root}>
             <Grid container spacing={2}>
@@ -41,12 +36,13 @@ function ProfileList(props) {
                     </Typography>
                     <div className={classes.demo}>
                         <List>
-                            <ListItem>
-                                <Link to={'/products/' + user.posted_items.id}><ListItemText
-                                    primary={user.posted_items.title}
-                                />
-                                </Link>
-                            </ListItem>
+                            {user.posted_items ? user.posted_items.map(item => (
+                                <ListItem>
+                                    <ListItemText>
+                                         <Link to={'/products/' + item.id} />
+                                </ListItemText>
+                                </ListItem>
+                            )) : 'No items to show'}
                         </List>
                     </div>
                 </Grid>

@@ -66,9 +66,6 @@ const SellingPage = () => {
           <Card style={{height: '60vh'}}>
             <CardContent>
               <List className={classes.list}>
-              <ListItem>
-                <ListItemText primary={`Product`} />
-              </ListItem>
                 {pending ? <ClipLoader /> :
                   !pending && 
                   postedItems && 

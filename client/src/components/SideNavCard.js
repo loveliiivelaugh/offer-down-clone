@@ -1,8 +1,11 @@
 import React from 'react';
 import { Card, CardContent, Divider, Link, List, ListItem, ListItemText, ListItemIcon, Typography } from '@material-ui/core';
-// import ShareIcon from '@material-ui/icons/Share';
+import { useRouter } from "../hooks/useRouter.js";
 
 const SideNavCard = ({ handleNav }) => {
+
+  const router = useRouter();
+  
   return (
     <Card>
       <CardContent>
@@ -43,7 +46,7 @@ const SideNavCard = ({ handleNav }) => {
             <ListItemText primary="Account Settings" />
           </ListItem>
           <ListItem button>
-            <Link to='/profile'><ListItemText primary="View public profile" /></Link>
+            <Link onClick={() => router.push('/profile')}><ListItemText primary="View public profile" /></Link>
             <ListItemIcon>
             </ListItemIcon>
           </ListItem>
